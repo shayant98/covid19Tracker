@@ -5,20 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%=name%></title>
-    <link rel="stylesheet" href="public/css/style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
-
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body class="bg-dark text-white" style="height: 100vh;">
-    <div class="container">
+    <main class="container">
         <h1>Corona Tracker</h1>
-        <div class="row m-3">
+        <div class="row m-3 mx-auto">
             <div class="col-md-6">
                 <h4>Total Countries Infected: <span class=""><%= data.length %></span></h3>
             </div>
@@ -63,186 +59,78 @@
                 </div>
             </div>
         </div>
-        <h4>Confirmed Cases by Country/Province:</h4>
+
         <div class="row text-dark mt-3">
-            <div class="col-md-4">
-                <ul class="list-group" id="countryList" style="overflow-y:scroll; height: 30vh;">
-                    <% data.forEach(country => { %>
-                    <li class="list-group-item">
-                        <span id="countryName" class="font-weight-bold"><%= country.country %></span>
-                        <% if (country.province !== "") { %>
-                        - <span><%= country.province %></span>
-                        <% } %>
-                        <div>
-                            <span class="badge badge-warning badge-pill "><%= country.confirmed %></span>
-                            <span class="badge badge-danger badge-pill"><%= country.deaths %></span>
-                            <span class="badge badge-success badge-pill"><%= country.recovered %></span>
+            <div class="col-md-4 mb-3">
 
-                        </div>
-                    </li>
-                    <% }) %>
-                </ul>
-            </div>
-            <div class="col-md-8">
-                <div class=" card text-white bg-dark mb-3">
+                <h4 class="text-white">Confirmed Cases by Province:</h4>
+                <div class=" card bg-dark mb-3">
                     <div class="card-body">
-                        <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">@</span>
+                            </div>
+                            <input type="text" class="form-control" id="countrySearch" onkeyup="searchList()"
+                                placeholder="Country/Province" aria-label="Country" aria-describedby="basic-addon1">
+                        </div>
 
+                        <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
+                            <% data.forEach(country => { %>
+                            <li class="list-group-item countryListItems" onclick="getCountryCooridinates(this)"
+                                style="cursor: pointer" data-long="<%= country.long %>" data-lat="<%= country.lat %>"
+                                data-province="<%= country.province %>">
+                                <span id="countryName" class="font-weight-bold"><%= country.country %></span>
+                                <% if (country.province !== "") { %>
+                                - <span><%= country.province %></span>
+                                <% } %>
+                                <div>
+                                    <span class="badge badge-warning badge-pill "><%= country.confirmed %></span>
+                                    <span class="badge badge-danger badge-pill"><%= country.deaths %></span>
+                                    <span class="badge badge-success badge-pill"><%= country.recovered %></span>
+
+                                </div>
+                            </li>
+                            <% }) %>
+                        </ul>
                     </div>
                 </div>
             </div>
+            <div class="col-md-8 mb-3">
+                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse"
+                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">
+                    Map
+                </button>
+                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse"
+                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">
+                    Graph
+                </button>
+                <div id="mapCollapse" class="collapse show">
+                    <div class=" card text-white bg-dark mb-3">
+                        <div class="card-body">
+                            <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="graphCollapse" class="collapse">
+                    <div class=" card text-white bg-dark mb-3">
+                        <div class="card-body">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-    </div>
+
+
+    </main>
+    <%- include('includes/footer'); %>
 
 
 
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
-
-    <script>
-
-        mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            zoom: 1,
-            style: 'mapbox://styles/mapbox/dark-v10',
-        });
-
-        map.on('load', function () {
-            // Add a new source from our GeoJSON data and
-            // set the 'cluster' option to true. GL-JS will
-            // add the point_count property to your source data.
-            map.addSource('earthquakes', {
-                type: 'geojson',
-                // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-                // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-                data: `${window.location.href}confirmed`,
-                cluster: true,
-                clusterMaxZoom: 10, // Max zoom to cluster points on
-                clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
-            });
-
-            map.addLayer({
-                id: 'clusters',
-                type: 'circle',
-                source: 'earthquakes',
-                filter: ['has', 'point_count'],
-                paint: {
-                    // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-                    // with three steps to implement three types of circles:
-                    //   * Blue, 20px circles when point count is less than 100
-                    //   * Yellow, 30px circles when point count is between 100 and 750
-                    //   * Pink, 40px circles when point count is greater than or equal to 750
-                    'circle-color': [
-                        'step',
-                        ['get', 'point_count'],
-                        '#51bbd6',
-                        100,
-                        '#f1f075',
-                        750,
-                        '#f28cb1'
-                    ],
-                    'circle-radius': [
-                        'step',
-                        ['get', 'point_count'],
-                        20,
-                        100,
-                        30,
-                        750,
-                        40
-                    ]
-                }
-            });
-
-            map.addLayer({
-                id: 'cluster-count',
-                type: 'symbol',
-                source: 'earthquakes',
-                filter: ['has', 'point_count'],
-                layout: {
-                    'text-field': '{point_count_abbreviated}',
-                    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                    'text-size': 12
-                }
-            });
-
-            map.addLayer({
-                id: 'unclustered-point',
-                type: 'circle',
-                source: 'earthquakes',
-                filter: ['!', ['has', 'point_count']],
-                paint: {
-                    'circle-color': '#11b4da',
-                    'circle-radius': 4,
-                    'circle-stroke-width': 1,
-                    'circle-stroke-color': '#000'
-                }
-            });
-
-            // inspect a cluster on click
-            map.on('click', 'clusters', function (e) {
-                var features = map.queryRenderedFeatures(e.point, {
-                    layers: ['clusters']
-                });
-                var clusterId = features[0].properties.cluster_id;
-                map.getSource('earthquakes').getClusterExpansionZoom(
-                    clusterId,
-                    function (err, zoom) {
-                        if (err) return;
-
-                        map.easeTo({
-                            center: features[0].geometry.coordinates,
-                            zoom: zoom
-                        });
-                    }
-                );
-            });
-
-            // When a click event occurs on a feature in
-            // the unclustered-point layer, open a popup at
-            // the location of the feature, with
-            // description HTML from its properties.
-            map.on('click', 'unclustered-point', function (e) {
-
-                let object = e.features[0].properties
-
-                var coordinates = e.features[0].geometry.coordinates.slice();
-                let place = object.name
-                let cases = object.confirmed
-
-
-
-                // Ensure that if the map is zoomed out such that
-                // multiple copies of the feature are visible, the
-                // popup appears over the copy being pointed to.
-                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                }
-
-                new mapboxgl.Popup()
-                    .setLngLat(coordinates)
-                    .setHTML(`${place} has <strong>${cases}</strong> confirmed case(s)`)
-                    .addTo(map);
-            });
-
-            map.on('mouseenter', 'clusters', function () {
-                map.getCanvas().style.cursor = 'pointer';
-            });
-            map.on('mouseleave', 'clusters', function () {
-                map.getCanvas().style.cursor = '';
-            });
-        });
-    </script>
 </body>
 
 

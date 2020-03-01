@@ -59,8 +59,17 @@ exports.homeScreen = async (req, res, next) => {
 
     })
 
-    const geojsonAray = geojson.parse(confirmedHistoryJsonArray, { Point: ['lat', 'lng'] });
-    console.log(geojsonAray);
+    confirmedHistoryJsonArray.forEach(countryWithLoc => {
+        dailyRapport.forEach(dailyCountry => {
+            if (dailyCountry.country === countryWithLoc.name || dailyCountry.province === countryWithLoc.name) {
+                dailyCountry.lat = countryWithLoc.lat
+                dailyCountry.long = countryWithLoc.long
+
+            }
+        })
+    })
+
+
 
 
     const totalDeaths = dailyRapport.reduce((total, country) => country.deaths + total, 0)
@@ -70,7 +79,7 @@ exports.homeScreen = async (req, res, next) => {
 
 
 
-    res.render('home', { name: "COVID-19 Tracker", fileDate, totalConfirmed, totalDeaths, totalRecovered, data: dailyRapport, geojsonAray })
+    res.render('home', { name: "COVID-19 Tracker", fileDate, totalConfirmed, totalDeaths, totalRecovered, data: dailyRapport })
 
 
 
@@ -111,14 +120,12 @@ exports.confirmed = async (req, res, next) => {
         }
 
         confirmedHistoryJsonArray.push(GeoJsonObject);
-        console.log(Object.keys(country)[Object.keys(country).length - 1]);
 
     })
 
     confirmedHistoryJsonArray.shift()
 
     let geojsonAray = geojson.parse(confirmedHistoryJsonArray, { Point: ['lat', 'long'] });
-    console.log(geojsonAray);
 
 
     res.json(geojsonAray)
