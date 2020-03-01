@@ -110,6 +110,7 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.js'></script>
 
     <script>
+
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
         var map = new mapboxgl.Map({
             container: 'map',
@@ -125,8 +126,7 @@
                 type: 'geojson',
                 // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
                 // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-                data:
-                    'http://localhost:3000/confirmed',
+                data: `${window.location.href}/confirmed`,
                 cluster: true,
                 clusterMaxZoom: 10, // Max zoom to cluster points on
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
