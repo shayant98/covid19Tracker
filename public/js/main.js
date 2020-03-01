@@ -195,9 +195,9 @@ const showChart = () => {
 
     if (graph.classList.contains("show")) {
         Promise.all([
-            fetch('http://localhost:3000/api/confirmed').then(value => value.json()),
-            fetch('http://localhost:3000/api/deaths').then(value => value.json()),
-            fetch('http://localhost:3000/api/recoveries').then(value => value.json())
+            fetch(`${window.location.href}api/confirmed`).then(value => value.json()),
+            fetch(`${window.location.href}api/deaths`).then(value => value.json()),
+            fetch(`${window.location.href}api/recoveries`).then(value => value.json())
         ])
             .then((value) => {
                 confirmedArray = value[0]
