@@ -129,8 +129,113 @@ exports.confirmed = async (req, res, next) => {
 
 
     res.json(geojsonAray)
+}
+
+exports.confirmedHistoryPath = async (req, res, next) => {
 
 
+    const confirmedHistory = await csvtojson({
+        // headers: ['province', 'country', 'lastUpdate', 'confirmed', 'deaths', 'recovered'],
+        trim: true,
+        // noheader: true
+        // includeColumns: Lat | Long
+        // colParser: {
+        //     "confirmed": "number",
+        //     "deaths": "number",
+        //     "recovered": "number",
+
+        // },
+        // checkType: true
+    }).fromStream(request.get(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv`));
+
+    timeline = []
+
+    confirmedHistory.forEach(country => {
+        const vals = Object.keys(country).map(key => country[key].trim());
+        vals.splice(0, 4);
+        console.log(vals);
+
+        timelineObject = {
+            name: (country["Province/State"] === "") ? country["Country/Region"] : country["Province/State"],
+            values: vals
+
+        }
+        timeline.push(timelineObject)
+
+    })
 
 
+    res.json(timeline)
+}
+exports.confirmedDeathPath = async (req, res, next) => {
+
+
+    const confirmedHistory = await csvtojson({
+        // headers: ['province', 'country', 'lastUpdate', 'confirmed', 'deaths', 'recovered'],
+        trim: true,
+        // noheader: true
+        // includeColumns: Lat | Long
+        // colParser: {
+        //     "confirmed": "number",
+        //     "deaths": "number",
+        //     "recovered": "number",
+
+        // },
+        // checkType: true
+    }).fromStream(request.get(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv`));
+
+    timeline = []
+
+    confirmedHistory.forEach(country => {
+        const vals = Object.keys(country).map(key => country[key].trim());
+        vals.splice(0, 4);
+        console.log(vals);
+
+        timelineObject = {
+            name: (country["Province/State"] === "") ? country["Country/Region"] : country["Province/State"],
+            values: vals
+
+        }
+        timeline.push(timelineObject)
+
+    })
+
+
+    res.json(timeline)
+}
+exports.confirmedRecoveriesPath = async (req, res, next) => {
+
+
+    const confirmedHistory = await csvtojson({
+        // headers: ['province', 'country', 'lastUpdate', 'confirmed', 'deaths', 'recovered'],
+        trim: true,
+        // noheader: true
+        // includeColumns: Lat | Long
+        // colParser: {
+        //     "confirmed": "number",
+        //     "deaths": "number",
+        //     "recovered": "number",
+
+        // },
+        // checkType: true
+    }).fromStream(request.get(`https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv`));
+
+    timeline = []
+
+    confirmedHistory.forEach(country => {
+        const vals = Object.keys(country).map(key => country[key].trim());
+        vals.splice(0, 4);
+        console.log(vals);
+
+        timelineObject = {
+            name: (country["Province/State"] === "") ? country["Country/Region"] : country["Province/State"],
+            values: vals
+
+        }
+        timeline.push(timelineObject)
+
+    })
+
+
+    res.json(timeline)
 }

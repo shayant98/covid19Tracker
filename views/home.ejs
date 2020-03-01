@@ -68,7 +68,7 @@
                     <div class="card-body">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">@</span>
+                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-flag"></i></span>
                             </div>
                             <input type="text" class="form-control" id="countrySearch" onkeyup="searchList()"
                                 placeholder="Country/Province" aria-label="Country" aria-describedby="basic-addon1">
@@ -76,9 +76,10 @@
 
                         <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
                             <% data.forEach(country => { %>
-                            <li class="list-group-item countryListItems" onclick="getCountryCooridinates(this)"
-                                style="cursor: pointer" data-long="<%= country.long %>" data-lat="<%= country.lat %>"
-                                data-province="<%= country.province %>">
+                            <li class="list-group-item countryListItems"
+                                onclick="getCountryCooridinates(this), showChart()" style="cursor: pointer"
+                                data-long="<%= country.long %>" data-lat="<%= country.lat %>"
+                                data-province="<%= country.province %>" data-country="<%= country.country %>">
                                 <span id="countryName" class="font-weight-bold"><%= country.country %></span>
                                 <% if (country.province !== "") { %>
                                 - <span><%= country.province %></span>
@@ -100,7 +101,7 @@
                     data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">
                     Map
                 </button>
-                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse"
+                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse" onclick="showChart()"
                     data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">
                     Graph
                 </button>

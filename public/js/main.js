@@ -1,3 +1,4 @@
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
 var map = new mapboxgl.Map({
     container: 'map',
@@ -166,52 +167,120 @@ const getCountryCooridinates = (element) => {
 
 
 }
-function getDates(startDate, stopDate) {
-    const dateArray = new Array();
-    var currentDate = startDate;
-    while (currentDate <= stopDate) {
-        dateArray.push(new Date(currentDate));
-        currentDate = currentDate.addDays(1);
-    }
+function getDates() {
+    let date = new Date();
+
+    const dateArray = [];
+    let startDate = '2020-01-22';
+    let month = (date.getMonth() + 1 < 10) ? "0" + parseInt(date.getMonth() + 1) : parseInt(date.getMonth() + 1);
+    let day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+    let year = date.getFullYear();
+    let dateMove = new Date(startDate)
+    let endDate = `${year}-${month}-${day}`;
+    var strDate = startDate;
+
+    while (strDate < endDate) {
+
+        var strDate = dateMove.toISOString().slice(0, 10);
+        dateArray.push(strDate);
+        dateMove.setDate(dateMove.getDate() + 1);
+    };
     return dateArray;
 }
 
-const showChart = () => {
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
 
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
+
+const showChart = () => {
+    const graph = document.getElementById("graphCollapse")
+
+    if (graph.classList.contains("show")) {
+        Promise.all([
+            fetch('http://localhost:3000/api/confirmed').then(value => value.json()),
+            fetch('http://localhost:3000/api/deaths').then(value => value.json()),
+            fetch('http://localhost:3000/api/recoveries').then(value => value.json())
+        ])
+            .then((value) => {
+                confirmedArray = value[0]
+                deathsArray = value[1];
+                recoveriesArray = value[2];
+
+                activeListItem = document.querySelector(".active");
+                name = (activeListItem.dataset.province === "") ? activeListItem.dataset.country : activeListItem.dataset.province
+                conFirmedValues = [];
+                deathValues = [];
+                recoveriesValues = [];
+                confirmedArray.forEach(timeline => {
+                    if (timeline.name === name) {
+                        conFirmedValues = timeline.values
+                        return;
                     }
-                }]
-            }
-        }
-    });
+                })
+
+                deathsArray.forEach(timeline => {
+                    if (timeline.name === name) {
+                        deathValues = timeline.values
+                        return;
+                    }
+                })
+                recoveriesArray.forEach(timeline => {
+                    if (timeline.name === name) {
+                        recoveriesValues = timeline.values
+                        return;
+                    }
+                })
+
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: getDates(),
+                        datasets: [{
+                            label: '# of Cases',
+                            data: conFirmedValues,
+                            borderColor: 'rgb(255, 193, 7)'
+                        }, {
+                            label: '# of Deaths',
+                            data: deathValues,
+                            borderColor: 'rgb(220, 53, 69)'
+                        }, {
+                            label: '# of Recoveries',
+                            data: recoveriesValues,
+                            borderColor: 'rgb(40, 167, 69)'
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+
+
+
 }
-showChart()
+
 
 
 const searchList = () => {
     const searchInput = document.getElementById('countrySearch')
-    console.log(searchInput.value);
+    const search = searchInput.value.charAt(0).toUpperCase() + searchInput.value.slice(1);
 
     const countryListItems = document.querySelectorAll(".countryListItems")
 
 
     countryListItems.forEach(listItem => {
-        if (searchInput.value.length > 0) {
-            if (!listItem.dataset.province.includes(searchInput.value) && !listItem.childNodes[1].innerHTML.includes(searchInput.value)) {
+        if (search.length > 0) {
+            if (!listItem.dataset.province.includes(search) && !listItem.childNodes[1].innerHTML.includes(search)) {
                 listItem.style.display = "none"
             } else {
                 listItem.style.display = "block"
