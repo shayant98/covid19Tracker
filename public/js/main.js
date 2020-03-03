@@ -10,11 +10,11 @@ map.on('load', function () {
     // Add a new source from our GeoJSON data and
     // set the 'cluster' option to true. GL-JS will
     // add the point_count property to your source data.
-    map.addSource('earthquakes', {
+    map.addSource('cases', {
         type: 'geojson',
-        // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
+        // Point to GeoJSON data. This example visualizes all M1.0+ cases
         // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-        data: `${window.location.href}confirmed`,
+        data: `${window.location.href}api/geo/cases`,
         cluster: true,
         clusterMaxZoom: 10, // Max zoom to cluster points on
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
@@ -23,14 +23,10 @@ map.on('load', function () {
     map.addLayer({
         id: 'clusters',
         type: 'circle',
-        source: 'earthquakes',
+        source: 'cases',
         filter: ['has', 'point_count'],
         paint: {
-            // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
-            // with three steps to implement three types of circles:
-            //   * Blue, 20px circles when point count is less than 100
-            //   * Yellow, 30px circles when point count is between 100 and 750
-            //   * Pink, 40px circles when point count is greater than or equal to 750
+
             'circle-color': [
                 'step',
                 ['get', 'point_count'],
@@ -55,7 +51,7 @@ map.on('load', function () {
     map.addLayer({
         id: 'cluster-count',
         type: 'symbol',
-        source: 'earthquakes',
+        source: 'cases',
         filter: ['has', 'point_count'],
         layout: {
             'text-field': '{point_count_abbreviated}',
@@ -67,7 +63,7 @@ map.on('load', function () {
     map.addLayer({
         id: 'unclustered-point',
         type: 'circle',
-        source: 'earthquakes',
+        source: 'cases',
         filter: ['!', ['has', 'point_count']],
         paint: {
             'circle-color': '#11b4da',
@@ -83,7 +79,7 @@ map.on('load', function () {
             layers: ['clusters']
         });
         var clusterId = features[0].properties.cluster_id;
-        map.getSource('earthquakes').getClusterExpansionZoom(
+        map.getSource('cases').getClusterExpansionZoom(
             clusterId,
             function (err, zoom) {
                 if (err) return;
@@ -192,77 +188,80 @@ function getDates() {
 
 const showChart = () => {
     const graph = document.getElementById("graphCollapse")
+    let myChart
+    Promise.all([
+        fetch(`${window.location.href}api/confirmed`).then(value => value.json()),
+        fetch(`${window.location.href}api/deaths`).then(value => value.json()),
+        fetch(`${window.location.href}api/recoveries`).then(value => value.json())
+    ])
+        .then((value) => {
+            confirmedArray = value[0]
+            deathsArray = value[1];
+            recoveriesArray = value[2];
 
-    if (graph.classList.contains("show")) {
-        Promise.all([
-            fetch(`${window.location.href}api/confirmed`).then(value => value.json()),
-            fetch(`${window.location.href}api/deaths`).then(value => value.json()),
-            fetch(`${window.location.href}api/recoveries`).then(value => value.json())
-        ])
-            .then((value) => {
-                confirmedArray = value[0]
-                deathsArray = value[1];
-                recoveriesArray = value[2];
-
-                activeListItem = document.querySelector(".active");
-                name = (activeListItem.dataset.province === "") ? activeListItem.dataset.country : activeListItem.dataset.province
-                conFirmedValues = [];
-                deathValues = [];
-                recoveriesValues = [];
-                confirmedArray.forEach(timeline => {
-                    if (timeline.name === name) {
-                        conFirmedValues = timeline.values
-                        return;
-                    }
-                })
-
-                deathsArray.forEach(timeline => {
-                    if (timeline.name === name) {
-                        deathValues = timeline.values
-                        return;
-                    }
-                })
-                recoveriesArray.forEach(timeline => {
-                    if (timeline.name === name) {
-                        recoveriesValues = timeline.values
-                        return;
-                    }
-                })
-
-                var ctx = document.getElementById('myChart').getContext('2d');
-                var myChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: getDates(),
-                        datasets: [{
-                            label: '# of Cases',
-                            data: conFirmedValues,
-                            borderColor: 'rgb(255, 193, 7)'
-                        }, {
-                            label: '# of Deaths',
-                            data: deathValues,
-                            borderColor: 'rgb(220, 53, 69)'
-                        }, {
-                            label: '# of Recoveries',
-                            data: recoveriesValues,
-                            borderColor: 'rgb(40, 167, 69)'
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    }
-                });
+            activeListItem = document.querySelector(".active");
+            if (activeListItem === null) {
+            }
+            name = (activeListItem.dataset.province === "") ? activeListItem.dataset.country : activeListItem.dataset.province
+            conFirmedValues = [];
+            deathValues = [];
+            recoveriesValues = [];
+            confirmedArray.forEach(timeline => {
+                if (timeline.name === name) {
+                    conFirmedValues = timeline.values
+                    return;
+                }
             })
-            .catch((err) => {
-                console.log(err);
+
+            deathsArray.forEach(timeline => {
+                if (timeline.name === name) {
+                    deathValues = timeline.values
+                    return;
+                }
+            })
+            recoveriesArray.forEach(timeline => {
+                if (timeline.name === name) {
+                    recoveriesValues = timeline.values
+                    return;
+                }
+            })
+
+            let ctx = document.getElementById('myChart').getContext('2d');
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: getDates(),
+                    datasets: [{
+                        label: '# of Cases',
+                        data: conFirmedValues,
+                        borderColor: 'rgb(255, 193, 7)'
+                    }, {
+                        label: '# of Deaths',
+                        data: deathValues,
+                        borderColor: 'rgb(220, 53, 69)'
+                    }, {
+                        label: '# of Recoveries',
+                        data: recoveriesValues,
+                        borderColor: 'rgb(40, 167, 69)'
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
             });
-    }
+
+            myChart.destory()
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
 
 
 
@@ -291,3 +290,46 @@ const searchList = () => {
     })
 
 }
+
+
+const toggleCollapse = (e) => {
+    const allCollapseFields = document.querySelectorAll(".collapse")
+
+
+    let collapseTarget = e.target.dataset.target
+    collapseTarget = collapseTarget.substring(1);
+
+    allCollapseFields.forEach(field => {
+        if (field.id !== collapseTarget) {
+            if (field.classList.contains("show")) {
+                field.classList.remove("show")
+            }
+        }
+    })
+}
+
+const statCounter = () => {
+    const counters = document.querySelectorAll('.counter')
+    const speed = 200
+
+
+    counters.forEach(counter => {
+
+        const updateCount = () => {
+            const target = parseInt(counter.dataset.target)
+            const count = parseInt(counter.innerText)
+
+            const inc = target / speed
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc)
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target
+            }
+        }
+        updateCount()
+    })
+
+}
+statCounter()

@@ -7,59 +7,68 @@
     <title><%=name%></title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous"></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 
 <body class="bg-dark text-white" style="height: 100vh;">
     <main class="container">
-        <h1>Corona Tracker</h1>
-        <div class="row m-3 mx-auto">
+        <h1 class="display-2 mb-3">Corona Tracker</h1>
+        <div class="row mb-3">
             <div class="col-md-6">
-                <h4>Total Countries Infected: <span class=""><%= data.length %></span></h3>
+                <h4>Total Locations with confirmed cases: <span class=""><%= data.length %></span></h3>
             </div>
             <div class="col-md-6">
                 <h4>Last Update: <span class=""><%= fileDate %></span></h3>
             </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <span class="text-muted"><i class="fa fa-info"></i> The data in this application is updated Daily with
+                    data from: </span>
+            </div>
         </div>
         <hr>
-        <div class="row d-flex">
-            <div class="col-md-3">
+        <div class="row " style="justify-content:center;">
+            <div class="col-3">
                 <div class="card text-white bg-warning mb-3">
                     <div class="card-header">Confirmed Cases</div>
                     <div class="card-body">
                         <h3 class="card-title">
-                            <%= totalConfirmed %>
+                            <i class="fas fa-syringe"></i> <span class="counter"
+                                data-target="<%= totalConfirmed %>">0</span>
                         </h3>
 
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <div class="card text-white bg-danger mb-3">
                     <div class="card-header">Confirmed Deaths</div>
 
                     <div class="card-body">
                         <h3 class="card-title">
-                            <%= totalDeaths %>
+                            <i class="fas fa-skull"></i> <span class="counter" data-target="<%= totalDeaths %>">0</span>
                         </h3>
 
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-3">
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Confirmed Recoveries</div>
                     <div class="card-body">
                         <h3 class="card-title">
-                            <%= totalRecovered %>
+                            <i class="fas fa-plus"></i>
+                            <span class="counter" data-target="<%= totalRecovered %>">0</span>
                         </h3>
 
                     </div>
                 </div>
             </div>
         </div>
-
+        <hr>
         <div class="row text-dark mt-3">
             <div class="col-md-4 mb-3">
 
@@ -97,12 +106,14 @@
                 </div>
             </div>
             <div class="col-md-8 mb-3">
-                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse"
-                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">
+                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
+                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse"
+                    onclick="toggleCollapse(event)">
                     Map
                 </button>
-                <button class="btn btn-outline-primary mb-3" type="button" data-toggle="collapse" onclick="showChart()"
-                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">
+                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
+                    onclick="showChart(), toggleCollapse(event)" data-target="#graphCollapse" aria-expanded="false"
+                    aria-controls="graphCollapse">
                     Graph
                 </button>
                 <div id="mapCollapse" class="collapse show">

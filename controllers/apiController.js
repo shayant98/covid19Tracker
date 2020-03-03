@@ -1,5 +1,6 @@
 const csvtojson = require("csvtojson");
 const request = require("request");
+const geojson = require("geojson")
 
 
 const confirmedFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
@@ -74,6 +75,34 @@ exports.recoveriesTimeline = async (req, res, next) => {
 
 
     res.json(timeline)
+}
+
+exports.confirmedCasesGeo = async (req, res, next) => {
+
+
+    const confirmedHistory = await csvtojson({
+        trim: true,
+
+    }).fromStream(request.get(confirmedFile));
+
+    const confirmedHistoryJsonArray = []
+
+    confirmedHistory.forEach(country => {
+        GeoJsonObject = {
+            name: (country["Province/State"] === "") ? country["Country/Region"] : country["Province/State"],
+            category: 'case',
+            lat: country.Lat,
+            long: country.Long,
+            confirmed: parseInt(country[Object.keys(country)[Object.keys(country).length - 1]])
+        }
+
+        confirmedHistoryJsonArray.push(GeoJsonObject);
+
+    })
+
+
+    let geojsonAray = geojson.parse(confirmedHistoryJsonArray, { Point: ['lat', 'long'] });
+    res.status(200).json(geojsonAray)
 }
 
 const createTimelineObject = data => {
