@@ -16,7 +16,7 @@
         <h1 class="display-2 mb-3">Corona Tracker</h1>
         <div class="row mb-3">
             <div class="col-md-6">
-                <h4>Total Locations with confirmed cases: <span class=""><%= data.length %></span></h3>
+                <h4>Locations with confirmed cases: <span class=""><%= data.length %></span></h3>
             </div>
             <div class="col-md-6">
                 <h4>Last Update: <span class=""><%= fileDate %></span></h3>
@@ -26,7 +26,8 @@
         <div class="row">
             <div class="col-md-12">
                 <span class="text-muted"><i class="fa fa-info"></i> The data in this application is updated Daily with
-                    data from: </span>
+                    data from: <a class="text-decoration-none" href="https://github.com/CSSEGISandData/COVID-19">JHU
+                        CSSE</a></span>
             </div>
         </div>
         <hr>
@@ -36,7 +37,7 @@
                     <div class="card-header">Confirmed Cases</div>
                     <div class="card-body">
                         <h3 class="card-title">
-                            <i class="fas fa-syringe"></i> <span class="counter"
+                            <i class="fas fa-diagnoses"></i> <span class="counter"
                                 data-target="<%= totalConfirmed %>">0</span>
                         </h3>
 
@@ -138,6 +139,7 @@
 
 
     </main>
+
     <%- include('includes/footer'); %>
 
 
