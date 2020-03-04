@@ -34,9 +34,18 @@ exports.homeScreen = async (req, res, next) => {
 
 
 
-    res.render('home', { name: "COVID-19 Tracker", fileDate, totalConfirmed, totalDeaths, totalRecovered, data: dailyRapport })
+    res.render('home',
+        {
+            name: "COVID-19 Tracker",
+            fileDate,
+            totalConfirmed,
+            totalDeaths,
+            totalRecovered,
+            data: dailyRapport
+        }
+    )
 
 
 
 
-}
+};
