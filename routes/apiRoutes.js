@@ -11,4 +11,4 @@ Router.get("/geo/cases", ApiController.confirmedCasesGeo)
 
 
 
-module.exports = Router
+module.exports = Router;
