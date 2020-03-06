@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous" defer></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon'/>
+    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon' />
+    <link rel="manifest" href="./manifest.json">
 </head>
+
 <body class="bg-dark text-white" style="height: 100vh;">
     <main class="container">
         <h1 class="display-2 mb-3">Corona Tracker</h1>
@@ -80,14 +82,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa fa-flag"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="countrySearch"
-                                placeholder="Country/Province" aria-label="Country" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
+                                aria-label="Country" aria-describedby="basic-addon1">
                         </div>
 
                         <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
                             <% data.forEach(country => { %>
-                            <li class="list-group-item countryListItems"
-                                style="cursor: pointer"
+                            <li class="list-group-item countryListItems" style="cursor: pointer"
                                 data-long="<%= country.long %>" data-lat="<%= country.lat %>"
                                 data-province="<%= country.province %>" data-country="<%= country.country %>">
                                 <span id="countryName" class="font-weight-bold"><%= country.country %></span>
@@ -108,13 +109,11 @@
             </div>
             <div class="col-md-8 mb-3">
                 <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
-                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse"
-                   >
+                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">
                     Map
                 </button>
                 <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
-                     data-target="#graphCollapse" aria-expanded="false"
-                    aria-controls="graphCollapse">
+                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">
                     Graph
                 </button>
                 <div id="mapCollapse" class="collapse show">

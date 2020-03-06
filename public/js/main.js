@@ -12,7 +12,7 @@ const ctx = document.getElementById('myChart').getContext('2d');
 const searchInput = document.getElementById('countrySearch')
 
 const goToLocationOnMap = (long, lat) => {
-    Mapbox.showLocation(long,lat)
+    Mapbox.showLocation(long, lat)
 };
 
 const setListItemActiveState = (listArray, currentListItem) => {
@@ -26,7 +26,7 @@ const setListItemActiveState = (listArray, currentListItem) => {
     });
 }
 
-const getDates = ()  => {
+const getDates = () => {
     let date = new Date();
 
     const dateArray = [];
@@ -152,7 +152,7 @@ const options = {
         }
     }
 };
-const Chart = new DataChart(ctx,options);
+const Chart = new DataChart(ctx, options);
 
 Mapbox.init();
 collapseBtns.forEach(collapseBtn => {
@@ -166,7 +166,7 @@ collapseBtns.forEach(collapseBtn => {
                 if (field.classList.contains("show")) {
                     field.classList.remove("show")
                 }
-                if (collapseTarget === "graphCollapse"){
+                if (collapseTarget === "graphCollapse") {
                     initChart();
                 }
 
@@ -177,15 +177,24 @@ collapseBtns.forEach(collapseBtn => {
 });
 countryListItems.forEach(countryListItem => {
     countryListItem.addEventListener("click", (countryListItem) => {
-        setListItemActiveState(countryListItems,countryListItem);
+        setListItemActiveState(countryListItems, countryListItem);
         const long = parseInt(countryListItem.target.closest("li").dataset.long);
         const lat = parseInt(countryListItem.target.closest("li").dataset.lat);
-        if (mapContainer.classList.contains('show')){
+        if (mapContainer.classList.contains('show')) {
             goToLocationOnMap(long, lat);
-        }else if(graphContainer.classList.contains('show')){
+        } else if (graphContainer.classList.contains('show')) {
             initChart();
         }
     })
 });
-searchInput.addEventListener("keyup",searchList);
-document.onload = statCounter();
+searchInput.addEventListener("keyup", searchList);
+
+window.onload = () => {
+    statCounter()
+    'use strict';
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('./sw.js');
+    }
+}
