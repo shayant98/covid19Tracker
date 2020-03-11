@@ -76,7 +76,6 @@ exports.recoveriesTimeline = async (req, res, next) => {
 
     res.json(timeline)
 }
-
 exports.confirmedCasesGeo = async (req, res, next) => {
 
 

@@ -1,7 +1,7 @@
 import DataChart from './Chart.js'
 import Map from "./Map.js";
 
-const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10')
+const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
 
 
 const collapseBtns = document.querySelectorAll(".collapseBtn");
@@ -9,7 +9,7 @@ const countryListItems = document.querySelectorAll(".countryListItems");
 const mapContainer = document.getElementById("mapCollapse");
 const graphContainer = document.getElementById("graphCollapse");
 const ctx = document.getElementById('myChart').getContext('2d');
-const searchInput = document.getElementById('countrySearch')
+const searchInput = document.getElementById('countrySearch');
 
 const goToLocationOnMap = (long, lat) => {
     Mapbox.showLocation(long, lat)
@@ -24,18 +24,18 @@ const setListItemActiveState = (listArray, currentListItem) => {
             listItem.classList.add("active");
         }
     });
-}
+};
 
 const getDates = () => {
     let date = new Date();
 
     const dateArray = [];
-    let startDate = '2020-01-22';
-    let month = (date.getMonth() + 1 < 10) ? "0" + parseInt(date.getMonth() + 1) : parseInt(date.getMonth() + 1);
-    let day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
-    let year = date.getFullYear();
-    let dateMove = new Date(startDate)
-    let endDate = `${year}-${month}-${day}`;
+    const startDate = '2020-01-22';
+    const month = (date.getMonth() + 1 < 10) ? "0" + parseInt(date.getMonth() + 1) : parseInt(date.getMonth() + 1);
+    const day = (date.getDate() < 10) ? "0" + date.getDate() : date.getDate();
+    const year = date.getFullYear();
+    const dateMove = new Date(startDate)
+    const endDate = `${year}-${month}-${day}`;
     let strDate = startDate;
 
     while (strDate < endDate) {
@@ -44,9 +44,8 @@ const getDates = () => {
         dateArray.push(strDate);
         dateMove.setDate(dateMove.getDate() + 1);
     }
-    ;
     return dateArray;
-}
+};
 
 const parseArrayData = (dataArray) => {
     const activeListItem = document.querySelector(".active");
@@ -88,7 +87,7 @@ const initChart = () => {
         });
 
 
-}
+};
 
 
 const searchList = () => {
@@ -109,32 +108,32 @@ const searchList = () => {
         }
     })
 
-}
+};
 
 const statCounter = () => {
-    const counters = document.querySelectorAll('.counter')
-    const speed = 200
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
 
 
     counters.forEach(counter => {
 
         const updateCount = () => {
-            const target = parseInt(counter.dataset.target)
-            const count = parseInt(counter.innerText)
+            const target = parseInt(counter.dataset.target);
+            const count = parseInt(counter.innerText);
 
             const inc = target / speed
 
             if (count < target) {
-                counter.innerText = Math.ceil(count + inc)
+                counter.innerText = Math.ceil(count + inc);
                 setTimeout(updateCount, 1);
             } else {
                 counter.innerText = target
             }
-        }
+        };
         updateCount()
     })
 
-}
+};
 
 
 const options = {
