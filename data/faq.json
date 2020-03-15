@@ -1,0 +1,149 @@
+[
+    {
+        "id": 1,
+        "question": "How deadly is Coronavirus?",
+        "answer": "Coronavirus has 'high infectivity but low mortality'",
+        "description": [
+            "Mortality rate ranges between 2-3%. It is significantly less severe than 2003 SARS (MR: 10%) or 2012 MERS (MR: 35%) outbreaks.",
+            "Risk of death is only higher in older people (above an age of ~60 years) and people with pre-existing health conditions."
+        ]
+    },
+    {
+        "id": 2,
+        "question": "Why is there so much panic?",
+        "answer": "",
+        "description": [
+            "The lack of verified facts and floating rumours are to be blamed for this panic. The most important thing is when a virus is new, we don’t know how it may affect people."
+        ]
+    },
+    {
+        "id": 3,
+        "question": "Will I die if I catch the disease?",
+        "answer": "No",
+        "description": [
+            "Almost 80% of people have mild symptoms, and recover from the disease in 2 weeks.",
+            "Most of the symptoms can be treated with timely medical care."
+        ]
+    },
+    {
+        "id": 4,
+        "question": "Who is getting sick and how sick?",
+        "answer": "",
+        "description": [
+            "Older people are twice as likely to have serious COVID-19 illness.",
+            "Most coronavirus led illnesses are generally mild, especially for children and young adults."
+        ]
+    },
+    {
+        "id": 5,
+        "question": "Are children also at risk of coronavirus infection?",
+        "answer": "COVID-19 appears to be relatively rare and mild in children.",
+        "description": [
+            "Just over 2% of cases were under 18 years of age.",
+            "Of these, fewer than 3% developed severe or critical disease."
+        ]
+    },
+    {
+        "id": 6,
+        "question": "So, how exactly does the Coronavirus spread?",
+        "answer": "An infected person can spread the infection to a healthy person",
+        "description": [
+            "through eye, nose, and mouth, via droplets produced on coughing or sneezing.            ",
+            "close contact with infected person.",
+            "contact with contaminated surfaces, objects, or items of personal use."
+        ]
+    },
+    {
+        "id": 7,
+        "question": "Can the novel coronavirus be passed on through food?",
+        "answer": "No.",
+        "description": [
+            "There is no such evidence as yet.",
+            "experience with other coronaviruses like SARS and MERS suggest that people do not get infected through food."
+        ]
+    },
+    {
+        "id": 8,
+        "question": "Can eating chicken or eggs cause Coronavirus?",
+        "answer": "No.",
+        "description": [
+            "There is no such evidence as yet.",
+            "The novel coronavirus is not known to spread directly through poultry products. But, experts say it can be a good option to have only properly cooked meat."
+        ]
+    },
+    {
+        "id": 9,
+        "question": "Do I have coronavirus if I am coughing or sneezing?",
+        "answer": "You can suspect to have coronavirus, only if You have symptoms (fever, cough, shortness of breath) + any out of these:",
+        "description": [
+            "Travel history to a coronavirus-affected area (like China, Iran, Italy, Republic of Korea, etc.).",
+            "Close contact with such a person.",
+            "Visiting a healthcare facility/ labs where Coronavirus patients are being taken care of."
+        ]
+    },
+    {
+        "id": 10,
+        "question": "Can coronavirus be treated?",
+        "answer": "Yes !",
+        "description": [
+            "Symptom-based medical care is given and has proven really effective.",
+            "There is no specific treatment or vaccine available for novel coronavirus as yet."
+        ]
+    },
+    {
+        "id": 11,
+        "question": "Can eating garlic prevent infection with the coronavirus?",
+        "answer": "",
+        "description": [
+            "There is no science-based evidence that proves its ability to protect against the coronavirus."
+        ]
+    },
+    {
+        "id": 12,
+        "question": "Will warm weather stop the outbreak of COVID-19?",
+        "answer": "",
+        "description": [
+            "As per the experts in the field, heat and warm weather is likely to decrease the spread of COVID-19."
+        ]
+    },
+    {
+        "id": 13,
+        "question": "How long does the coronavirus survive over the surfaces or objects?",
+        "answer": "",
+        "description": [
+            "Survives up to 8-10 hours over porous surfaces (like paper, untreated wood, cardboard, sponge and fabric) and a little more than this over nonporous surfaces (like glass, plastics, metals, varnished wood)."
+        ]
+    },
+    {
+        "id": 14,
+        "question": "What type of mask should one wear to protect against the coronavirus?",
+        "answer": "",
+        "description": [
+            "The 3-layer disposable surgical masks are good enough to contain the virus."
+        ]
+    },
+    {
+        "id": 15,
+        "question": "Should the coronavirus outbreak concern you about your pets or other animals?",
+        "answer": "To date, no case has been reported of pets or other animals becoming sick with COVID-19.",
+        "description": [
+            "We still recommend washing your hands before and after you interact with your pets as you may not know if some infected droplets get on your pet's fur."
+        ]
+    },
+    {
+        "id": 16,
+        "question": "Can a person infected with coronavirus recover completely and be no more infectious?",
+        "answer": "Yes !",
+        "description": [
+            "In fact, about 80% of people have recovered from the disease without needing special treatment."
+        ]
+    },
+    {
+        "id": 17,
+        "question": "Should I be tested for coronavirus if I have high grade fever, cough and difficulty in breathing? Or can I get a coronavirus test done just for the sake of satisfaction?",
+        "answer": "No.",
+        "description": [
+            "Testing for coronavirus will only be done as recommended by the doctors only if someone falls under the definition of 'suspected case'."
+        ]
+    }
+]
