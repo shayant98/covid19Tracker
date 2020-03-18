@@ -37,7 +37,6 @@ const getDates = () => {
     const dateMove = new Date(startDate)
     const endDate = `${year}-${month}-${day}`;
     let strDate = startDate;
-
     while (strDate < endDate) {
 
         strDate = dateMove.toISOString().slice(0, 10);
@@ -48,7 +47,7 @@ const getDates = () => {
 };
 
 const parseArrayData = (dataArray) => {
-    const activeListItem = document.querySelector(".active");
+    const activeListItem = document.querySelector(".countryListItems.active");
     const name = (activeListItem.dataset.province === "") ? activeListItem.dataset.country : activeListItem.dataset.province;
 
     for (let i = 0; i < dataArray.length; i++) {
@@ -61,6 +60,8 @@ const parseArrayData = (dataArray) => {
 };
 
 const initChart = () => {
+
+
     Promise.all([
         fetch(`${window.location.href}api/confirmed`).then(value => value.json()),
         fetch(`${window.location.href}api/deaths`).then(value => value.json()),
@@ -74,6 +75,7 @@ const initChart = () => {
             const conFirmedValues = parseArrayData(confirmedArray);
             const deathValues = parseArrayData(deathsArray);
             const recoveriesValues = parseArrayData(recoveriesArray);
+
 
             Chart.clearChart();
             Chart.updateChart('# of Cases', 'rgb(255, 193, 7)', conFirmedValues);
