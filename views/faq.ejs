@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=name%></title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous" defer></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon' />
+    <link rel="manifest" href="./manifest.json">
+</head>
+
+<body class="bg-dark text-white" style="height: 100vh;">
+    <%- include('includes/header'); %>
+
+    <main class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <label for="faqSearch"><i class="fas fa-search"></i> Search</label>
+                <input type="text" class="form-control" id="faqSearch" placeholder="Search FAQ's" aria-label="Country">
+            </div>
+        </div>
+        <div class="row">
+            <% faqData.forEach(faq => { %>
+            <div class="col-md-4">
+                <div class="accordion m-3" id="accordian<%= faq.id %>">
+                    <div class="card bg-secondary">
+                        <div class="card-header " id="heading<%= faq.id %>">
+                            <h5 class="mb-0">
+                                <button class="btn btn-transparent text-white text-left" type="button"
+                                    data-toggle="collapse" data-target="#collapse<%= faq.id %>" aria-expanded="true"
+                                    aria-controls="collapse<%= faq.id %> ">
+                                    <%= faq.id %>. <span class="faq "><%= faq.question %></span>
+                                </button>
+                            </h5>
+                        </div>
+                        <div id="collapse<%= faq.id %>" class="collapse" aria-labelledby="heading<%= faq.id %>"
+                            data-parent="#accordian<%= faq.id %>">
+                            <div class="card-body">
+                                <h3><strong><%= faq.answer %> </strong></h3>
+                                <hr>
+                                <p>
+                                    <ul>
+                                        <% for( let index = 0; index < faq.description.length; index++ ) { %>
+                                        <li><%= faq.description[index] %> </li>
+                                        <% } %>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+
+        </div>
+    </main>
+
+
+    <%- include('includes/footer'); %>
+    <script type="module" src="js/faq.js"></script>
+</body>
+
+</html>
