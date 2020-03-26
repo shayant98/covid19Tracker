@@ -11,12 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "cloudscraper": "^4.6.0",
     "csvtojson": "^2.0.10",
+    "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "geojson": "^0.5.0",
     "moment": "^2.24.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "tabletojson": "^2.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

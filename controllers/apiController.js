@@ -1,11 +1,63 @@
 const csvtojson = require("csvtojson");
 const request = require("request");
-const geojson = require("geojson")
+const geojson = require("geojson");
+const cheerio  =require("cheerio");
+const cloudscraper  =require("cloudscraper");
+const tabletojson = require('tabletojson').Tabletojson;
 
 
 const confirmedFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
 const deathsFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv";
 const recoveriesFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
+
+
+
+exports.getCurrentStatus = async (req,res,next) => {
+    const url = await cloudscraper(`https://www.worldometers.info/coronavirus`);
+    const $ = cheerio.load(url);
+    const html = $.html();
+
+
+    const totalCases = $(".maincounter-number span:first-child").eq(0).text().trim();
+    const totalDeaths = $(".maincounter-number span:first-child").eq(1).text().trim();
+    const totalRecoveries = $(".maincounter-number span:first-child").eq(2).text().trim();
+
+    const totalActive = $(".panel_front div:first-child").eq(0).text();
+    const totalActiveMild = $(".panel_front div:nth-child(3) div:nth-child(1) .number-table").eq(0).text().trim();
+    const totalActiveSevere = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(0).text().trim();
+
+    const totalClosed = $(".panel_front .number-table-main").eq(1).text().trim();
+    const totalClosedRecoveries = $(".panel_front div:nth-child(3) div:nth-child(1) .number-table").eq(1).text().trim();
+    const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
+
+    casesByCountry = tabletojson.convert(html, {
+        stripHtmlFromHeadings:true,
+        headings: ['name', 'totalCases','newCases', 'totalDeaths','newDeaths','totalRecovered','activeCases','seriousCases','totCasesPer1Mil','totDeathsPer1Mil',]
+    });
+
+    const jsonObject = {
+        totalCases,
+        totalDeaths,
+        totalRecoveries,
+        "activeCases": {
+            totalActive,
+            totalActiveMild,
+            totalActiveSevere
+        },
+        "closedCases": {
+            totalClosed,
+            totalClosedRecoveries,
+            totalClosedDeaths
+        },
+        casesByCountry
+    };
+    await res.json(jsonObject);
+
+
+
+
+};
+
 
 
 exports.confirmedTimeline = async (req, res, next) => {
@@ -104,6 +156,7 @@ exports.confirmedCasesGeo = async (req, res, next) => {
     res.status(200).json(geojsonAray)
 }
 
+
 const createTimelineObject = data => {
     const dates = Object.keys(data).map(key => data[key].trim());
     dates.splice(0, 4);
@@ -116,3 +169,7 @@ const createTimelineObject = data => {
     timeline.push(timelineObject)
 
 }
+
+
+
+

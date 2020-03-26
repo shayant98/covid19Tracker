@@ -77,14 +77,14 @@ export default class map {
             });
 
             // inspect a cluster on click
-            this.map.on('click', 'clusters', function (e) {
+            this.map.on('click', 'clusters',  (e) => {
                 var features = this.map.queryRenderedFeatures(e.point, {
                     layers: ['clusters']
                 });
                 var clusterId = features[0].properties.cluster_id;
                 this.map.getSource('cases').getClusterExpansionZoom(
                     clusterId,
-                    function (err, zoom) {
+                     (err, zoom) => {
                         if (err) return;
 
                         this.map.easeTo({
@@ -121,14 +121,14 @@ export default class map {
                     .addTo(map);
             });
 
-            this.map.on('mouseenter', 'clusters', function () {
+            this.map.on('mouseenter', 'clusters',  () => {
                 this.map.getCanvas().style.cursor = 'pointer';
             });
-            this.map.on('mouseleave', 'clusters', function () {
+            this.map.on('mouseleave', 'clusters',  () => {
                 this.map.getCanvas().style.cursor = '';
             });
         });
-    }
+    };
 
     showLocation = (long, lat) => {
         this.map.flyTo({
