@@ -4,147 +4,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%=name%></title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <title>Corona Tracker</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous" defer></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet'/>
+    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon'/>
     <link rel="manifest" href="./manifest.json">
 </head>
 
 <body class="bg-dark text-white" style="height: 100vh;">
-    <%- include('includes/header'); %>
+<%- include('includes/header'); %>
 
 
-    <main class="container">
-        <h1 class="display-2 mb-3">Corona Tracker</h1>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <h3>Locations with confirmed cases: <span class=""><%= data.length %></span></h3>
-            </div>
-            <div class="col-md-6">
-                <h3>Last Update: <span class=""><%= fileDate %></span></h3>
-            </div>
-
+<main class="container">
+    <h1 class="display-2 mb-3">Corona Tracker</h1>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h3>Locations with confirmed cases: <span id="countryCount" class=""><i class="fas fa-circle-notch fa-spin"></i></span></h3>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <span class="text-muted"><i class="fa fa-info"></i> The data in this application is updated Daily with
-                    data from: <a class="text-decoration-none" href="https://github.com/CSSEGISandData/COVID-19">JHU
-                        CSSE</a></span>
-            </div>
-        </div>
-        <hr>
-        <div class="row " style="justify-content:center;">
-            <div class="col-md-3 col-sm-12 text-center">
-                <div class="card text-white bg-warning mb-3">
-                    <div class="card-header">Confirmed Cases</div>
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <i class="fas fa-diagnoses"></i> <span class="counter"
-                                data-target="<%= totalConfirmed %>">0</span>
-                        </h3>
+        <!--            <div class="col-md-6">-->
+        <!--                <h3>Last Update: <span class=""></span></h3>-->
+        <!--            </div>-->
 
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-12 text-center">
-                <div class="card text-white bg-danger mb-3">
-                    <div class="card-header">Confirmed Deaths</div>
+    </div>
+    <!--        <div class="row">-->
+    <!--            <div class="col-md-12">-->
+    <!--                <span class="text-muted"><i class="fa fa-info"></i> The data in this application is updated Daily with-->
+    <!--                    data from: <a class="text-decoration-none" href="https://github.com/CSSEGISandData/COVID-19">JHU-->
+    <!--                        CSSE</a></span>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <hr>
+    <div class="row " style="justify-content:center;">
+        <div class="col-md-3 col-sm-12 text-center">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-header">Confirmed Cases</div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="fas fa-diagnoses"></i> <span class="counter" id="totalCases"
+                                                               ><i class="fas fa-circle-notch fa-spin"></i></span>
+                    </h3>
 
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <i class="fas fa-skull"></i> <span class="counter" data-target="<%= totalDeaths %>">0</span>
-                        </h3>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-12 text-center">
-                <div class="card text-white bg-success mb-3">
-                    <div class="card-header">Confirmed Recoveries</div>
-                    <div class="card-body">
-                        <h3 class="card-title">
-                            <i class="fas fa-plus"></i>
-                            <span class="counter" data-target="<%= totalRecovered %>">0</span>
-                        </h3>
-
-                    </div>
                 </div>
             </div>
         </div>
-        <hr>
-        <div class="row text-dark mt-3">
-            <div class="col-md-4 mb-3">
+        <div class="col-md-3 col-sm-12 text-center">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-header">Confirmed Deaths</div>
 
-                <h4 class="text-white">Confirmed Cases by Province:</h4>
-                <div class=" card bg-dark mb-3">
-                    <div class="card-body">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa fa-flag"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
-                                aria-label="Country" aria-describedby="basic-addon1">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="fas fa-skull"></i> <span class="counter" id="totalDeaths"
+                                                           ><i class="fas fa-circle-notch fa-spin"></i></span>
+                    </h3>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 text-center">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-header">Confirmed Recoveries</div>
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="fas fa-plus"></i>
+                        <span class="counter" id="totalRecoveries"
+                              ><i class="fas fa-circle-notch fa-spin"></i></span>
+                    </h3>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row text-dark mt-3">
+        <div class="col-md-4 mb-3">
+
+            <h4 class="text-white">Confirmed Cases by Country:</h4>
+            <div class=" card bg-dark mb-3">
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-flag"></i></span>
                         </div>
-
-                        <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
-                            <% data.forEach(country => { %>
-                            <li class="list-group-item countryListItems" style="cursor: pointer"
-                                data-long="<%= country.long %>" data-lat="<%= country.lat %>"
-                                data-province="<%= country.province %>" data-country="<%= country.country %>">
-                                <span id="countryName" class="font-weight-bold"><%= country.country %></span>
-                                <% if (country.province !== "") { %>
-                                - <span><%= country.province %></span>
-                                <% } %>
-                                <div>
-                                    <span class="badge badge-warning badge-pill "><%= country.confirmed %></span>
-                                    <span class="badge badge-danger badge-pill"><%= country.deaths %></span>
-                                    <span class="badge badge-success badge-pill"><%= country.recovered %></span>
-
-                                </div>
-                            </li>
-                            <% }) %>
-                        </ul>
+                        <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
+                               aria-label="Country" aria-describedby="basic-addon1">
                     </div>
-                </div>
-            </div>
-            <div class="col-md-8 mb-3">
-                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
-                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">
-                    Map
-                </button>
-                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"
-                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">
-                    Graph
-                </button>
-                <div id="mapCollapse" class="collapse show">
-                    <div class=" card text-white bg-dark mb-3">
-                        <div class="card-body">
-                            <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>
+                    <i class="fas fa-circle-notch fa-spin text-white"></i>
+                    <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
 
-                        </div>
-                    </div>
+                    </ul>
                 </div>
-                <div id="graphCollapse" class="collapse">
-                    <div class=" card text-white bg-dark mb-3">
-                        <div class="card-body">
-                            <canvas id="myChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
+        <div class="col-md-8 md-3">
+            <h4 class="text-white">Country Details:</h4>
+            <div class="card bg-dark text-white">
+                <div class="card-header">
+                    <img id="countryFlag"><h1 id="countryDetailName">Suriname</h1>
+                </div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-    </main>
+    <!--            <div class="col-md-8 mb-3">-->
+    <!--                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"-->
+    <!--                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">-->
+    <!--                    Map-->
+    <!--                </button>-->
+    <!--                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"-->
+    <!--                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">-->
+    <!--                    Graph-->
+    <!--                </button>-->
+    <!--                <div id="mapCollapse" class="collapse show">-->
+    <!--                    <div class=" card text-white bg-dark mb-3">-->
+    <!--                        <div class="card-body">-->
+    <!--                            <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>-->
 
-    <%- include('includes/footer'); %>
-    <script type="module" src="js/main.js"></script>
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div id="graphCollapse" class="collapse">-->
+    <!--                    <div class=" card text-white bg-dark mb-3">-->
+    <!--                        <div class="card-body">-->
+    <!--                            <canvas id="myChart"></canvas>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
 
+    <!--            </div>-->
+    <!--        </div>-->
+
+
+</main>
+
+<%- include('includes/footer'); %>
+<script type="module" src="js/main.js"></script>
 
 
 </body>
