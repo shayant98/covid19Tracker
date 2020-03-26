@@ -9,6 +9,7 @@ const mapContainer = document.getElementById("mapCollapse");
 const graphContainer = document.getElementById("graphCollapse");
 // const ctx = document.getElementById('myChart').getContext('2d');
 const searchInput = document.getElementById('countrySearch');
+const refreshBtn = document.getElementById('refreshBtn');
 
 // const goToLocationOnMap = (long, lat) => {
 //     Mapbox.showLocation(long, lat)
@@ -183,8 +184,10 @@ const initData = async () => {
     const res = await fetch(`${window.location.href}api/currentstatus`)
     try {
         const spinners = document.querySelectorAll('.fa-circle-notch');
-        const data = await res.json();
+        const refreshSpinner = document.getElementById('refreshSpinner');
 
+        const data = await res.json();
+        refreshSpinner.classList.remove('fa-spin');
         spinners.forEach(el => {
             el.style.display = 'none';
         });
@@ -195,6 +198,11 @@ const initData = async () => {
     }
 
 };
+function forceRefresh() {
+    const spinner = document.getElementById('refreshSpinner');
+    spinner.classList.add('fa-spin');
+    initData();
+}
 
 // const statCounter = () => {
 //     const counters = document.querySelectorAll('.counter');
@@ -262,6 +270,11 @@ const initData = async () => {
 // });
 
 searchInput.addEventListener("keyup", searchList);
+
+
+refreshBtn.addEventListener("click", forceRefresh);
+
+
 window.onload = () => {
     // statCounter();
     initData();

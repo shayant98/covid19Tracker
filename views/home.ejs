@@ -20,8 +20,10 @@
 <main class="container">
     <h1 class="display-2 mb-3">Corona Tracker</h1>
     <div class="row mb-3">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <h3>Locations with confirmed cases: <span id="countryCount" class=""><i class="fas fa-circle-notch fa-spin"></i></span></h3>
+            <button id="refreshBtn" class="btn btn-dark"><i id="refreshSpinner" class="fas fa-sync"></i></button>
+
         </div>
         <!--            <div class="col-md-6">-->
         <!--                <h3>Last Update: <span class=""></span></h3>-->
@@ -101,7 +103,7 @@
             <h4 class="text-white">Country Details:</h4>
             <div class="card bg-dark text-white">
                 <div class="card-header">
-                    <img id="countryFlag"><h1 id="countryDetailName">Suriname</h1>
+                    <img id="countryFlag"><h1 id="countryDetailName"></h1>
                 </div>
                 <div class="card-body">
 

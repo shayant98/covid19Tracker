@@ -199,7 +199,6 @@ exports.confirmedCasesGeo = async (req, res, next) => {
     res.status(200).json(geojsonAray)
 }
 
-
 const createTimelineObject = data => {
     const dates = Object.keys(data).map(key => data[key].trim());
     dates.splice(0, 4);
