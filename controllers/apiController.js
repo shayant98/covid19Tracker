@@ -4,6 +4,9 @@ const geojson = require("geojson");
 const cheerio  =require("cheerio");
 const cloudscraper  =require("cloudscraper");
 const tabletojson = require('tabletojson').Tabletojson;
+const dotenv = require('dotenv').config();
+const fs = require("fs");
+
 
 
 const confirmedFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
@@ -13,7 +16,7 @@ const recoveriesFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-1
 
 
 exports.getCurrentStatus = async (req,res,next) => {
-    const url = await cloudscraper(`https://www.worldometers.info/coronavirus`);
+    const url = await cloudscraper(`${process.env.WORLDOMETER_URL}`);
     const $ = cheerio.load(url);
     const html = $.html();
 
@@ -24,25 +27,33 @@ exports.getCurrentStatus = async (req,res,next) => {
 
     const totalActive = $(".panel_front div:first-child").eq(0).text();
     const totalActiveMild = $(".panel_front div:nth-child(3) div:nth-child(1) .number-table").eq(0).text().trim();
+    const totalActiveMildPerc = $(".panel_front div:nth-child(3) div:nth-child(1) strong").eq(0).text().trim();
     const totalActiveSevere = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(0).text().trim();
+    const totalActiveSeverePerc = $(".panel_front div:nth-child(3) div:nth-child(2) strong").eq(0).text().trim();
 
     const totalClosed = $(".panel_front .number-table-main").eq(1).text().trim();
     const totalClosedRecoveries = $(".panel_front div:nth-child(3) div:nth-child(1) .number-table").eq(1).text().trim();
+    const totalClosedRecoveriesPerc = $(".panel_front div:nth-child(3) div:nth-child(1) strong").eq(1).text().trim();
     const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
+    const totalClosedDeathsPerc = $(".panel_front div:nth-child(3) div:nth-child(2) strong").eq(1).text().trim();
 
     const casesByCountry = tabletojson.convert(html, {
         stripHtmlFromHeadings:false,
         headings: ['name', 'totalCases','newCases', 'totalDeaths','newDeaths','totalRecoveries','activeCases','seriousCases','totCasesPer1Mil','totDeathsPer1Mil',]
     })[0];
 
-    return {
+    res.json( {
         totalCases,
         totalDeaths,
         totalRecoveries,
         "activeCases": {
             totalActive,
             totalActiveMild,
-            totalActiveSevere
+            totalActiveSevere,
+            totalActiveSeverePerc,
+            totalActiveMildPerc,
+            totalClosedRecoveriesPerc,
+            totalClosedDeathsPerc
         },
         "closedCases": {
             totalClosed,
@@ -50,27 +61,43 @@ exports.getCurrentStatus = async (req,res,next) => {
             totalClosedDeaths
         },
         casesByCountry
-    };
+    });
 
 };
 
-exports.currentStatus = async (req, res, next) => {
-
-    try {
-        const data = await this.getCurrentStatus();
-
-        res.json(data);
-    }catch (e) {
-        console.error(e)
-    }
-};
+exports.caseByCountry = async (req,res,next) => {
+   try {
+       const rawData = await fs.readFileSync("data/detail.json");
+       const countryData = JSON.parse(rawData);
 
 
+       const countryFound = countryData.filter(country => {
+           return country.name === req.params.country
+       })[0];
+       let data = [];
+       if (countryFound){
+           switch (countryFound.name) {
+               case "suriname":
+                  data = await getSurinameInfo(countryFound);
+                   break;
+               default:
+                   data = await caseByCountryWorldMeter(countryFound);
+           }
+       }else{
+           throw new Error("not found");
+       }
+        data['image'] = countryFound.img;
+       res.json(data);
 
-exports.caseByCountry = async (req, res, next) => {
-    const url = await cloudscraper(`https://www.worldometers.info/coronavirus/country/${req.params.country}`);
+   }catch (e) {
+       console.error(e)
+   }
+}
+
+
+const caseByCountryWorldMeter = async (country) => {
+    const url = await cloudscraper(`${country.url}`);
     const $ = cheerio.load(url);
-    const html = $.html();
 
 
     const totalCases = $(".maincounter-number span:first-child").eq(0).text().trim();
@@ -87,12 +114,10 @@ exports.caseByCountry = async (req, res, next) => {
 
 
     const countryName = $(".content-inner div").eq(2).text().trim();
-    const countryImage = `https://www.worldometers.info${$("h1 div img").attr('src')}`
-    console.log(countryName);
-    // const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
+    const countryImage = `https://www.worldometers.info${$("h1 div img").attr('src')}`;
 
 
-    const jsonObject = {
+    return  {
         countryName,
         countryImage,
         totalCases,
@@ -109,7 +134,7 @@ exports.caseByCountry = async (req, res, next) => {
             totalClosedDeaths
         }
     }
-   res.json(jsonObject);
+
 };
 
 exports.confirmedTimeline = async (req, res, next) => {
@@ -219,6 +244,27 @@ const createTimelineObject = data => {
     }
     timeline.push(timelineObject)
 
+}
+
+const getSurinameInfo = async country => {
+    const url = await cloudscraper(`${country.url}`);
+    const $ = cheerio.load(url);
+
+    const quarentineLocationOverheid =  $("#counter_33802536285e7d75eb060ea").attr("data-counter-value");
+    const quarentineLocationThuis =  $("#counter_23695291915e7d75eb063c1").attr("data-counter-value");
+    const totalRecoveries =  $("#counter_2986213115e7d75eb06662").attr("data-counter-value");
+    const totalDeaths =  $("#counter_37752750265e7d75eb0690d").attr("data-counter-value");
+    const totalCases =  $("#counter_5075940075e7d75eb05b0f").attr("data-counter-value");
+
+
+    return {
+        countryName: "Suriname",
+        quarentineLocationOverheid,
+        quarentineLocationThuis,
+        totalRecoveries,
+        totalDeaths,
+        totalCases
+    }
 }
 
 

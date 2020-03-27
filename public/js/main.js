@@ -143,10 +143,13 @@ const renderData = (data) => {
     const totalClosedCases = document.getElementById('totalClosedCases');
     const totalClosedRecoveries = document.getElementById('totalClosedRecoveries');
     const totalClosedDeaths = document.getElementById('totalClosedDeaths');
+    const totalClosedRecoveriesPerc = document.getElementById('totalClosedRecoveriesPerc');
+    const totalClosedDeathsPerc = document.getElementById('totalClosedDeathsPerc');
     const totalActiveCases = document.getElementById('totalActiveCases');
     const totalActiveMild = document.getElementById('totalActiveMild');
     const totalActiveSevere = document.getElementById('totalActiveSevere');
-
+    const totalActiveMildPerc = document.getElementById('totalActiveMildPerc');
+    const totalActiveSeverePerc = document.getElementById('totalActiveSeverePerc');
 
     countryCount.innerText = data.casesByCountry.length -1;
     totalCases.innerText = data.totalCases;
@@ -158,6 +161,10 @@ const renderData = (data) => {
     totalActiveCases.innerText = data.activeCases.totalActive;
     totalActiveMild.innerText = data.activeCases.totalActiveMild;
     totalActiveSevere.innerText = data.activeCases.totalActiveSevere;
+    totalActiveMildPerc.innerText = `${data.activeCases.totalActiveMildPerc}%`;
+    totalActiveSeverePerc.innerText = `${data.activeCases.totalActiveSeverePerc}%`;
+    totalClosedRecoveriesPerc.innerText = `${data.activeCases.totalClosedRecoveriesPerc}%`;
+    totalClosedDeathsPerc.innerText = `${data.activeCases.totalClosedDeathsPerc}%`;
 
     for (let i = 0; i < data.casesByCountry.length -1; i++){
         const li = document.createElement("li");
