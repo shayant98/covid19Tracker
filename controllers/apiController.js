@@ -31,7 +31,7 @@ exports.getCurrentStatus = async (req,res,next) => {
     const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
 
     const casesByCountry = tabletojson.convert(html, {
-        stripHtmlFromHeadings:true,
+        stripHtmlFromHeadings:false,
         headings: ['name', 'totalCases','newCases', 'totalDeaths','newDeaths','totalRecoveries','activeCases','seriousCases','totCasesPer1Mil','totDeathsPer1Mil',]
     })[0];
 
@@ -85,7 +85,16 @@ exports.caseByCountry = async (req, res, next) => {
     const totalClosedRecoveries = $(".panel_front div:nth-child(3) div:nth-child(1) .number-table").eq(1).text().trim();
     const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
 
+
+    const countryName = $(".content-inner div").eq(2).text().trim();
+    const countryImage = `https://www.worldometers.info${$("h1 div img").attr('src')}`
+    console.log(countryName);
+    // const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
+
+
     const jsonObject = {
+        countryName,
+        countryImage,
         totalCases,
         totalDeaths,
         totalRecoveries,

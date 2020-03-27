@@ -28,10 +28,12 @@ const setListItemActiveState = (currentListItem) => {
     });
 };
 
-const renderDetails = (countryName, data) => {
+const renderDetails = ( data) => {
     const countryDetailName = document.getElementById('countryDetailName');
+    const countryDetailImage = document.getElementById('countryFlag');
 
-    countryDetailName.innerText = countryName.toUpperCase();
+    countryDetailName.innerText = data.countryName;
+    countryDetailImage.src = data.countryImage;
 };
 
 const getDetailInfo = async (countryName) => {
@@ -39,7 +41,7 @@ const getDetailInfo = async (countryName) => {
 
     const data = await res.json();
 
-    renderDetails(countryName,data);
+    renderDetails(data);
 }
 
 // const getDates = () => {
@@ -138,12 +140,24 @@ const renderData = (data) => {
     const totalDeaths = document.getElementById('totalDeaths');
     const totalRecoveries = document.getElementById('totalRecoveries');
     const countryList = document.getElementById('countryList');
+    const totalClosedCases = document.getElementById('totalClosedCases');
+    const totalClosedRecoveries = document.getElementById('totalClosedRecoveries');
+    const totalClosedDeaths = document.getElementById('totalClosedDeaths');
+    const totalActiveCases = document.getElementById('totalActiveCases');
+    const totalActiveMild = document.getElementById('totalActiveMild');
+    const totalActiveSevere = document.getElementById('totalActiveSevere');
 
 
     countryCount.innerText = data.casesByCountry.length -1;
     totalCases.innerText = data.totalCases;
     totalDeaths.innerText = data.totalDeaths ;
     totalRecoveries.innerText = data.totalRecoveries ;
+    totalClosedCases.innerText = data.closedCases.totalClosed;
+    totalClosedRecoveries.innerText = data.closedCases.totalClosedRecoveries;
+    totalClosedDeaths.innerText = data.closedCases.totalClosedDeaths;
+    totalActiveCases.innerText = data.activeCases.totalActive;
+    totalActiveMild.innerText = data.activeCases.totalActiveMild;
+    totalActiveSevere.innerText = data.activeCases.totalActiveSevere;
 
     for (let i = 0; i < data.casesByCountry.length -1; i++){
         const li = document.createElement("li");

@@ -25,18 +25,7 @@
             <button id="refreshBtn" class="btn btn-dark"><i id="refreshSpinner" class="fas fa-sync"></i></button>
 
         </div>
-        <!--            <div class="col-md-6">-->
-        <!--                <h3>Last Update: <span class=""></span></h3>-->
-        <!--            </div>-->
-
     </div>
-    <!--        <div class="row">-->
-    <!--            <div class="col-md-12">-->
-    <!--                <span class="text-muted"><i class="fa fa-info"></i> The data in this application is updated Daily with-->
-    <!--                    data from: <a class="text-decoration-none" href="https://github.com/CSSEGISandData/COVID-19">JHU-->
-    <!--                        CSSE</a></span>-->
-    <!--            </div>-->
-    <!--        </div>-->
     <hr>
     <div class="row " style="justify-content:center;">
         <div class="col-md-3 col-sm-12 text-center">
@@ -79,6 +68,45 @@
         </div>
     </div>
     <hr>
+        <div class="row">
+            <div class="col-md-5 mx-auto col-offset-2">
+                <div class="card  bg-dark text-white">
+                    <div class="card-header text-center">
+                        <h5>Active Cases</h5>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="text-center"><span id="totalActiveCases"><i class="fas fa-circle-notch fa-spin"></i></span></h1>
+                        <div class="row text-center mt-1">
+                            <div class="col-md-6">
+                                <h6>Mild Cases: <span class="text-info" id="totalActiveMild"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Severe Cases: <span class="text-warning" id="totalActiveSevere"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 mx-auto">
+                <div class="card  bg-dark text-white">
+                    <div class="card-header text-center">
+                        <h5>Closed Cases</h5>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="text-center"><span id="totalClosedCases"><i class="fas fa-circle-notch fa-spin"></i></span></h1>
+                        <div class="row text-center mt-1">
+                            <div class="col-md-6">
+                                <h6>Recoveries: <span class="text-success" id="totalClosedRecoveries"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Deaths: <span class="text-danger" id="totalClosedDeaths"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <hr>
     <div class="row text-dark mt-3">
         <div class="col-md-4 mb-3">
 
@@ -87,10 +115,10 @@
                 <div class="card-body">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-flag"></i></span>
+                            <span class="input-group-text" id="flagIconAddon"><i class="fa fa-flag"></i></span>
                         </div>
                         <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
-                               aria-label="Country" aria-describedby="basic-addon1">
+                               aria-label="Country" aria-describedby="flagIconAddon">
                     </div>
                     <i class="fas fa-circle-notch fa-spin text-white"></i>
                     <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
@@ -111,37 +139,6 @@
             </div>
         </div>
     </div>
-
-
-
-    <!--            <div class="col-md-8 mb-3">-->
-    <!--                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"-->
-    <!--                    data-target="#mapCollapse" aria-expanded="false" aria-controls="mapCollapse">-->
-    <!--                    Map-->
-    <!--                </button>-->
-    <!--                <button class="btn btn-outline-primary mb-3 collapseBtn" type="button" data-toggle="collapse"-->
-    <!--                    data-target="#graphCollapse" aria-expanded="false" aria-controls="graphCollapse">-->
-    <!--                    Graph-->
-    <!--                </button>-->
-    <!--                <div id="mapCollapse" class="collapse show">-->
-    <!--                    <div class=" card text-white bg-dark mb-3">-->
-    <!--                        <div class="card-body">-->
-    <!--                            <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>-->
-
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--                <div id="graphCollapse" class="collapse">-->
-    <!--                    <div class=" card text-white bg-dark mb-3">-->
-    <!--                        <div class="card-body">-->
-    <!--                            <canvas id="myChart"></canvas>-->
-    <!--                        </div>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-
-    <!--            </div>-->
-    <!--        </div>-->
-
 
 </main>
 
