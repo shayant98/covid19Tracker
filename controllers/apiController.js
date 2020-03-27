@@ -139,83 +139,16 @@ const caseByCountryWorldMeter = async (country) => {
 
 };
 
-exports.confirmedTimeline = async (req, res, next) => {
 
-
-    const confirmedTimeline = await csvtojson({
-        trim: true,
-    }).fromStream(request.get(confirmedFile));
-
-    timeline = []
-
-    confirmedTimeline.forEach(country => {
-        createTimelineObject(country)
-    })
-
-
-    res.json(timeline)
-}
-exports.deathTimeline = async (req, res, next) => {
-
-
-    const deathTimeline = await csvtojson({
-        // headers: ['province', 'country', 'lastUpdate', 'confirmed', 'deaths', 'recovered'],
-        trim: true,
-        // noheader: true
-        // includeColumns: Lat | Long
-        // colParser: {
-        //     "confirmed": "number",
-        //     "deaths": "number",
-        //     "recovered": "number",
-
-        // },
-        // checkType: true
-    }).fromStream(request.get(deathsFile));
-
-    timeline = []
-
-    deathTimeline.forEach(country => {
-        createTimelineObject(country)
-    })
-
-
-    res.json(timeline)
-}
-exports.recoveriesTimeline = async (req, res, next) => {
-
-
-    const recoveriesTimeline = await csvtojson({
-        // headers: ['province', 'country', 'lastUpdate', 'confirmed', 'deaths', 'recovered'],
-        trim: true,
-        // noheader: true
-        // includeColumns: Lat | Long
-        // colParser: {
-        //     "confirmed": "number",
-        //     "deaths": "number",
-        //     "recovered": "number",
-
-        // },
-        // checkType: true
-    }).fromStream(request.get(recoveriesFile));
-
-    timeline = []
-
-    recoveriesTimeline.forEach(country => {
-        createTimelineObject(country)
-    })
-
-
-    res.json(timeline)
-}
 exports.confirmedCasesGeo = async (req, res, next) => {
 
 
     const confirmedHistory = await csvtojson({
         trim: true,
 
-    }).fromStream(request.get(confirmedFile));
+    }).fromStream(request.get(process.env.JHU_CONFIRMED_URL));
 
-    const confirmedHistoryJsonArray = []
+    const confirmedHistoryJsonArray = [];
 
     confirmedHistory.forEach(country => {
         GeoJsonObject = {
@@ -224,15 +157,15 @@ exports.confirmedCasesGeo = async (req, res, next) => {
             lat: country.Lat,
             long: country.Long,
             confirmed: parseInt(country[Object.keys(country)[Object.keys(country).length - 1]])
-        }
+        };
 
         confirmedHistoryJsonArray.push(GeoJsonObject);
 
     })
 
 
-    let geojsonAray = geojson.parse(confirmedHistoryJsonArray, { Point: ['lat', 'long'] });
-    res.status(200).json(geojsonAray)
+    const geoJsonArray = geojson.parse(confirmedHistoryJsonArray, { Point: ['lat', 'long'] });
+    res.status(200).json(geoJsonArray)
 }
 
 const createTimelineObject = data => {

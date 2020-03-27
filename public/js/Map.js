@@ -30,15 +30,7 @@ export default class map {
                 filter: ['has', 'point_count'],
                 paint: {
 
-                    'circle-color': [
-                        'step',
-                        ['get', 'point_count'],
-                        '#51bbd6',
-                        30,
-                        '#f1f075',
-                        40,
-                        '#f28cb1'
-                    ],
+                    'circle-color': "#ffc107",
                     'circle-radius': [
                         'step',
                         ['get', 'point_count'],
@@ -69,7 +61,7 @@ export default class map {
                 source: 'cases',
                 filter: ['!', ['has', 'point_count']],
                 paint: {
-                    'circle-color': '#11b4da',
+                    'circle-color': '#ffc107',
                     'circle-radius': 4,
                     'circle-stroke-width': 1,
                     'circle-stroke-color': '#000'
@@ -77,14 +69,14 @@ export default class map {
             });
 
             // inspect a cluster on click
-            this.map.on('click', 'clusters', function (e) {
-                var features = this.map.queryRenderedFeatures(e.point, {
+            this.map.on('click', 'clusters', (e) => {
+                const features = this.map.queryRenderedFeatures(e.point, {
                     layers: ['clusters']
                 });
-                var clusterId = features[0].properties.cluster_id;
+                const clusterId = features[0].properties.cluster_id;
                 this.map.getSource('cases').getClusterExpansionZoom(
                     clusterId,
-                    function (err, zoom) {
+                     (err, zoom) => {
                         if (err) return;
 
                         this.map.easeTo({
@@ -99,13 +91,13 @@ export default class map {
             // the unclustered-point layer, open a popup at
             // the location of the feature, with
             // description HTML from its properties.
-            this.map.on('click', 'unclustered-point', function (e) {
+            this.map.on('click', 'unclustered-point',  (e) => {
 
-                let object = e.features[0].properties
+                const object = e.features[0].properties
 
-                var coordinates = e.features[0].geometry.coordinates.slice();
-                let place = object.name
-                let cases = object.confirmed
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const place = object.name;
+                const cases = object.confirmed;
 
 
                 // Ensure that if the map is zoomed out such that
@@ -121,10 +113,10 @@ export default class map {
                     .addTo(map);
             });
 
-            this.map.on('mouseenter', 'clusters', function () {
+            this.map.on('mouseenter', 'clusters',  () =>{
                 this.map.getCanvas().style.cursor = 'pointer';
             });
-            this.map.on('mouseleave', 'clusters', function () {
+            this.map.on('mouseleave', 'clusters',  () => {
                 this.map.getCanvas().style.cursor = '';
             });
         });

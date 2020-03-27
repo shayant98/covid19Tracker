@@ -81,12 +81,20 @@ const renderDetails = ( data) => {
     goToLocationOnMap(data.CountryInfo.latlng[1],data.CountryInfo.latlng[0]);
 };
 
+const parseUiValues = () => {
+
+}
+
 const getDetailInfo = async (countryName) => {
     const res = await  fetch(`${window.location.href}api/cases/${countryName}`);
-
-    const data = await res.json();
-
-    renderDetails(data);
+    const data = [];
+    if (res.ok){
+        const data = await res.json();
+        renderDetails(data);
+    }else {
+        parseUiValues()
+        renderDetails(data);
+    }
 }
 
 // const getDates = () => {
@@ -211,6 +219,7 @@ const renderData = (data) => {
     totalClosedRecoveriesPerc.innerText = `${data.activeCases.totalClosedRecoveriesPerc}%`;
     totalClosedDeathsPerc.innerText = `${data.activeCases.totalClosedDeathsPerc}%`;
 
+    countryList.innerHTML = '';
     for (let i = 0; i < data.casesByCountry.length -1; i++){
         const li = document.createElement("li");
         const countryNameSpan = document.createElement('span');
