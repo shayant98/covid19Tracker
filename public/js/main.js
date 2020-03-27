@@ -255,23 +255,23 @@ const renderData = (data) => {
     }
 };
 
-const initData = async () => {
-    const res = await fetch(`${window.location.href}api/currentstatus`)
-    try {
-        const spinners = document.querySelectorAll('.fa-circle-notch');
-        const refreshSpinner = document.getElementById('refreshSpinner');
+const initData =  () => {
+      fetch(`${window.location.href}api/currentstatus`)
+          .then(res => {
 
-        const data = await res.json();
-        refreshSpinner.classList.remove('fa-spin');
-        spinners.forEach(el => {
-            el.style.display = 'none';
-        });
+                return res.json();
+    }).then(data => {
+              const spinners = document.querySelectorAll('.fa-circle-notch');
+              const refreshSpinner = document.getElementById('refreshSpinner');
 
-        renderData(data);
-    }catch (e) {
-        console.error(e)
-    }
-
+              refreshSpinner.classList.remove('fa-spin');
+              spinners.forEach(el => {
+                  el.style.display = 'none';
+              });
+              renderData(data);
+          }).catch(e => {
+          console.error(e)
+      });
 };
 function forceRefresh() {
     const spinner = document.getElementById('refreshSpinner');
