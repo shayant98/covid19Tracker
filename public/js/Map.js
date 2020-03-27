@@ -1,5 +1,5 @@
 export default class map {
-    constructor(container,zoom, style) {
+    constructor(container, zoom, style) {
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
         this.map = new mapboxgl.Map({
             container: container,
@@ -8,8 +8,8 @@ export default class map {
         });
     }
 
-     init = () => {
-        this.map.on('load', () =>  {
+    init = () => {
+        this.map.on('load', () => {
             // Add a new source from our GeoJSON data and
             // set the 'cluster' option to true. GL-JS will
             // add the point_count property to your source data.
@@ -30,15 +30,8 @@ export default class map {
                 filter: ['has', 'point_count'],
                 paint: {
 
-                    'circle-color': [
-                        'step',
-                        ['get', 'point_count'],
-                        '#51bbd6',
-                        30,
-                        '#f1f075',
-                        40,
-                        '#f28cb1'
-                    ],
+                    'circle-color': '#ffc107'
+                    ,
                     'circle-radius': [
                         'step',
                         ['get', 'point_count'],
@@ -50,6 +43,7 @@ export default class map {
                     ]
                 }
             });
+            console.log(this.map.getSource('cases'));
 
             this.map.addLayer({
                 id: 'cluster-count',
@@ -57,7 +51,7 @@ export default class map {
                 source: 'cases',
                 filter: ['has', 'point_count'],
                 layout: {
-                    'text-field': '{point_count_abbreviated}',
+                    'text-field': '{cases}',
                     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
                     'text-size': 12
                 }
@@ -77,14 +71,14 @@ export default class map {
             });
 
             // inspect a cluster on click
-            this.map.on('click', 'clusters', function (e) {
+            this.map.on('click', 'clusters', (e) => {
                 var features = this.map.queryRenderedFeatures(e.point, {
                     layers: ['clusters']
                 });
                 var clusterId = features[0].properties.cluster_id;
                 this.map.getSource('cases').getClusterExpansionZoom(
                     clusterId,
-                    function (err, zoom) {
+                    (err, zoom) => {
                         if (err) return;
 
                         this.map.easeTo({
@@ -99,7 +93,7 @@ export default class map {
             // the unclustered-point layer, open a popup at
             // the location of the feature, with
             // description HTML from its properties.
-            this.map.on('click', 'unclustered-point', function (e) {
+            this.map.on('click', 'unclustered-point', (e) => {
 
                 let object = e.features[0].properties
 
@@ -118,13 +112,13 @@ export default class map {
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
                     .setHTML(`${place} has <strong>${cases}</strong> confirmed case(s)`)
-                    .addTo(map);
+                    .addTo(this.map);
             });
 
-            this.map.on('mouseenter', 'clusters', function () {
+            this.map.on('mouseenter', 'clusters', () => {
                 this.map.getCanvas().style.cursor = 'pointer';
             });
-            this.map.on('mouseleave', 'clusters', function () {
+            this.map.on('mouseleave', 'clusters', () => {
                 this.map.getCanvas().style.cursor = '';
             });
         });
@@ -141,4 +135,3 @@ export default class map {
         });
     }
 }
-
