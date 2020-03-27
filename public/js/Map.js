@@ -1,5 +1,5 @@
 export default class map {
-    constructor(container, zoom, style) {
+    constructor(container,zoom, style) {
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
         this.map = new mapboxgl.Map({
             container: container,
@@ -9,7 +9,7 @@ export default class map {
     }
 
     init = () => {
-        this.map.on('load', () => {
+        this.map.on('load', () =>  {
             // Add a new source from our GeoJSON data and
             // set the 'cluster' option to true. GL-JS will
             // add the point_count property to your source data.
@@ -30,8 +30,15 @@ export default class map {
                 filter: ['has', 'point_count'],
                 paint: {
 
-                    'circle-color': '#ffc107'
-                    ,
+                    'circle-color': [
+                        'step',
+                        ['get', 'point_count'],
+                        '#51bbd6',
+                        30,
+                        '#f1f075',
+                        40,
+                        '#f28cb1'
+                    ],
                     'circle-radius': [
                         'step',
                         ['get', 'point_count'],
@@ -43,7 +50,6 @@ export default class map {
                     ]
                 }
             });
-            console.log(this.map.getSource('cases'));
 
             this.map.addLayer({
                 id: 'cluster-count',
@@ -51,7 +57,7 @@ export default class map {
                 source: 'cases',
                 filter: ['has', 'point_count'],
                 layout: {
-                    'text-field': '{cases}',
+                    'text-field': '{point_count_abbreviated}',
                     'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
                     'text-size': 12
                 }
@@ -71,22 +77,14 @@ export default class map {
             });
 
             // inspect a cluster on click
-<<<<<<< HEAD
-            this.map.on('click', 'clusters', (e) => {
-=======
-            this.map.on('click', 'clusters',  (e) => {
->>>>>>> 6c1005da5ca9234a4ed93fd12a4cef127cbf858d
+            this.map.on('click', 'clusters', function (e) {
                 var features = this.map.queryRenderedFeatures(e.point, {
                     layers: ['clusters']
                 });
                 var clusterId = features[0].properties.cluster_id;
                 this.map.getSource('cases').getClusterExpansionZoom(
                     clusterId,
-<<<<<<< HEAD
-                    (err, zoom) => {
-=======
-                     (err, zoom) => {
->>>>>>> 6c1005da5ca9234a4ed93fd12a4cef127cbf858d
+                    function (err, zoom) {
                         if (err) return;
 
                         this.map.easeTo({
@@ -101,7 +99,7 @@ export default class map {
             // the unclustered-point layer, open a popup at
             // the location of the feature, with
             // description HTML from its properties.
-            this.map.on('click', 'unclustered-point', (e) => {
+            this.map.on('click', 'unclustered-point', function (e) {
 
                 let object = e.features[0].properties
 
@@ -120,24 +118,17 @@ export default class map {
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
                     .setHTML(`${place} has <strong>${cases}</strong> confirmed case(s)`)
-                    .addTo(this.map);
+                    .addTo(map);
             });
 
-<<<<<<< HEAD
-            this.map.on('mouseenter', 'clusters', () => {
+            this.map.on('mouseenter', 'clusters', function () {
                 this.map.getCanvas().style.cursor = 'pointer';
             });
-            this.map.on('mouseleave', 'clusters', () => {
-=======
-            this.map.on('mouseenter', 'clusters',  () => {
-                this.map.getCanvas().style.cursor = 'pointer';
-            });
-            this.map.on('mouseleave', 'clusters',  () => {
->>>>>>> 6c1005da5ca9234a4ed93fd12a4cef127cbf858d
+            this.map.on('mouseleave', 'clusters', function () {
                 this.map.getCanvas().style.cursor = '';
             });
         });
-    };
+    }
 
     showLocation = (long, lat) => {
         this.map.flyTo({

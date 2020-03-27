@@ -1,19 +1,19 @@
 // import DataChart from './Chart.js'
-// import Map from "./Map.js";
+import Map from "./Map.js";
 
-// const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
+const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
 
 
 const collapseBtns = document.querySelectorAll(".collapseBtn");
 const mapContainer = document.getElementById("mapCollapse");
-const graphContainer = document.getElementById("graphCollapse");
+// const graphContainer = document.getElementById("graphCollapse");
 // const ctx = document.getElementById('myChart').getContext('2d');
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 
-// const goToLocationOnMap = (long, lat) => {
-//     Mapbox.showLocation(long, lat)
-// };
+const goToLocationOnMap = (long, lat) => {
+    Mapbox.showLocation(long, lat)
+};
 
 const setListItemActiveState = (currentListItem) => {
     const countryListItems = document.querySelectorAll('.countryListItems');
@@ -32,8 +32,53 @@ const renderDetails = ( data) => {
     const countryDetailName = document.getElementById('countryDetailName');
     const countryDetailImage = document.getElementById('countryFlag');
 
-    countryDetailName.innerText = data.countryName;
-    countryDetailImage.src = data.countryImage;
+    const closedCasesContainer = document.getElementById('closedCasesContainer');
+    const activeCasesContainer = document.getElementById('activeCasesContainer');
+
+    const countryDetailTotalCases = document.getElementById('countryDetailTotalCases');
+    const countryDetailTotalRecoveries = document.getElementById('countryDetailTotalRecoveries');
+    const countryDetailTotalDeaths = document.getElementById('countryDetailTotalDeaths');
+
+    const countryClosedTotalCases = document.getElementById('countryClosedTotalCases');
+    const countryClosedTotalRecoveries = document.getElementById('countryClosedTotalRecoveries');
+    const countryClosedTotalDeaths = document.getElementById('countryClosedTotalDeaths');
+
+    const countryActiveTotalCases = document.getElementById('countryActiveTotalCases');
+    const countryActiveMild = document.getElementById('countryActiveMild');
+    const countryActiveSevere = document.getElementById('countryActiveSevere');
+
+    countryDetailName.innerText = data.CountryInfo.name;
+    countryDetailImage.src = data.CountryInfo.flag;
+
+    countryDetailTotalCases.innerText =data.totalCases;
+    countryDetailTotalRecoveries.innerText =data.totalRecoveries;
+    countryDetailTotalDeaths.innerText = data.totalDeaths;
+
+    if (data.hasOwnProperty('closedCases') && data.closedCases.totalClosed !== ""){
+
+        closedCasesContainer.style.display = "block";
+        countryClosedTotalCases.innerText = data.closedCases.totalClosed;
+        countryClosedTotalRecoveries.innerText = data.closedCases.totalClosedRecoveries;
+        countryClosedTotalDeaths.innerText = data.closedCases.totalClosedDeaths;
+    }else{
+        countryClosedTotalCases.innerText ="";
+        countryClosedTotalRecoveries.innerText = "";
+        countryClosedTotalDeaths.innerText = "";
+        closedCasesContainer.style.display = "none"
+    }
+    if (data.hasOwnProperty('activeCases') && data.activeCases.totalActive !== "") {
+        activeCasesContainer.style.display = "block";
+        countryActiveTotalCases.innerText = data.activeCases.totalActive;
+        countryActiveMild.innerText = data.activeCases.totalActiveMild;
+        countryActiveSevere.innerText = data.activeCases.totalActiveSevere;
+    } else {
+        countryActiveTotalCases.innerText = "";
+        countryActiveMild.innerText = "";
+        countryActiveSevere.innerText = "";
+        activeCasesContainer.style.display = "none"
+    }
+
+    goToLocationOnMap(data.CountryInfo.latlng[1],data.CountryInfo.latlng[0]);
 };
 
 const getDetailInfo = async (countryName) => {
@@ -268,7 +313,7 @@ function forceRefresh() {
 // };
 // const Chart = new DataChart(ctx, options);
 
-// Mapbox.init();
+
 // collapseBtns.forEach(collapseBtn => {
 //     collapseBtn.addEventListener("click", collapseBtn => {
 //         let collapseTarget = collapseBtn.target.dataset.target;
@@ -299,6 +344,7 @@ refreshBtn.addEventListener("click", forceRefresh);
 window.onload = () => {
     // statCounter();
     initData();
+    Mapbox.init();
 };
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant

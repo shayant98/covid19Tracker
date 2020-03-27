@@ -1,17 +1,14 @@
 [
   {
     "name": "suriname",
-    "img": "https://www.countryflags.io/sr/flat/64.png",
     "url": "https://covid-19.sr/"
   },
   {
     "name": "china",
-    "img": "https://www.countryflags.io/cn/flat/64.png",
     "url": "https://www.worldometers.info/coronavirus/country/china"
   },
   {
     "name": "usa",
-    "img": "https://www.countryflags.io/us/flat/64.png",
     "url": "https://www.worldometers.info/coronavirus/country/us"
   }
 ]

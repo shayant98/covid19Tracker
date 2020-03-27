@@ -6,8 +6,7 @@ const cloudscraper  =require("cloudscraper");
 const tabletojson = require('tabletojson').Tabletojson;
 const dotenv = require('dotenv').config();
 const fs = require("fs");
-
-
+const axios = require('axios');
 
 const confirmedFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
 const deathsFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv";
@@ -86,7 +85,10 @@ exports.caseByCountry = async (req,res,next) => {
        }else{
            throw new Error("not found");
        }
-        data['image'] = countryFound.img;
+
+        const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${countryFound.name}`);
+       // const countryJson = JSON.parse(countryInfo);
+       data["CountryInfo"] = countryInfo.data[0]
        res.json(data);
 
    }catch (e) {
@@ -113,13 +115,9 @@ const caseByCountryWorldMeter = async (country) => {
     const totalClosedDeaths = $(".panel_front div:nth-child(3) div:nth-child(2) .number-table").eq(1).text().trim();
 
 
-    const countryName = $(".content-inner div").eq(2).text().trim();
-    const countryImage = `https://www.worldometers.info${$("h1 div img").attr('src')}`;
 
 
     return  {
-        countryName,
-        countryImage,
         totalCases,
         totalDeaths,
         totalRecoveries,
