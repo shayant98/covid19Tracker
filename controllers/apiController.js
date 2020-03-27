@@ -74,6 +74,7 @@ exports.caseByCountry = async (req,res,next) => {
            return country.name === req.params.country
        })[0];
        let data = [];
+       const country = [];
        if (countryFound){
            switch (countryFound.name) {
                case "suriname":
@@ -83,21 +84,24 @@ exports.caseByCountry = async (req,res,next) => {
                    data = await caseByCountryWorldMeter(countryFound);
            }
        }else{
-           throw new Error("not found");
-       }
 
-        const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${countryFound.name}`);
+           country['name'] = req.params.country;
+           country['url'] = `${process.env.WORLDOMETER_URL}/country/${ req.params.country}`;
+           data = await caseByCountryWorldMeter(country);
+       }
+        const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${(countryFound === undefined) ? country.name : countryFound.name}`);
        // const countryJson = JSON.parse(countryInfo);
        data["CountryInfo"] = countryInfo.data[0]
        res.json(data);
 
    }catch (e) {
-       console.error(e)
+       res.status(404).json({"message": e.message})
    }
 }
 
 
 const caseByCountryWorldMeter = async (country) => {
+
     const url = await cloudscraper(`${country.url}`);
     const $ = cheerio.load(url);
 

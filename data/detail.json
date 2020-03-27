@@ -4,10 +4,6 @@
     "url": "https://covid-19.sr/"
   },
   {
-    "name": "china",
-    "url": "https://www.worldometers.info/coronavirus/country/china"
-  },
-  {
     "name": "usa",
     "url": "https://www.worldometers.info/coronavirus/country/us"
   }
