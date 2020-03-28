@@ -1,19 +1,24 @@
 export default class map {
     constructor(container, zoom, style) {
         mapboxgl.accessToken = 'pk.eyJ1Ijoic2hheWFudHNpdGFsIiwiYSI6ImNrNzg2OW9pOTA3OWwzbW00czF1dDg3MDkifQ.LUxQ3G2112rdWgMP8AitIg';
-        this.map = new mapboxgl.Map({
+        this.mapbox = new mapboxgl.Map({
             container: container,
             zoom: zoom,
             style: style,
         });
+        console.log(this.mapbox);
+
     }
 
-    init = () => {
-        this.map.on('load', () => {
+
+    init() {
+        console.log(this.mapbox);
+
+        this.mapbox.on('load', function () {
             // Add a new source from our GeoJSON data and
             // set the 'cluster' option to true. GL-JS will
             // add the point_count property to your source data.
-            this.map.addSource('cases', {
+            this.addSource('cases', {
                 type: 'geojson',
                 // Point to GeoJSON data. This example visualizes all M1.0+ cases
                 // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
@@ -23,7 +28,7 @@ export default class map {
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
             });
 
-            this.map.addLayer({
+            this.addLayer({
                 id: 'clusters',
                 type: 'circle',
                 source: 'cases',
@@ -43,7 +48,7 @@ export default class map {
                 }
             });
 
-            this.map.addLayer({
+            this.addLayer({
                 id: 'cluster-count',
                 type: 'symbol',
                 source: 'cases',
@@ -55,7 +60,7 @@ export default class map {
                 }
             });
 
-            this.map.addLayer({
+            this.addLayer({
                 id: 'unclustered-point',
                 type: 'circle',
                 source: 'cases',
@@ -69,17 +74,17 @@ export default class map {
             });
 
             // inspect a cluster on click
-            this.map.on('click', 'clusters', (e) => {
-                const features = this.map.queryRenderedFeatures(e.point, {
+            this.on('click', 'clusters', (e) => {
+                const features = this.queryRenderedFeatures(e.point, {
                     layers: ['clusters']
                 });
                 const clusterId = features[0].properties.cluster_id;
-                this.map.getSource('cases').getClusterExpansionZoom(
+                this.getSource('cases').getClusterExpansionZoom(
                     clusterId,
                     (err, zoom) => {
                         if (err) return;
 
-                        this.map.easeTo({
+                        this.easeTo({
                             center: features[0].geometry.coordinates,
                             zoom: zoom
                         });
@@ -91,7 +96,7 @@ export default class map {
             // the unclustered-point layer, open a popup at
             // the location of the feature, with
             // description HTML from its properties.
-            this.map.on('click', 'unclustered-point', (e) => {
+            this.on('click', 'unclustered-point', (e) => {
 
                 const object = e.features[0].properties
 
@@ -110,20 +115,20 @@ export default class map {
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
                     .setHTML(`${place} has <strong>${cases}</strong> confirmed case(s)`)
-                    .addTo(map);
+                    .addTo(this);
             });
 
-            this.map.on('mouseenter', 'clusters', () => {
-                this.map.getCanvas().style.cursor = 'pointer';
+            this.on('mouseenter', 'clusters', () => {
+                this.getCanvas().style.cursor = 'pointer';
             });
-            this.map.on('mouseleave', 'clusters', () => {
-                this.map.getCanvas().style.cursor = '';
+            this.on('mouseleave', 'clusters', () => {
+                this.getCanvas().style.cursor = '';
             });
         });
     }
 
-    showLocation = (long, lat) => {
-        this.map.flyTo({
+    showLocation(long, lat) {
+        this.mapbox.flyTo({
             center: [
                 long,
                 lat
