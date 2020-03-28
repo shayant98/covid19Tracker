@@ -5,69 +5,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Corona Tracker</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous" defer></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet'/>
-    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon'/>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon' />
     <link rel="manifest" href="./manifest.json">
 </head>
 
 <body class="bg-dark text-white" style="height: 100vh;">
-<%- include('includes/header'); %>
+    <%- include('includes/header'); %>
 
 
-<main class="container">
-    <h1 class="display-2 mb-3">Corona Tracker</h1>
-    <div class="row mb-3">
-        <div class="col-md-8">
-            <h3>Locations with confirmed cases: <span id="countryCount" class=""><i class="fas fa-circle-notch fa-spin"></i></span></h3>
-            <button id="refreshBtn" class="btn btn-dark"><i id="refreshSpinner" class="fas fa-sync"></i></button>
+    <main class="container-fluid px-5">
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <h3>Locations with confirmed cases: <span id="countryCount" class=""><i
+                            class="fas fa-circle-notch fa-spin"></i></span></h3>
+                <button id="refreshBtn" class="btn btn-dark"><i id="refreshSpinner" class="fas fa-sync"></i></button>
 
+            </div>
         </div>
-    </div>
-    <hr>
-    <div class="row " style="justify-content:center;">
-        <div class="col-md-3 col-sm-12 text-center">
-            <div class="card text-white bg-warning mb-3">
-                <div class="card-header">Confirmed Cases</div>
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <i class="fas fa-diagnoses"></i> <span class="counter" id="totalCases"
-                                                               ><i class="fas fa-circle-notch fa-spin"></i></span>
-                    </h3>
+        <hr>
+        <div class="row " style="justify-content:center;">
+            <div class="col-md-3 col-sm-12 text-center">
+                <div class="card text-white bg-warning mb-3">
+                    <div class="card-header">Confirmed Cases</div>
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-diagnoses"></i> <span class="counter" id="totalCases"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span>
+                        </h3>
 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12 text-center">
+                <div class="card text-white bg-danger mb-3">
+                    <div class="card-header">Confirmed Deaths</div>
+
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-skull"></i> <span class="counter" id="totalDeaths"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span>
+                        </h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-12 text-center">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Confirmed Recoveries</div>
+                    <div class="card-body">
+                        <h3 class="card-title">
+                            <i class="fas fa-plus"></i>
+                            <span class="counter" id="totalRecoveries"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span>
+                        </h3>
+
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 col-sm-12 text-center">
-            <div class="card text-white bg-danger mb-3">
-                <div class="card-header">Confirmed Deaths</div>
-
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <i class="fas fa-skull"></i> <span class="counter" id="totalDeaths"
-                                                           ><i class="fas fa-circle-notch fa-spin"></i></span>
-                    </h3>
-
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 col-sm-12 text-center">
-            <div class="card text-white bg-success mb-3">
-                <div class="card-header">Confirmed Recoveries</div>
-                <div class="card-body">
-                    <h3 class="card-title">
-                        <i class="fas fa-plus"></i>
-                        <span class="counter" id="totalRecoveries"
-                              ><i class="fas fa-circle-notch fa-spin"></i></span>
-                    </h3>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
+        <hr>
         <div class="row">
             <div class="col-md-5 mx-auto col-offset-2">
                 <div class="card  bg-dark text-white">
@@ -75,7 +75,8 @@
                         <h5>Active Cases</h5>
                     </div>
                     <div class="card-body">
-                        <h1 class="text-center"><span id="totalActiveCases"><i class="fas fa-circle-notch fa-spin"></i></span></h1>
+                        <h1 class="text-center"><span id="totalActiveCases"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span></h1>
                         <div class="row text-center mt-1">
                             <div class="col-md-6">
                                 <h6>Mild Cases:
@@ -85,7 +86,7 @@
 
                                 </h6>
                                 <span class="badge badge-light" id="totalActiveMildPerc">
-                                    </span>
+                                </span>
                             </div>
                             <div class="col-md-6">
                                 <h6>Severe Cases:
@@ -95,7 +96,7 @@
 
                                 </h6>
                                 <span class="badge  badge-light" id="totalActiveSeverePerc">
-                                    </span>
+                                </span>
 
                             </div>
                         </div>
@@ -108,18 +109,21 @@
                         <h5>Closed Cases</h5>
                     </div>
                     <div class="card-body">
-                        <h1 class="text-center"><span id="totalClosedCases"><i class="fas fa-circle-notch fa-spin"></i></span></h1>
+                        <h1 class="text-center"><span id="totalClosedCases"><i
+                                    class="fas fa-circle-notch fa-spin"></i></span></h1>
                         <div class="row text-center mt-1">
                             <div class="col-md-6 col-xs-6">
-                                <h6>Recoveries: <span class="text-success" id="totalClosedRecoveries"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                                <h6>Recoveries: <span class="text-success" id="totalClosedRecoveries"><i
+                                            class="fas fa-circle-notch fa-spin"></i></span></h6>
                                 <span class="badge  badge-light" id="totalClosedRecoveriesPerc">
-                                    </span>
+                                </span>
                             </div>
 
                             <div class="col-md-6 col-xs-6">
-                                <h6>Deaths: <span class="text-danger" id="totalClosedDeaths"><i class="fas fa-circle-notch fa-spin"></i></span></h6>
+                                <h6>Deaths: <span class="text-danger" id="totalClosedDeaths"><i
+                                            class="fas fa-circle-notch fa-spin"></i></span></h6>
                                 <span class="badge  badge-light" id="totalClosedDeathsPerc">
-                                    </span>
+                                </span>
                             </div>
 
                         </div>
@@ -127,96 +131,98 @@
                 </div>
             </div>
         </div>
-    <hr>
-    <div class="row text-dark mt-3">
-        <div class="col-md-4 mb-3">
+        <hr>
+        <div class="row text-dark mt-3">
+            <div class="col-md-4 mb-3">
 
-            <h4 class="text-white">Confirmed Cases by Country:</h4>
-            <div class=" card bg-dark mb-3">
-                <div class="card-body">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="flagIconAddon"><i class="fa fa-flag"></i></span>
+                <h4 class="text-white">Confirmed Cases by Country:</h4>
+                <div class=" card bg-dark mb-3">
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="flagIconAddon"><i class="fa fa-flag"></i></span>
+                            </div>
+                            <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
+                                aria-label="Country" aria-describedby="flagIconAddon">
                         </div>
-                        <input type="text" class="form-control" id="countrySearch" placeholder="Country/Province"
-                               aria-label="Country" aria-describedby="flagIconAddon">
-                    </div>
-                    <i class="fas fa-circle-notch fa-spin text-white"></i>
-                    <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
+                        <i class="fas fa-circle-notch fa-spin text-white"></i>
+                        <ul class="list-group overflow-auto" id="countryList" style="height: 50vh;">
 
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8 md-3">
-            <h4 class="text-white">Country Details:</h4>
-            <div class="card bg-dark text-white">
-                <div class="card-header">
-                   <div class="row">
-                       <div class="col-md-2">
-                           <img id="countryFlag" class="img-thumbnail">
-                       </div>
-                       <div class="col-md-10">
-                           <h1 id="countryDetailName" class="rounded float-left"></h1>
-                       </div>
-                   </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card bg-dark text-white">
-                                <div class="card-header text-center">
-                                    <h5>Total Cases</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Cases: <span class="text-warning" id="countryDetailTotalCases"></span></p>
-                                    <p>Recoveries: <span class="text-success" id="countryDetailTotalRecoveries"></span>
-                                    </p>
-                                    <p>Deaths: <span class="text-danger" id="countryDetailTotalDeaths"></span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="display: none" id="activeCasesContainer">
-                            <div class="card bg-dark text-white">
-                                <div class="card-header text-center">
-                                    <h5>Active Cases</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Cases: <span class="text-warning" id="countryActiveTotalCases"></span></p>
-                                    <p>Mild Cases: <span class="text-info" id="countryActiveMild"></span>
-                                    </p>
-                                    <p>Severe Cases: <span class="text-warning" id="countryActiveSevere"></span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="display: none" id="closedCasesContainer">
-                            <div class="card bg-dark text-white">
-                                <div class="card-header text-center">
-                                    <h5>Closed Cases</h5>
-                                </div>
-                                <div class="card-body">
-                                    <p>Cases: <span class="text-warning" id="countryClosedTotalCases"></span></p>
-                                    <p>Recoveries: <span class="text-success" id="countryClosedTotalRecoveries"></span>
-                                    </p>
-                                    <p>Deaths: <span class="text-danger" id="countryClosedTotalDeaths"></span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
+            <div class="col-md-8 md-3">
+                <h4 class="text-white">Country Details:</h4>
+                <div class="card bg-dark text-white">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <img id="countryFlag" class="img-thumbnail">
+                            </div>
+                            <div class="col-md-10">
+                                <h1 id="countryDetailName" class="rounded float-left"></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card bg-dark text-white">
+                                    <div class="card-header text-center">
+                                        <h5>Total Cases</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Cases: <span class="text-warning" id="countryDetailTotalCases"></span></p>
+                                        <p>Recoveries: <span class="text-success"
+                                                id="countryDetailTotalRecoveries"></span>
+                                        </p>
+                                        <p>Deaths: <span class="text-danger" id="countryDetailTotalDeaths"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="display: none" id="activeCasesContainer">
+                                <div class="card bg-dark text-white">
+                                    <div class="card-header text-center">
+                                        <h5>Active Cases</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Cases: <span class="text-warning" id="countryActiveTotalCases"></span></p>
+                                        <p>Mild Cases: <span class="text-info" id="countryActiveMild"></span>
+                                        </p>
+                                        <p>Severe Cases: <span class="text-warning" id="countryActiveSevere"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="display: none" id="closedCasesContainer">
+                                <div class="card bg-dark text-white">
+                                    <div class="card-header text-center">
+                                        <h5>Closed Cases</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Cases: <span class="text-warning" id="countryClosedTotalCases"></span></p>
+                                        <p>Recoveries: <span class="text-success"
+                                                id="countryClosedTotalRecoveries"></span>
+                                        </p>
+                                        <p>Deaths: <span class="text-danger" id="countryClosedTotalDeaths"></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div id='map' class="text-dark" style='width: 100%; height:50vh;'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 
-</main>
+    </main>
 
-<%- include('includes/footer'); %>
-<script type="module" src="js/main.js"></script>
+    <%- include('includes/footer'); %>
+    <script type="module" src="js/main.js"></script>
 
 
 </body>

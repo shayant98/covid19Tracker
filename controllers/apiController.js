@@ -76,7 +76,6 @@ exports.confirmedCasesGeo = async (req, res, next) => {
 
     const confirmedHistory = await csvtojson({
         trim: true,
-
     }).fromStream(request.get(process.env.JHU_CONFIRMED_URL));
 
     const confirmedHistoryJsonArray = [];

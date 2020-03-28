@@ -93,7 +93,6 @@ const getDetailInfo = async (countryName) => {
         if (data.totalCases === "") {
             data = parseUiValues(data);
         }
-        console.log(data);
 
         renderDetails(data);
     }
