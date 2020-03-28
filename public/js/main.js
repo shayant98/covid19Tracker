@@ -214,13 +214,11 @@ function forceRefresh() {
 
 searchInput.addEventListener("keyup", searchList);
 
-console.log(123333)
 refreshBtn.addEventListener("click", forceRefresh);
 
 
 window.onload = () => {
     // statCounter();
-    console.log(123);
     initData();
     const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
     Mapbox.init();

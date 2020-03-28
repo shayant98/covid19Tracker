@@ -6,13 +6,11 @@ export default class map {
             zoom: zoom,
             style: style,
         });
-        console.log(this.mapbox);
 
     }
 
 
     init() {
-        console.log(this.mapbox);
 
         this.mapbox.on('load', function () {
             // Add a new source from our GeoJSON data and
