@@ -1,19 +1,19 @@
 // import DataChart from './Chart.js'
-// import Map from "./Map.js";
+import Map from "./Map.js";
 
-// const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
+const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
 
 
 const collapseBtns = document.querySelectorAll(".collapseBtn");
 const mapContainer = document.getElementById("mapCollapse");
-const graphContainer = document.getElementById("graphCollapse");
+// const graphContainer = document.getElementById("graphCollapse");
 // const ctx = document.getElementById('myChart').getContext('2d');
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 
-// const goToLocationOnMap = (long, lat) => {
-//     Mapbox.showLocation(long, lat)
-// };
+const goToLocationOnMap = (long, lat) => {
+    Mapbox.showLocation(long, lat)
+};
 
 const setListItemActiveState = (currentListItem) => {
     const countryListItems = document.querySelectorAll('.countryListItems');
@@ -28,18 +28,73 @@ const setListItemActiveState = (currentListItem) => {
     });
 };
 
-const renderDetails = (countryName, data) => {
+const renderDetails = (data) => {
     const countryDetailName = document.getElementById('countryDetailName');
+    const countryDetailImage = document.getElementById('countryFlag');
 
-    countryDetailName.innerText = countryName.toUpperCase();
+    const closedCasesContainer = document.getElementById('closedCasesContainer');
+    const activeCasesContainer = document.getElementById('activeCasesContainer');
+
+    const countryDetailTotalCases = document.getElementById('countryDetailTotalCases');
+    const countryDetailTotalRecoveries = document.getElementById('countryDetailTotalRecoveries');
+    const countryDetailTotalDeaths = document.getElementById('countryDetailTotalDeaths');
+
+    const countryClosedTotalCases = document.getElementById('countryClosedTotalCases');
+    const countryClosedTotalRecoveries = document.getElementById('countryClosedTotalRecoveries');
+    const countryClosedTotalDeaths = document.getElementById('countryClosedTotalDeaths');
+
+    const countryActiveTotalCases = document.getElementById('countryActiveTotalCases');
+    const countryActiveMild = document.getElementById('countryActiveMild');
+    const countryActiveSevere = document.getElementById('countryActiveSevere');
+
+    countryDetailName.innerText = data.CountryInfo.name;
+    countryDetailImage.src = data.CountryInfo.flag;
+
+    countryDetailTotalCases.innerText = data.totalCases;
+    countryDetailTotalRecoveries.innerText = data.totalRecoveries;
+    countryDetailTotalDeaths.innerText = data.totalDeaths;
+
+    if (data.hasOwnProperty('closedCases') && data.closedCases.totalClosed !== "") {
+
+        closedCasesContainer.style.display = "block";
+        countryClosedTotalCases.innerText = data.closedCases.totalClosed;
+        countryClosedTotalRecoveries.innerText = data.closedCases.totalClosedRecoveries;
+        countryClosedTotalDeaths.innerText = data.closedCases.totalClosedDeaths;
+    } else {
+        countryClosedTotalCases.innerText = "";
+        countryClosedTotalRecoveries.innerText = "";
+        countryClosedTotalDeaths.innerText = "";
+        closedCasesContainer.style.display = "none"
+    }
+    if (data.hasOwnProperty('activeCases') && data.activeCases.totalActive !== "") {
+        activeCasesContainer.style.display = "block";
+        countryActiveTotalCases.innerText = data.activeCases.totalActive;
+        countryActiveMild.innerText = data.activeCases.totalActiveMild;
+        countryActiveSevere.innerText = data.activeCases.totalActiveSevere;
+    } else {
+        countryActiveTotalCases.innerText = "";
+        countryActiveMild.innerText = "";
+        countryActiveSevere.innerText = "";
+        activeCasesContainer.style.display = "none"
+    }
+
+    goToLocationOnMap(data.CountryInfo.latlng[1], data.CountryInfo.latlng[0]);
 };
+
+const parseUiValues = () => {
+
+}
 
 const getDetailInfo = async (countryName) => {
     const res = await fetch(`${window.location.href}api/cases/${countryName}`);
-
-    const data = await res.json();
-
-    renderDetails(countryName, data);
+    const data = [];
+    if (res.ok) {
+        const data = await res.json();
+        renderDetails(data);
+    } else {
+        parseUiValues()
+        renderDetails(data);
+    }
 }
 
 // const getDates = () => {
@@ -137,13 +192,33 @@ const renderData = (data) => {
     const totalDeaths = document.getElementById('totalDeaths');
     const totalRecoveries = document.getElementById('totalRecoveries');
     const countryList = document.getElementById('countryList');
-
+    const totalClosedCases = document.getElementById('totalClosedCases');
+    const totalClosedRecoveries = document.getElementById('totalClosedRecoveries');
+    const totalClosedDeaths = document.getElementById('totalClosedDeaths');
+    const totalClosedRecoveriesPerc = document.getElementById('totalClosedRecoveriesPerc');
+    const totalClosedDeathsPerc = document.getElementById('totalClosedDeathsPerc');
+    const totalActiveCases = document.getElementById('totalActiveCases');
+    const totalActiveMild = document.getElementById('totalActiveMild');
+    const totalActiveSevere = document.getElementById('totalActiveSevere');
+    const totalActiveMildPerc = document.getElementById('totalActiveMildPerc');
+    const totalActiveSeverePerc = document.getElementById('totalActiveSeverePerc');
 
     countryCount.innerText = data.casesByCountry.length - 1;
     totalCases.innerText = data.totalCases;
     totalDeaths.innerText = data.totalDeaths;
     totalRecoveries.innerText = data.totalRecoveries;
+    totalClosedCases.innerText = data.closedCases.totalClosed;
+    totalClosedRecoveries.innerText = data.closedCases.totalClosedRecoveries;
+    totalClosedDeaths.innerText = data.closedCases.totalClosedDeaths;
+    totalActiveCases.innerText = data.activeCases.totalActive;
+    totalActiveMild.innerText = data.activeCases.totalActiveMild;
+    totalActiveSevere.innerText = data.activeCases.totalActiveSevere;
+    totalActiveMildPerc.innerText = `${data.activeCases.totalActiveMildPerc}%`;
+    totalActiveSeverePerc.innerText = `${data.activeCases.totalActiveSeverePerc}%`;
+    totalClosedRecoveriesPerc.innerText = `${data.activeCases.totalClosedRecoveriesPerc}%`;
+    totalClosedDeathsPerc.innerText = `${data.activeCases.totalClosedDeathsPerc}%`;
 
+    countryList.innerHTML = '';
     for (let i = 0; i < data.casesByCountry.length - 1; i++) {
         const li = document.createElement("li");
         const countryNameSpan = document.createElement('span');
@@ -179,23 +254,23 @@ const renderData = (data) => {
     }
 };
 
-const initData = async () => {
-    const res = await fetch(`${window.location.href}api/currentstatus`)
-    try {
-        const spinners = document.querySelectorAll('.fa-circle-notch');
-        const refreshSpinner = document.getElementById('refreshSpinner');
+const initData = () => {
+    fetch(`${window.location.href}api/currentstatus`)
+        .then(res => {
 
-        const data = await res.json();
-        refreshSpinner.classList.remove('fa-spin');
-        spinners.forEach(el => {
-            el.style.display = 'none';
+            return res.json();
+        }).then(data => {
+            const spinners = document.querySelectorAll('.fa-circle-notch');
+            const refreshSpinner = document.getElementById('refreshSpinner');
+
+            refreshSpinner.classList.remove('fa-spin');
+            spinners.forEach(el => {
+                el.style.display = 'none';
+            });
+            renderData(data);
+        }).catch(e => {
+            console.error(e)
         });
-
-        renderData(data);
-    } catch (e) {
-        console.error(e)
-    }
-
 };
 function forceRefresh() {
     const spinner = document.getElementById('refreshSpinner');
@@ -246,7 +321,7 @@ function forceRefresh() {
 // };
 // const Chart = new DataChart(ctx, options);
 
-// Mapbox.init();
+
 // collapseBtns.forEach(collapseBtn => {
 //     collapseBtn.addEventListener("click", collapseBtn => {
 //         let collapseTarget = collapseBtn.target.dataset.target;
@@ -270,13 +345,15 @@ function forceRefresh() {
 
 searchInput.addEventListener("keyup", searchList);
 
-
+console.log(123333)
 refreshBtn.addEventListener("click", forceRefresh);
 
 
 window.onload = () => {
     // statCounter();
+    console.log(123);
     initData();
+    Mapbox.init();
 };
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
