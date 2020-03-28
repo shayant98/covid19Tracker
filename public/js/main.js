@@ -2,11 +2,8 @@
 import Map from "./Map.js";
 
 
+const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
 
-const collapseBtns = document.querySelectorAll(".collapseBtn");
-const mapContainer = document.getElementById("mapCollapse");
-// const graphContainer = document.getElementById("graphCollapse");
-// const ctx = document.getElementById('myChart').getContext('2d');
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 
@@ -80,18 +77,24 @@ const renderDetails = (data) => {
     goToLocationOnMap(data.CountryInfo.latlng[1], data.CountryInfo.latlng[0]);
 };
 
-const parseUiValues = () => {
-
+const parseUiValues = (data) => {
+    const currentActiveLi = document.querySelector(".countryListItems.active")
+    data.totalCases = currentActiveLi.lastChild.childNodes[0].textContent || 0
+    data.totalDeaths = currentActiveLi.lastChild.childNodes[1].textContent || 0
+    data.totalRecoveries = currentActiveLi.lastChild.childNodes[2].textContent || 0
+    return data
 }
 
 const getDetailInfo = async (countryName) => {
     const res = await fetch(`${window.location.href}api/cases/${countryName}`);
-    const data = [];
+    let data
     if (res.ok) {
-        const data = await res.json();
-        renderDetails(data);
-    } else {
-        parseUiValues()
+        data = await res.json();
+        if (data.totalCases === "") {
+            data = parseUiValues(data);
+        }
+        console.log(data);
+
         renderDetails(data);
     }
 }
@@ -220,7 +223,6 @@ refreshBtn.addEventListener("click", forceRefresh);
 window.onload = () => {
     // statCounter();
     initData();
-    const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
     Mapbox.init();
 };
 if ('serviceWorker' in navigator) {

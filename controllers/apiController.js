@@ -1,20 +1,14 @@
 const csvtojson = require("csvtojson");
 const request = require("request");
 const geojson = require("geojson");
-const cheerio  =require("cheerio");
-const cloudscraper  =require("cloudscraper");
+const cheerio = require("cheerio");
+const cloudscraper = require("cloudscraper");
 const tabletojson = require('tabletojson').Tabletojson;
 const dotenv = require('dotenv').config();
 const fs = require("fs");
 const axios = require('axios');
 
-const confirmedFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
-const deathsFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv";
-const recoveriesFile = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv";
-
-
-
-exports.getCurrentStatus = async (req,res,next) => {
+exports.getCurrentStatus = async (req, res, next) => {
     const url = await cloudscraper(`${process.env.WORLDOMETER_URL}`);
     const $ = cheerio.load(url);
     const html = $.html();
@@ -37,11 +31,11 @@ exports.getCurrentStatus = async (req,res,next) => {
     const totalClosedDeathsPerc = $(".panel_front div:nth-child(3) div:nth-child(2) strong").eq(1).text().trim();
 
     const casesByCountry = tabletojson.convert(html, {
-        stripHtmlFromHeadings:false,
-        headings: ['name', 'totalCases','newCases', 'totalDeaths','newDeaths','totalRecoveries','activeCases','seriousCases','totCasesPer1Mil','totDeathsPer1Mil',]
+        stripHtmlFromHeadings: false,
+        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil',]
     })[0];
 
-    res.json( {
+    res.json({
         totalCases,
         totalDeaths,
         totalRecoveries,
@@ -64,39 +58,44 @@ exports.getCurrentStatus = async (req,res,next) => {
 
 };
 
-exports.caseByCountry = async (req,res,next) => {
-   try {
-       const rawData = await fs.readFileSync("data/detail.json");
-       const countryData = JSON.parse(rawData);
+exports.caseByCountry = async (req, res, next) => {
+    try {
+        const rawData = await fs.readFileSync("data/detail.json");
+        const countryData = JSON.parse(rawData);
 
 
-       const countryFound = countryData.filter(country => {
-           return country.name === req.params.country
-       })[0];
-       let data = [];
-       const country = [];
-       if (countryFound){
-           switch (countryFound.name) {
-               case "suriname":
-                  data = await getSurinameInfo(countryFound);
-                   break;
-               default:
-                   data = await caseByCountryWorldMeter(countryFound);
-           }
-       }else{
+        const countryFound = countryData.filter(country => {
+            return country.name === req.params.country
+        })[0];
+        let data = [];
+        const country = [];
+        if (countryFound) {
+            switch (countryFound.name) {
+                case "suriname":
 
-           country['name'] = req.params.country;
-           country['url'] = `${process.env.WORLDOMETER_URL}/country/${ req.params.country}`;
-           data = await caseByCountryWorldMeter(country);
-       }
+                    try {
+                        data = await caseByCountryWorldMeter(countryFound);
+                    } catch (error) {
+                        throw error
+                    }
+                    break;
+                default:
+                    data = await caseByCountryWorldMeter(countryFound);
+            }
+        } else {
+
+            country['name'] = req.params.country;
+            country['url'] = `${process.env.WORLDOMETER_URL}/country/${req.params.country}`;
+            data = await caseByCountryWorldMeter(country);
+        }
         const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${(countryFound === undefined) ? country.name : countryFound.name}`);
-       // const countryJson = JSON.parse(countryInfo);
-       data["CountryInfo"] = countryInfo.data[0]
-       res.json(data);
+        // const countryJson = JSON.parse(countryInfo);
+        data["CountryInfo"] = countryInfo.data[0]
+        res.json(data);
 
-   }catch (e) {
-       res.status(404).json({"message": e.message})
-   }
+    } catch (e) {
+        res.status(404).json({ "message": e.message })
+    }
 }
 
 
@@ -121,16 +120,16 @@ const caseByCountryWorldMeter = async (country) => {
 
 
 
-    return  {
+    return {
         totalCases,
         totalDeaths,
         totalRecoveries,
-       "activeCases":{
-           totalActive,
-           totalActiveMild,
-           totalActiveSevere
-       },
-        "closedCases":{
+        "activeCases": {
+            totalActive,
+            totalActiveMild,
+            totalActiveSevere
+        },
+        "closedCases": {
             totalClosed,
             totalClosedRecoveries,
             totalClosedDeaths
@@ -185,11 +184,12 @@ const getSurinameInfo = async country => {
     const url = await cloudscraper(`${country.url}`);
     const $ = cheerio.load(url);
 
-    const quarentineLocationOverheid =  $("#counter_33802536285e7d75eb060ea").attr("data-counter-value");
-    const quarentineLocationThuis =  $("#counter_23695291915e7d75eb063c1").attr("data-counter-value");
-    const totalRecoveries =  $("#counter_2986213115e7d75eb06662").attr("data-counter-value");
-    const totalDeaths =  $("#counter_37752750265e7d75eb0690d").attr("data-counter-value");
-    const totalCases =  $("#counter_5075940075e7d75eb05b0f").attr("data-counter-value");
+    const quarentineLocationOverheid = $("#counter_33802536285e7d75eb060ea").attr("data-counter-value");
+    const quarentineLocationThuis = $("#counter_23695291915e7d75eb063c1").attr("data-counter-value");
+    const totalRecoveries = $("#counter_2986213115e7d75eb06662").attr("data-counter-value");
+    const totalDeaths = $("#counter_37752750265e7d75eb0690d").attr("data-counter-value");
+    const totalCases = $("#counter_5075940075e7d75eb05b0f").attr("data-counter-value");
+
 
 
     return {
@@ -201,7 +201,3 @@ const getSurinameInfo = async country => {
         totalCases
     }
 }
-
-
-
-
