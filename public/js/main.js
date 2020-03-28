@@ -35,11 +35,11 @@ const renderDetails = (countryName, data) => {
 };
 
 const getDetailInfo = async (countryName) => {
-    const res = await  fetch(`${window.location.href}api/cases/${countryName}`);
+    const res = await fetch(`${window.location.href}api/cases/${countryName}`);
 
     const data = await res.json();
 
-    renderDetails(countryName,data);
+    renderDetails(countryName, data);
 }
 
 // const getDates = () => {
@@ -109,23 +109,22 @@ const getDetailInfo = async (countryName) => {
 
 
 const searchList = () => {
-
+    const countryNames = document.querySelectorAll(".countryName");
     const search = searchInput.value;
 
 
-
-
-    const countryNames = document.querySelectorAll(".countryName");
     countryNames.forEach((name) => {
-        const countryName = name.textContent.toLowerCase();
+        const countryName = name.textContent;
+        console.log();
+
         const parent = name.parentElement;
-        if (search.length > 0){
-            if (countryName.toLowerCase().search(search) > 0){
+        if (search.length > 0) {
+            if (countryName.toString().toLowerCase().includes(search.toLowerCase())) {
                 parent.style.display = "block"
-            }else{
+            } else {
                 parent.style.display = "none"
             }
-        }else{
+        } else {
             parent.style.display = "block"
         }
     })
@@ -140,12 +139,12 @@ const renderData = (data) => {
     const countryList = document.getElementById('countryList');
 
 
-    countryCount.innerText = data.casesByCountry.length -1;
+    countryCount.innerText = data.casesByCountry.length - 1;
     totalCases.innerText = data.totalCases;
-    totalDeaths.innerText = data.totalDeaths ;
-    totalRecoveries.innerText = data.totalRecoveries ;
+    totalDeaths.innerText = data.totalDeaths;
+    totalRecoveries.innerText = data.totalRecoveries;
 
-    for (let i = 0; i < data.casesByCountry.length -1; i++){
+    for (let i = 0; i < data.casesByCountry.length - 1; i++) {
         const li = document.createElement("li");
         const countryNameSpan = document.createElement('span');
         const badgeContainer = document.createElement('div');
@@ -153,7 +152,7 @@ const renderData = (data) => {
         const totalDeathsBadge = document.createElement('span');
         const totalRecoveriesBadge = document.createElement('span');
         li.classList.add('list-group-item', 'countryListItems');
-        countryNameSpan.classList.add("font-weight-bold","countryName");
+        countryNameSpan.classList.add("font-weight-bold", "countryName");
         countryNameSpan.innerText = data.casesByCountry[i].name;
 
         totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1");
@@ -193,7 +192,7 @@ const initData = async () => {
         });
 
         renderData(data);
-    }catch (e) {
+    } catch (e) {
         console.error(e)
     }
 
