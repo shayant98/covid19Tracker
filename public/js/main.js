@@ -295,7 +295,7 @@ const renderData = (data) => {
         countryList.appendChild(li);
     }
     showStarredCountries()
-    initTogglerBtn()
+
 
 };
 
@@ -362,6 +362,7 @@ const toggleLightMode = () => {
         element.classList.remove('btn-outline-light')
         element.classList.add('btn-outline-dark')
     });
+    saveModeToLS('light')
 
 }
 
@@ -382,8 +383,22 @@ const toggleDarkMode = () => {
         element.classList.remove('btn-outline-dark')
         element.classList.add('btn-outline-light')
     });
+    saveModeToLS('dark')
+}
 
+const saveModeToLS = (mode) => {
+    localStorage.removeItem('modeSwitch');
+    localStorage.setItem('modeSwitch', mode);
+}
 
+const getModeFromLS = () => {
+    const mode = localStorage.getItem('modeSwitch')
+
+    if (mode === 'light') {
+        toggleLightMode();
+    } else {
+        toggleDarkMode();
+    }
 }
 function forceRefresh() {
     const spinner = document.getElementById('refreshSpinner');
@@ -396,7 +411,8 @@ searchInput.addEventListener("keyup", searchList);
 refreshBtn.addEventListener("click", forceRefresh);
 toggleModeBtn.addEventListener("click", toggleLightDarkMode)
 window.onload = () => {
-    // statCounter();
+    getModeFromLS()
+    initTogglerBtn()
     initData();
     Mapbox.init();
 
