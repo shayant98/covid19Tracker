@@ -322,23 +322,21 @@ const initData = () => {
 };
 
 const initTogglerBtn = () => {
-    const body = document.getElementsByTagName("body")[0]
-
-    if (body.classList.contains('bg-dark')) {
-        toggleModeBtn.classList.add('btn-outline-light')
-        toggleModeBtn.classList.remove('btn-outline-dark')
-        toggleModeBtn.innerHTML = '<i class="fas fa-sun"></i>'
-    } else {
+    if (localStorage.getItem('modeSwitch') === 'light') {
         toggleModeBtn.classList.add('btn-outline-dark')
         toggleModeBtn.classList.remove('btn-outline-light')
         toggleModeBtn.innerHTML = '<i class="fas fa-moon"></i>'
+
+    } else {
+        toggleModeBtn.classList.add('btn-outline-light')
+        toggleModeBtn.classList.remove('btn-outline-dark')
+        toggleModeBtn.innerHTML = '<i class="fas fa-sun"></i>'
     }
 
 }
 
 const toggleLightDarkMode = () => {
-    const body = document.getElementsByTagName("body")[0]
-    if (body.classList.contains('bg-dark')) {
+    if (localStorage.getItem('modeSwitch') === 'dark') {
         toggleLightMode()
     } else {
         toggleDarkMode()
