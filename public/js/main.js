@@ -203,9 +203,9 @@ const showStarredCountries = () => {
     countryArray.forEach(country => {
         const button = document.createElement("button")
         if (localStorage.getItem('modeSwitch') === 'light') {
-            button.classList.add('btn', 'btn-sm', 'btn-outline-dark', 'ml-2', 'mt-1')
+            button.classList.add('btn', 'rounded-pill', 'btn-sm', 'btn-outline-dark', 'ml-2', 'mt-1')
         } else {
-            button.classList.add('btn', 'btn-sm', 'btn-outline-light', 'ml-2', 'mt-1')
+            button.classList.add('btn', 'rounded-pill', 'btn-sm', 'btn-outline-light', 'ml-2', 'mt-1')
         }
         button.innerText = country
         button.addEventListener("click", (e) => {
