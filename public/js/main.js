@@ -31,6 +31,10 @@ const renderDetails = (data) => {
 
     const closedCasesContainer = document.getElementById('closedCasesContainer');
     const activeCasesContainer = document.getElementById('activeCasesContainer');
+    const stateContainer = document.getElementById('stateContainer');
+
+    const stateList1 = document.getElementById('stateList1')
+    const stateList2 = document.getElementById('stateList2')
 
     const countryDetailTotalCases = document.getElementById('countryDetailTotalCases');
     const countryDetailTotalRecoveries = document.getElementById('countryDetailTotalRecoveries');
@@ -74,9 +78,61 @@ const renderDetails = (data) => {
         countryActiveSevere.innerText = "";
         activeCasesContainer.style.display = "none"
     }
+    if (data.hasOwnProperty('caseByState')) {
+        stateContainer.style.display = 'block'
+
+
+        const stateCount = data.caseByState.length
+        const divider = Math.floor(stateCount / 2)
+
+        stateList1.innerHTML = ''
+        stateList2.innerHTML = ''
+        for (let index = 0; index < data.caseByState.length - divider; index++) {
+            initStateItems(stateList1, data.caseByState[index])
+        }
+
+        for (let index = divider; index < data.caseByState.length - 3; index++) {
+            initStateItems(stateList2, data.caseByState[index])
+        }
+
+
+    } else {
+        stateList1.innerHTML = ''
+        stateList2.innerHTML = ''
+        stateContainer.style.display = 'none'
+    }
 
     goToLocationOnMap(data.CountryInfo.latlng[1], data.CountryInfo.latlng[0]);
 };
+const initStateItems = (list, data) => {
+
+    const li = document.createElement('li')
+    const totalCasesBadge = document.createElement('span');
+    const totalDeathsBadge = document.createElement('span');
+    const activeCases = document.createElement('span');
+
+    let liBgColor = 'bg-dark'
+    let liTxtColor = 'text-white'
+    if (localStorage.getItem('modeSwitch') === 'light') {
+        liBgColor = 'bg-light'
+        liTxtColor = 'text-dark'
+
+    }
+    li.classList.add('list-group-item', 'stateListItem', liBgColor, liTxtColor)
+    totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1", 'float-right');
+    totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1", 'float-right');
+    activeCases.classList.add("text-info");
+
+    li.innerText = data.state
+    totalCasesBadge.innerText = data.totalCases
+    totalDeathsBadge.innerText = data.totalDeaths
+    activeCases.innerText = ` Active Cases: ${data.activeCases}`
+
+    li.appendChild(totalDeathsBadge)
+    li.appendChild(totalCasesBadge)
+    li.appendChild(activeCases)
+    list.appendChild(li)
+}
 
 const parseUiValues = (data) => {
     const currentActiveLi = document.querySelector(".countryListItems.active")
