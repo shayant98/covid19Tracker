@@ -159,11 +159,9 @@ const saveCountriesToLocalStorage = () => {
 const setStarSolid = icon => {
     icon.classList.remove('far')
     icon.classList.add('fas')
-    icon.classList.add('text-danger')
 }
 const setStarEmpty = icon => {
     icon.classList.remove('fas')
-    icon.classList.remove('text-danger')
     icon.classList.add('far')
 }
 
