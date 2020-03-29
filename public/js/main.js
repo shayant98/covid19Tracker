@@ -6,6 +6,7 @@ const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
 
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
+const toggleModeBtn = document.getElementById('toggleModeBtn');
 
 const goToLocationOnMap = (long, lat) => {
     Mapbox.showLocation(long, lat)
@@ -255,8 +256,8 @@ const renderData = (data) => {
         const starIcon = document.createElement('i')
         const starButton = document.createElement("button")
 
-        starButton.classList.add('btn', 'btn-light', 'float-right')
-        starIcon.classList.add('far', 'fa-star')
+        starButton.classList.add('btn', 'btn-outline-light', 'float-right')
+        starIcon.classList.add('far', 'fa-star', 'text-danger')
 
         starButton.appendChild(starIcon);
 
@@ -294,6 +295,8 @@ const renderData = (data) => {
         countryList.appendChild(li);
     }
     showStarredCountries()
+    initTogglerBtn()
+
 };
 
 const initData = () => {
@@ -315,6 +318,73 @@ const initData = () => {
             console.error(e)
         });
 };
+
+const initTogglerBtn = () => {
+    const body = document.getElementsByTagName("body")[0]
+
+    if (body.classList.contains('bg-dark')) {
+        toggleModeBtn.classList.add('btn-outline-light')
+        toggleModeBtn.classList.remove('btn-outline-dark')
+        toggleModeBtn.innerHTML = '<i class="fas fa-sun"></i>'
+    } else {
+        toggleModeBtn.classList.add('btn-outline-dark')
+        toggleModeBtn.classList.remove('btn-outline-light')
+        toggleModeBtn.innerHTML = '<i class="fas fa-moon"></i>'
+    }
+
+}
+
+const toggleLightDarkMode = () => {
+    const body = document.getElementsByTagName("body")[0]
+    if (body.classList.contains('bg-dark')) {
+        toggleLightMode()
+    } else {
+        toggleDarkMode()
+    }
+    initTogglerBtn()
+}
+
+
+const toggleLightMode = () => {
+    document.querySelectorAll('.bg-dark').forEach(element => {
+        element.classList.remove('bg-dark')
+        element.classList.add('bg-light')
+    });
+    document.querySelectorAll('.text-white').forEach(element => {
+        element.classList.remove('text-white')
+        element.classList.add('text-dark')
+    });
+    document.querySelectorAll('.btn-dark').forEach(element => {
+        element.classList.remove('btn-dark')
+        element.classList.add('btn-light')
+    });
+    document.querySelectorAll('.btn-outline-light').forEach(element => {
+        element.classList.remove('btn-outline-light')
+        element.classList.add('btn-outline-dark')
+    });
+
+}
+
+const toggleDarkMode = () => {
+    document.querySelectorAll('.bg-light').forEach(element => {
+        element.classList.remove('bg-light')
+        element.classList.add('bg-dark')
+    });
+    document.querySelectorAll('.text-dark').forEach(element => {
+        element.classList.remove('text-dark')
+        element.classList.add('text-white')
+    });
+    document.querySelectorAll('.btn-light').forEach(element => {
+        element.classList.remove('btn-light')
+        element.classList.add('btn-dark')
+    });
+    document.querySelectorAll('.btn-outline-dark').forEach(element => {
+        element.classList.remove('btn-outline-dark')
+        element.classList.add('btn-outline-light')
+    });
+
+
+}
 function forceRefresh() {
     const spinner = document.getElementById('refreshSpinner');
     spinner.classList.add('fa-spin');
@@ -324,8 +394,7 @@ function forceRefresh() {
 searchInput.addEventListener("keyup", searchList);
 
 refreshBtn.addEventListener("click", forceRefresh);
-
-
+toggleModeBtn.addEventListener("click", toggleLightDarkMode)
 window.onload = () => {
     // statCounter();
     initData();
