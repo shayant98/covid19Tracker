@@ -18,11 +18,10 @@ export default class map {
             // add the point_count property to your source data.
             this.addSource('cases', {
                 type: 'geojson',
-                // Point to GeoJSON data. This example visualizes all M1.0+ cases
-                // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
+
                 data: `${window.location.href}api/geo/cases`,
                 cluster: true,
-                clusterMaxZoom: 10, // Max zoom to cluster points on
+                clusterMaxZoom: 10,
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
             });
 

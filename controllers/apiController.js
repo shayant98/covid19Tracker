@@ -42,7 +42,15 @@ exports.caseByCountry = async (req, res, next) => {
 
 
         if (countryFound) {
-            data = await caseByCountryWorldMeter(countryFound);
+            switch (countryFound.name) {
+                case 'usa':
+                    data = await caseByCountryWorldMeterUS(countryFound)
+                    break;
+
+                default:
+                    data = await caseByCountryWorldMeter(countryFound);
+                    break;
+            }
         } else {
 
             country['name'] = req.params.country;
@@ -68,7 +76,26 @@ const caseByCountryWorldMeter = async (country) => {
     return worldMeterParser.parseWorldMeterData($);
 
 };
+const caseByCountryWorldMeterUS = async (country) => {
 
+    const url = await cloudscraper(`${country.url}`);
+    const $ = cheerio.load(url);
+
+    const html = $.html();
+    const data = worldMeterParser.parseWorldMeterData($);
+
+    const casesByState = tabletojson.convert(html, {
+        stripHtmlFromHeadings: false,
+        ignoreColumns: [6],
+        headings: ['state', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'activeCases']
+    })[0];
+
+    data['caseByState'] = casesByState
+
+
+    return data;
+
+};
 
 exports.confirmedCasesGeo = async (req, res, next) => {
 
