@@ -204,7 +204,11 @@ const showStarredCountries = () => {
     starredContainer.innerHTML = ''
     countryArray.forEach(country => {
         const button = document.createElement("button")
-        button.classList.add('btn', 'btn-sm', 'btn-outline-light', 'ml-2', 'mt-1')
+        if (localStorage.getItem('modeSwitch') === 'light') {
+            button.classList.add('btn', 'btn-sm', 'btn-outline-dark', 'ml-2', 'mt-1')
+        } else {
+            button.classList.add('btn', 'btn-sm', 'btn-outline-light', 'ml-2', 'mt-1')
+        }
         button.innerText = country
         button.addEventListener("click", (e) => {
             scrollToCountry(e.target);
@@ -263,7 +267,7 @@ const renderData = (data) => {
 
         li.classList.add('list-group-item', 'countryListItems');
         li.setAttribute("data-id", `${data.casesByCountry[i].name}`);
-        countryNameSpan.classList.add("font-weight-bold", "countryName");
+        countryNameSpan.classList.add("font-weight-bold", "countryName", "no-change", "text-dark");
         countryNameSpan.innerText = data.casesByCountry[i].name;
 
         totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1");
@@ -351,8 +355,11 @@ const toggleLightMode = () => {
         element.classList.add('bg-light')
     });
     document.querySelectorAll('.text-white').forEach(element => {
-        element.classList.remove('text-white')
-        element.classList.add('text-dark')
+        if (!element.classList.contains('no-change')) {
+            element.classList.remove('text-white')
+            element.classList.add('text-dark')
+        }
+
     });
     document.querySelectorAll('.btn-dark').forEach(element => {
         element.classList.remove('btn-dark')
@@ -372,8 +379,10 @@ const toggleDarkMode = () => {
         element.classList.add('bg-dark')
     });
     document.querySelectorAll('.text-dark').forEach(element => {
-        element.classList.remove('text-dark')
-        element.classList.add('text-white')
+        if (!element.classList.contains('no-change')) {
+            element.classList.remove('text-dark')
+            element.classList.add('text-white')
+        }
     });
     document.querySelectorAll('.btn-light').forEach(element => {
         element.classList.remove('btn-light')
