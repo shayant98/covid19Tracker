@@ -1,9 +1,7 @@
-// // import DataChart from './Chart.js'
 import Map from "./Map.js";
 
 
 const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10');
-
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 const toggleModeBtn = document.getElementById('toggleModeBtn');
@@ -464,8 +462,12 @@ const getModeFromLS = () => {
 }
 function forceRefresh() {
     const spinner = document.getElementById('refreshSpinner');
+    const currentActiveLi = document.querySelector(".countryListItems.active")
     spinner.classList.add('fa-spin');
     initData();
+    if (currentActiveLi.length > 0) {
+        getDetailInfo(currentActiveLi.firstChild.textContent)
+    }
 }
 
 searchInput.addEventListener("keyup", searchList);
@@ -478,6 +480,7 @@ window.onload = () => {
     initTogglerBtn()
     initData();
     Mapbox.init();
+
 
 };
 if ('serviceWorker' in navigator) {
