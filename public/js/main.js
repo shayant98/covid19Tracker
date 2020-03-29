@@ -122,6 +122,96 @@ const searchList = () => {
 
 };
 
+const saveCountry = (button) => {
+    let icon;
+    if (button.nodeName === "I") {
+        icon = button
+    } else {
+        icon = button.firstChild
+    }
+
+    if (icon.classList.contains('far')) {
+        setStarSolid(icon)
+    } else {
+        setStarEmpty(icon)
+    }
+    saveCountriesToLocalStorage()
+    showStarredCountries()
+
+
+}
+
+const saveCountriesToLocalStorage = () => {
+    const countryArray = []
+    const solidStars = document.querySelectorAll('.fas.fa-star');
+    localStorage.removeItem('countries')
+    solidStars.forEach(starIcon => {
+        const parentLi = starIcon.parentElement.parentElement;
+        const countryName = parentLi.firstChild.textContent
+        countryArray.push(countryName)
+    });
+
+    localStorage.setItem('countries', countryArray.toString())
+
+}
+
+const setStarSolid = icon => {
+    icon.classList.remove('far')
+    icon.classList.add('fas')
+    icon.classList.add('text-danger')
+}
+const setStarEmpty = icon => {
+    icon.classList.remove('fas')
+    icon.classList.remove('text-danger')
+    icon.classList.add('far')
+}
+
+const initStarredCountries = () => {
+
+    const countryArray = getCountriesFromLS()
+
+    const countryListItems = document.querySelectorAll(".list-group-item.countryListItems")
+
+    countryArray.forEach(country => {
+        for (const countryListItem of countryListItems) {
+            if (countryListItem.firstChild.textContent === country) {
+                const icon = countryListItem.childNodes[1].childNodes[0];
+                setStarSolid(icon)
+
+            }
+        }
+    });
+}
+
+const getCountriesFromLS = () => {
+
+    const countries = localStorage.getItem('countries')
+    return countries.split(",");
+}
+
+const scrollToCountry = (target) => {
+    const li = document.querySelector(`[data-id="${target.textContent}"]`)
+    li.scrollIntoView({
+        behavior: 'smooth'
+    });
+    li.click()
+
+}
+const showStarredCountries = () => {
+    const countryArray = getCountriesFromLS()
+    const starredContainer = document.getElementById('starredContainer')
+    starredContainer.innerHTML = ''
+    countryArray.forEach(country => {
+        const button = document.createElement("button")
+        button.classList.add('btn', 'btn-sm', 'btn-outline-light', 'ml-2', 'mt-1')
+        button.innerText = country
+        button.addEventListener("click", (e) => {
+            scrollToCountry(e.target);
+        })
+        starredContainer.appendChild(button)
+    });
+}
+
 const renderData = (data) => {
     const countryCount = document.getElementById('countryCount');
     const totalCases = document.getElementById('totalCases');
@@ -162,7 +252,16 @@ const renderData = (data) => {
         const totalCasesBadge = document.createElement('span');
         const totalDeathsBadge = document.createElement('span');
         const totalRecoveriesBadge = document.createElement('span');
+        const starIcon = document.createElement('i')
+        const starButton = document.createElement("button")
+
+        starButton.classList.add('btn', 'btn-light', 'float-right')
+        starIcon.classList.add('far', 'fa-star')
+
+        starButton.appendChild(starIcon);
+
         li.classList.add('list-group-item', 'countryListItems');
+        li.setAttribute("data-id", `${data.casesByCountry[i].name}`);
         countryNameSpan.classList.add("font-weight-bold", "countryName");
         countryNameSpan.innerText = data.casesByCountry[i].name;
 
@@ -179,6 +278,7 @@ const renderData = (data) => {
         badgeContainer.appendChild(totalRecoveriesBadge);
 
         li.appendChild(countryNameSpan);
+        li.appendChild(starButton)
         li.appendChild(badgeContainer);
 
         li.style.pointer = 'cursor';
@@ -186,8 +286,14 @@ const renderData = (data) => {
         li.addEventListener("click", (countryListItem) => {
             setListItemActiveState(countryListItem);
         });
+
+        starButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            saveCountry(e.target)
+        })
         countryList.appendChild(li);
     }
+    showStarredCountries()
 };
 
 const initData = () => {
@@ -204,6 +310,7 @@ const initData = () => {
                 el.style.display = 'none';
             });
             renderData(data);
+            initStarredCountries()
         }).catch(e => {
             console.error(e)
         });
@@ -223,6 +330,7 @@ window.onload = () => {
     // statCounter();
     initData();
     Mapbox.init();
+
 };
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
