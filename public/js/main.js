@@ -346,6 +346,7 @@ const toggleLightDarkMode = () => {
 
 
 const toggleLightMode = () => {
+
     document.querySelectorAll('.bg-dark').forEach(element => {
         element.classList.remove('bg-dark')
         element.classList.add('bg-light')
@@ -415,8 +416,9 @@ searchInput.addEventListener("keyup", searchList);
 
 refreshBtn.addEventListener("click", forceRefresh);
 toggleModeBtn.addEventListener("click", toggleLightDarkMode)
+getModeFromLS()
 window.onload = () => {
-    getModeFromLS()
+
     initTogglerBtn()
     initData();
     Mapbox.init();
