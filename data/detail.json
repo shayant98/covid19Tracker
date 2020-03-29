@@ -1,10 +1,37 @@
 [
   {
     "name": "suriname",
+    "alt_name": "suriname",
     "url": "https://covid-19.sr/"
   },
   {
     "name": "usa",
+    "alt_name": "usa",
     "url": "https://www.worldometers.info/coronavirus/country/us"
+  },
+  {
+    "name": "s. korea",
+    "alt_name": "Korea (Republic of)",
+    "url": "https://www.worldometers.info/coronavirus/country/south-korea"
+  },
+  {
+    "name": "czechia",
+    "alt_name": "Czech Republic",
+    "url": "https://www.worldometers.info/coronavirus/country/czechia"
+  },
+  {
+    "name": "st. vincent grenadines",
+    "alt_name": "Saint Vincent and the Grenadines",
+    "url": "https://www.worldometers.info/coronavirus/country/vincent-grenadines"
+  },
+  {
+    "name": "british virgin islands",
+    "alt_name": "Virgin Islands (British)",
+    "url": "https://www.worldometers.info/coronavirus/country/british-virgin-islands"
+  },
+  {
+    "name": "réunion",
+    "alt_name": "Reunion",
+    "url": "https://www.worldometers.info/coronavirus/country/Réunion"
   }
 ]

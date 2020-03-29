@@ -32,7 +32,6 @@ exports.caseByCountry = async (req, res, next) => {
         const rawData = await fs.readFileSync("data/detail.json");
         const countryData = JSON.parse(rawData);
 
-
         const countryFound = countryData.filter(country => {
             return country.name === req.params.country
         })[0];
@@ -50,7 +49,7 @@ exports.caseByCountry = async (req, res, next) => {
             country['url'] = `${process.env.WORLDOMETER_URL}/country/${req.params.country}`;
             data = await caseByCountryWorldMeter(country);
         }
-        const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${(countryFound === undefined) ? country.name : countryFound.name}`);
+        const countryInfo = await axios.get(`${process.env.COUNTRIES_API}/${(countryFound === undefined) ? country.name : countryFound.alt_name}`);
         data["CountryInfo"] = countryInfo.data[0]
         res.json(data);
 
