@@ -271,6 +271,7 @@ const showStarredCountries = () => {
 
 const renderData = (data) => {
     const countryCount = document.getElementById('countryCount');
+    const updateTime = document.getElementById('updateTime');
     const totalCases = document.getElementById('totalCases');
     const totalDeaths = document.getElementById('totalDeaths');
     const totalRecoveries = document.getElementById('totalRecoveries');
@@ -300,7 +301,8 @@ const renderData = (data) => {
     totalActiveSeverePerc.innerText = `${data.activeCases.totalActiveSeverePerc}%`;
     totalClosedRecoveriesPerc.innerText = `${data.activeCases.totalClosedRecoveriesPerc}%`;
     totalClosedDeathsPerc.innerText = `${data.activeCases.totalClosedDeathsPerc}%`;
-
+    var currentDate = new Date();
+    updateTime.innerText = currentDate
     countryList.innerHTML = '';
     for (let i = 0; i < data.casesByCountry.length - 1; i++) {
         const li = document.createElement("li");
@@ -465,7 +467,7 @@ function forceRefresh() {
     const currentActiveLi = document.querySelector(".countryListItems.active")
     spinner.classList.add('fa-spin');
     initData();
-    if (currentActiveLi.length > 0) {
+    if (currentActiveLi !== null) {
         getDetailInfo(currentActiveLi.firstChild.textContent)
     }
 }
