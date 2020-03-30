@@ -3,7 +3,7 @@ const request = require("request");
 const moment = require("moment");
 const fs = require("fs");
 const path = require("path")
-const apiController  = require("./apiController");
+const apiController = require("./apiController");
 
 
 
@@ -29,5 +29,10 @@ exports.faqScreen = async (req, res, next) => {
             faqData
         }
     )
+
+}
+
+exports.sourcesScreen = async (req, res, next) => {
+    res.render('sources');
 
 }
