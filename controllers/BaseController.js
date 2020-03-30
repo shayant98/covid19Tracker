@@ -13,8 +13,6 @@ exports.homeScreen = async (req, res, next) => {
 
 
 exports.faqScreen = async (req, res, next) => {
-    console.log(__dirname);
-
     try {
         let rawData = await fs.readFileSync("data/faq.json")
         faqData = JSON.parse(rawData);
