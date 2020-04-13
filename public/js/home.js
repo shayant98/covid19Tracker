@@ -79,7 +79,7 @@ const renderDetails = (data) => {
     countryDetailTotalRecoveries.innerText = data.totalRecoveries;
     countryDetailTotalDeaths.innerText = data.totalDeaths;
 
-    if (data.hasOwnProperty('closedCases') && data.closedCases.totalClosed !== "") {
+    if (data.hasOwnProperty('closedCases') && data.closedCases.totalClosed !== null) {
 
         closedCasesContainer.style.display = "block";
         countryClosedTotalCases.innerText = data.closedCases.totalClosed;
@@ -91,7 +91,7 @@ const renderDetails = (data) => {
         countryClosedTotalDeaths.innerText = "";
         closedCasesContainer.style.display = "none"
     }
-    if (data.hasOwnProperty('activeCases') && data.activeCases.totalActive !== "") {
+    if (data.hasOwnProperty('activeCases') && data.activeCases.totalActive !== null) {
         activeCasesContainer.style.display = "block";
         countryActiveTotalCases.innerText = data.activeCases.totalActive;
         countryActiveMild.innerText = data.activeCases.totalActiveMild;
