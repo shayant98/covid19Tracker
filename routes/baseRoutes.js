@@ -5,7 +5,7 @@ const BaseController = require("../controllers/BaseController")
 
 
 
-Router.get("/", cache(100), BaseController.homeScreen)
+Router.get("/", cache(10), BaseController.homeScreen)
 Router.get("/faq", BaseController.faqScreen)
 Router.get("/sources", BaseController.sourcesScreen)
 

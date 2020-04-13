@@ -138,7 +138,20 @@
         <div class="row text-dark mt-3">
             <div class="col-md-4 mb-3">
 
-                <h4 class="text-white">Confirmed Cases by Country:</h4>
+                <h4 class="text-white">Confirmed Cases by Country/Region:</h4>
+                <div class="row">
+                    <button
+                        class="regionSwitchers btn rounded-pill btn-sm btn-outline-info active ml-2 mt-1">All</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">South
+                        America</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">North
+                        America</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">Europe</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">Asia</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">Africa</button>
+                    <button class="regionSwitchers btn rounded-pill btn-sm btn-outline-info ml-2 mt-1">Oceania</button>
+                </div>
+                <hr>
                 <div class="row">
                     <div class="col-md-3">
                         <p class="text-white">Starred Countries:</p>
@@ -220,12 +233,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4" style="display: none" id="testContainer">
+                                <div class="shadow card bg-dark text-white">
+                                    <div class="card-header text-center">
+                                        <h5>Testing</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Total People Tested: <span id="countryTotalTested"></span></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row my-5" id="stateContainer" style="display: none;">
                             <div class="col">
                                 <div class="shadow card bg-dark text-white">
                                     <div class="card-header text-center">
                                         <h5>States</h5>
+                                        <span class="badge badge-info badge-pill ml-1">Info</span>
+                                        <span class="badge badge-warning badge-pill ml-1">Confirmed</span>
+                                        <span class="badge badge-danger badge-pill ml-1">Deaths</span>
+                                        <span class="badge badge-primary badge-pill ml-1">Tests</span>
                                     </div>
                                     <div class="card-body">
                                         <div class="stateContainer row">

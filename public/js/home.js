@@ -4,10 +4,37 @@ const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10')
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 const toggleModeBtn = document.getElementById('toggleModeBtn');
+const RegionSwitchers = document.querySelectorAll('.regionSwitchers');
 
 const goToLocationOnMap = (long, lat) => {
     Mapbox.showLocation(long, lat)
 };
+
+
+const switchRegion = (newRegion) => {
+    const currentRegion = document.querySelector('.regionSwitchers.active')
+
+    currentRegion.classList.remove('active')
+    newRegion.classList.add('active')
+
+    const allCountries = document.querySelectorAll('.countryListItems')
+
+    if (newRegion.innerText !== "All") {
+        allCountries.forEach(fullListCountry => {
+            if (!fullListCountry.getAttribute('data-region').includes(newRegion.innerText)) {
+                fullListCountry.style.display = 'none'
+            } else {
+
+                fullListCountry.style.display = 'block'
+            }
+        });
+    } else {
+        allCountries.forEach(fullListCountry => {
+            fullListCountry.style.display = 'block'
+        });
+    }
+
+}
 
 const setListItemActiveState = (currentListItem) => {
     const countryListItems = document.querySelectorAll('.countryListItems');
@@ -106,7 +133,8 @@ const initStateItems = (list, data) => {
     const li = document.createElement('li')
     const totalCasesBadge = document.createElement('span');
     const totalDeathsBadge = document.createElement('span');
-    const activeCases = document.createElement('span');
+    const totalActiveBadge = document.createElement('span');
+    const totalTestsBadge = document.createElement('span');
 
     let liBgColor = 'bg-dark'
     let liTxtColor = 'text-white'
@@ -115,19 +143,29 @@ const initStateItems = (list, data) => {
         liTxtColor = 'text-dark'
 
     }
+
+    initBadgeTooltip(totalCasesBadge, 'Confirmed');
+    initBadgeTooltip(totalDeathsBadge, 'Deaths');
+    initBadgeTooltip(totalActiveBadge, 'Active');
+    initBadgeTooltip(totalTestsBadge, 'Tests');
+
+
     li.classList.add('list-group-item', 'stateListItem', liBgColor, liTxtColor)
     totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1", 'float-right');
     totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1", 'float-right');
-    activeCases.classList.add("text-info");
+    totalActiveBadge.classList.add("badge", "badge-info", "badge-pill", "ml-1", 'float-right');
+    totalTestsBadge.classList.add("badge", "badge-primary", "badge-pill", "ml-1", 'float-right');
 
     li.innerText = data.state
     totalCasesBadge.innerText = data.totalCases
     totalDeathsBadge.innerText = data.totalDeaths
-    activeCases.innerText = ` Active Cases: ${data.activeCases}`
+    totalActiveBadge.innerText = data.activeCases
+    totalTestsBadge.innerText = data.totalTest
 
+    li.appendChild(totalTestsBadge)
     li.appendChild(totalDeathsBadge)
     li.appendChild(totalCasesBadge)
-    li.appendChild(activeCases)
+    li.appendChild(totalActiveBadge)
     list.appendChild(li)
 }
 
@@ -150,6 +188,8 @@ const getDetailInfo = async (countryName) => {
 
         renderDetails(data);
     }
+    $('[data-toggle="tooltip"]').tooltip();
+
 }
 
 
@@ -286,7 +326,7 @@ const renderData = (data) => {
     const totalActiveMildPerc = document.getElementById('totalActiveMildPerc');
     const totalActiveSeverePerc = document.getElementById('totalActiveSeverePerc');
 
-    countryCount.innerText = data.casesByCountry.length - 1;
+    countryCount.innerText = data.casesByCountry.length - 3 //total, mszaandam, princes cruise removed from total;
     totalCases.innerText = data.totalCases;
     totalDeaths.innerText = data.totalDeaths;
     totalRecoveries.innerText = data.totalRecoveries;
@@ -298,10 +338,10 @@ const renderData = (data) => {
     totalActiveSevere.innerText = data.activeCases.totalActiveSevere;
     totalActiveMildPerc.innerText = `${data.activeCases.totalActiveMildPerc}%`;
     totalActiveSeverePerc.innerText = `${data.activeCases.totalActiveSeverePerc}%`;
-    totalClosedRecoveriesPerc.innerText = `${data.activeCases.totalClosedRecoveriesPerc}%`;
-    totalClosedDeathsPerc.innerText = `${data.activeCases.totalClosedDeathsPerc}%`;
+    totalClosedRecoveriesPerc.innerText = `${data.closedCases.totalClosedRecoveriesPerc}%`;
+    totalClosedDeathsPerc.innerText = `${data.closedCases.totalClosedDeathsPerc}%`;
     var currentDate = new Date();
-    updateTime.innerText = currentDate
+    updateTime.innerText = currentDate.toLocaleString()
     countryList.innerHTML = '';
     for (let i = 0; i < data.casesByCountry.length - 1; i++) {
         const li = document.createElement("li");
@@ -320,6 +360,7 @@ const renderData = (data) => {
 
         li.classList.add('list-group-item', 'countryListItems');
         li.setAttribute("data-id", `${data.casesByCountry[i].name}`);
+        li.setAttribute("data-region", `${data.casesByCountry[i].region}`);
         countryNameSpan.classList.add("font-weight-bold", "countryName", "no-change", "text-dark");
         countryNameSpan.innerText = data.casesByCountry[i].name;
 
@@ -395,7 +436,13 @@ const initTogglerBtn = () => {
 
 
 
-function forceRefresh() {
+const initBadgeTooltip = (badge, title) => {
+    badge.setAttribute('data-toggle', 'tooltip');
+    badge.setAttribute('data-placement', 'top');
+    badge.setAttribute('data-title', title);
+}
+
+const forceRefresh = () => {
     const spinner = document.getElementById('refreshSpinner');
     const currentActiveLi = document.querySelector(".countryListItems.active")
     spinner.classList.add('fa-spin');
@@ -416,6 +463,12 @@ window.onload = () => {
 
 
 };
+
+RegionSwitchers.forEach(RegionSwitcher => {
+    RegionSwitcher.addEventListener('click', () => {
+        switchRegion(RegionSwitcher)
+    })
+})
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
     window.addEventListener('load', () => {

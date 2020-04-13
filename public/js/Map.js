@@ -45,17 +45,6 @@ export default class map {
                 }
             });
 
-            this.addLayer({
-                id: 'cluster-count',
-                type: 'symbol',
-                source: 'cases',
-                filter: ['has', 'point_count'],
-                layout: {
-                    'text-field': '{point_count_abbreviated}',
-                    'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
-                    'text-size': 12
-                }
-            });
 
             this.addLayer({
                 id: 'unclustered-point',
@@ -96,10 +85,24 @@ export default class map {
             this.on('click', 'unclustered-point', (e) => {
 
                 const object = e.features[0].properties
-
+                let confirmed
                 const coordinates = e.features[0].geometry.coordinates.slice();
                 const place = object.name;
-                const cases = object.confirmed;
+
+
+                const listItem = document.querySelector(`[data-id*='${place}']`)
+                if (listItem !== null) {
+                    const badgeContainer = listItem.childNodes[2].childNodes
+                    for (let index = 0; index < badgeContainer.length; index++) {
+                        const element = badgeContainer[index];
+                        if (element.classList.contains('badge-warning')) {
+                            confirmed = element.innerText
+                        }
+                    }
+                } else {
+                    confirmed = object.confirmed;
+                }
+
 
 
                 // Ensure that if the map is zoomed out such that
@@ -111,7 +114,7 @@ export default class map {
 
                 new mapboxgl.Popup()
                     .setLngLat(coordinates)
-                    .setHTML(`${place} has <strong>${cases}</strong> confirmed case(s)`)
+                    .setHTML(`<span style='color:#000'>${place} has <strong>${confirmed}</strong> confirmed case(s)</span>`)
                     .addTo(this);
             });
 

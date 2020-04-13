@@ -18,9 +18,10 @@ exports.getCurrentStatus = async (req, res, next) => {
     const data = worldMeterParser.parseWorldMeterData($);
     const casesByCountry = tabletojson.convert(html, {
         stripHtmlFromHeadings: false,
-        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil',]
+        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil', 'totalTests', 'totalTestsPer1Mil', 'region']
     })[0];
 
+    casesByCountry.shift()
 
     data['casesByCountry'] = casesByCountry
     res.json(data);
@@ -86,10 +87,10 @@ const caseByCountryWorldMeterUS = async (country) => {
 
     const casesByState = tabletojson.convert(html, {
         stripHtmlFromHeadings: false,
-        ignoreColumns: [6],
-        headings: ['state', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'activeCases']
+        ignoreColumns: [6, 7, 9, 10],
+        headings: ['state', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'activeCases', 'totalTest']
     })[0];
-
+    casesByState.shift()
     data['caseByState'] = casesByState
 
 
