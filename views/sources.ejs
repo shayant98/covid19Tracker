@@ -1,31 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Corona Tracker</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <script src="https://kit.fontawesome.com/44901ff75a.js" crossorigin="anonymous" defer></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.8.0/mapbox-gl.css' rel='stylesheet' />
-    <link rel='icon' href='https://icons8.com/icon/31670/coronavirus' type='image/x-icon' />
-    <link rel="manifest" href="./manifest.json">
-</head>
+<%- include('includes/head'); %>
 
-<body class="bg-dark text-white" style="height: 100vh;">
+
+<body class="bg-dark text-white h-100">
     <%- include('includes/header'); %>
 
-    <main class="container-fluid px-5 h-100">
+    <main class="container-fluid px-5 h-75">
         <div class="row justify-content-center">
             <div class="col-md-4 col-offset-4 tex-center">
-                <h1>Welcome to the nCovid19 Tracker</h1>
+                <h1>Welcome to the Covid19 Tracker</h1>
                 <p> The sources used to provide you with the most up to date information are listed below
             </div>
             </p>
         </div>
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-md-4 ">
+        <div class="row justify-content-center ">
+            <div class="col-md-6 ">
                 <div class="card bg-dark">
                     <div class="card-header">
                         Sources

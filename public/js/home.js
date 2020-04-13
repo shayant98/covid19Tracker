@@ -326,7 +326,7 @@ const renderData = (data) => {
     const totalActiveMildPerc = document.getElementById('totalActiveMildPerc');
     const totalActiveSeverePerc = document.getElementById('totalActiveSeverePerc');
 
-    countryCount.innerText = data.casesByCountry.length - 3 //total, mszaandam, princes cruise removed from total;
+    countryCount.innerHTML = `<sup>${data.casesByCountry.length - 3}</sup>&frasl;<sub>215</sub>` //total, mszaandam, princes cruise removed from total;
     totalCases.innerText = data.totalCases;
     totalDeaths.innerText = data.totalDeaths;
     totalRecoveries.innerText = data.totalRecoveries;
