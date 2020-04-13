@@ -145,5 +145,14 @@
         "description": [
             "Testing for coronavirus will only be done as recommended by the doctors only if someone falls under the definition of 'suspected case'."
         ]
+    },
+    {
+        "id": 18,
+        "question": "How do I know if I am infected?",
+        "answer": "",
+        "description": [
+            "Common signs of infection include respiratory symptoms, fever, cough, shortness of breath and breathing difficulties. In more severe cases, infection can cause pneumonia, severe acute respiratory syndrome, kidney failure and even death.",
+            "<table class='table table-striped' ><tbody><tr><th>Symptom</th><th>%</th></tr><tr><td>Fever</td><td>87.9%</td></tr><tr><td>Drycough</td><td>67.7%</td></tr><tr><td>Fatigue</td><td>38.1%</td></tr><tr><td>Sputumproduction</td><td>33.4%</td></tr><tr><td>Shortnessofbreath</td><td>18.6%</td></tr><tr><td>Musclepainorjointpain</td><td>14.8%</td></tr><tr><td>Sorethroat</td><td>13.9%</td></tr><tr><td>Headache</td><td>13.6%</td></tr><tr><td>Chills</td><td>11.4%</td></tr><tr><td>Nauseaorvomiting</td><td>5.0%</td></tr><tr><td>Nasalcongestion</td><td>4.8%</td></tr><tr><td>Diarrhea</td><td>3.7%</td></tr><tr><td>Haemoptysis</td><td>0.9%</td></tr><tr><td>Conjunctivalcongestion</td><td>0.8%</td></tr></tbody></table>"
+        ]
     }
 ]

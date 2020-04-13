@@ -2,7 +2,6 @@ const faqListItems = document.querySelectorAll(".faq");
 const faqSearchInput = document.getElementById('faqSearch');
 
 const searchFaqs = () => {
-    console.log(1);
 
     const search = faqSearchInput.value.toLowerCase();
     faqListItems.forEach(question => {
