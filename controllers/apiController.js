@@ -21,7 +21,6 @@ exports.getCurrentStatus = async (req, res, next) => {
         headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil', 'totalTests', 'totalTestsPer1Mil', 'region']
     })[0];
 
-    casesByCountry.shift()
 
     data['casesByCountry'] = casesByCountry
     res.json(data);

@@ -312,7 +312,9 @@ const renderData = (data) => {
     const countryCount = document.getElementById('countryCount');
     const updateTime = document.getElementById('updateTime');
     const totalCases = document.getElementById('totalCases');
+    const totalCasesToday = document.getElementById('totalCasesToday');
     const totalDeaths = document.getElementById('totalDeaths');
+    const totalDeathsToday = document.getElementById('totalDeathsToday');
     const totalRecoveries = document.getElementById('totalRecoveries');
     const countryList = document.getElementById('countryList');
     const totalClosedCases = document.getElementById('totalClosedCases');
@@ -330,6 +332,8 @@ const renderData = (data) => {
     totalCases.innerText = data.totalCases;
     totalDeaths.innerText = data.totalDeaths;
     totalRecoveries.innerText = data.totalRecoveries;
+    totalCasesToday.innerText = data.casesByCountry[0].newCases;
+    totalDeathsToday.innerText = data.casesByCountry[0].newDeaths;
     totalClosedCases.innerText = data.closedCases.totalClosed;
     totalClosedRecoveries.innerText = data.closedCases.totalClosedRecoveries;
     totalClosedDeaths.innerText = data.closedCases.totalClosedDeaths;
@@ -343,6 +347,7 @@ const renderData = (data) => {
     var currentDate = new Date();
     updateTime.innerText = currentDate.toLocaleString()
     countryList.innerHTML = '';
+    data.casesByCountry.shift()
     for (let i = 0; i < data.casesByCountry.length - 1; i++) {
         const li = document.createElement("li");
         const countryNameSpan = document.createElement('span');
@@ -350,11 +355,17 @@ const renderData = (data) => {
         const totalCasesBadge = document.createElement('span');
         const totalDeathsBadge = document.createElement('span');
         const totalRecoveriesBadge = document.createElement('span');
+        const newCasesTodayBadge = document.createElement('span');
+        const newDeathsTodayBadge = document.createElement('span');
+
         const starIcon = document.createElement('i')
         const starButton = document.createElement("button")
 
         starButton.classList.add('btn', 'btn-outline-light', 'float-right')
         starIcon.classList.add('far', 'fa-star', 'text-danger')
+
+
+
 
         starButton.appendChild(starIcon);
 
@@ -368,13 +379,24 @@ const renderData = (data) => {
         totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1");
         totalRecoveriesBadge.classList.add("badge", "badge-success", "badge-pill", "ml-1");
 
+        newCasesTodayBadge.classList.add("badge", "badge-light", "badge-pill", "ml-1");
+        newDeathsTodayBadge.classList.add("badge", "badge-light", "badge-pill", "ml-1");
+
+
+
         totalCasesBadge.innerText = data.casesByCountry[i].totalCases;
         totalDeathsBadge.innerText = data.casesByCountry[i].totalDeaths;
         totalRecoveriesBadge.innerText = data.casesByCountry[i].totalRecoveries;
+        newCasesTodayBadge.innerText = data.casesByCountry[i].newCases;
+        newDeathsTodayBadge.innerText = data.casesByCountry[i].newDeaths;
+
+
 
         badgeContainer.appendChild(totalCasesBadge);
         badgeContainer.appendChild(totalDeathsBadge);
         badgeContainer.appendChild(totalRecoveriesBadge);
+        badgeContainer.appendChild(newCasesTodayBadge);
+        badgeContainer.appendChild(newDeathsTodayBadge);
 
         li.appendChild(countryNameSpan);
         li.appendChild(starButton)
