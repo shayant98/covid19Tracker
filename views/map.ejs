@@ -9,11 +9,14 @@
 
     <main class="container-fluid overflow-hidden">
         <div class="row">
-            <div class="col-md-3" style="padding-left: 0; padding-right: 0; ">
+            <div class="col-md-3 overflow-auto" style="padding-left: 0; padding-right: 0; ">
                 <div>
                     <div class="card-body bg-dark shadow-lg" style="height: 90vh;">
                         <h5>Coronavirus (COVID-19) Tracker</h5>
                         <hr>
+                        <div class="alert alert-danger" role="alert">
+                            This page is still in development
+                        </div>
                         <p>
                             Coronavirus (COVID-19) which is an infectious disease caused by respiratory illness and
                             symptoms like flu, cough, fever, difficulty breathing, on December 31, 2019, the first case
@@ -30,17 +33,17 @@
 
                         <div class="row">
                             <div class="col-md-4">
-                                <div class="card bg-warning">
+                                <div class="card bg-warning text-center p-2" id="totalCases">
 
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card bg-danger">
+                                <div class="card bg-danger text-center p-2" id="totalDeaths">
 
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="card bg-success">
+                                <div class="card bg-success text-center p-2" id="totalRecoveries">
 
                                 </div>
                             </div>
@@ -54,15 +57,8 @@
                                 aria-describedby="Search">
                         </div>
                         <br>
-                        <div class="card bg-dark">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-1">
-                                        <img src="images/virus-icon.svg" alt="" width="20" height="20">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <ul class="list-group" id="countriesContainer">
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -16,8 +16,6 @@ const initTogglerBtn = () => {
 }
 
 const toggleLightDarkMode = () => {
-    console.log(123);
-
     if (localStorage.getItem('modeSwitch') === 'dark') {
         toggleLightMode()
     } else {
@@ -28,8 +26,6 @@ const toggleLightDarkMode = () => {
 
 
 const toggleLightMode = () => {
-    console.log(123);
-
     document.querySelectorAll('.bg-dark').forEach(element => {
         element.classList.remove('bg-dark')
         element.classList.add('bg-light')
