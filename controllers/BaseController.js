@@ -34,3 +34,7 @@ exports.sourcesScreen = async (req, res, next) => {
     res.render('sources');
 
 }
+exports.mapScreen = async (req, res, next) => {
+    res.render('map');
+
+}

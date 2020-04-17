@@ -1,4 +1,4 @@
-import Map from "./Map.js";
+import Map from "./MapBox.js";
 
 const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10')
 const searchInput = document.getElementById('countrySearch');
