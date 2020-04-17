@@ -50,7 +50,7 @@ export default class map {
                                 250000,
                                 100
                             ],
-                            'circle-color': '#EA240F'
+                            'circle-color': '#ffc107'
                         }
                     });
                     const popup = new mapboxgl.Popup({

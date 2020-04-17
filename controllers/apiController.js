@@ -49,6 +49,7 @@ exports.caseByCountry = async (req, res, next) => {
 
                 default:
                     data = await caseByCountryWorldMeter(countryFound);
+
                     break;
             }
         } else {
@@ -62,7 +63,8 @@ exports.caseByCountry = async (req, res, next) => {
         res.json(data);
 
     } catch (e) {
-        res.status(404).json({ "message": e.message })
+
+        res.status(404).json({ "message": e })
     }
 }
 
@@ -71,6 +73,7 @@ const caseByCountryWorldMeter = async (country) => {
 
     const url = await cloudscraper(`${country.url}`);
     const $ = cheerio.load(url);
+
 
 
     return worldMeterParser.parseWorldMeterData($);

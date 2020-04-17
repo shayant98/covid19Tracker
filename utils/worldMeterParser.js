@@ -10,8 +10,8 @@ exports.parseWorldMeterData = ($) => {
     const totalActiveSeverePerc = $(" .panel-title:contains('Active Cases')").parent().parent().find(".panel_front div:nth-child(3) div:nth-child(2) strong").html()
 
     const totalClosed = $(".panel-title:contains('Closed Cases')").parent().parent().find('.panel_front div:first-child').html()
-    const totalClosedRecoveries = $(".panel-title:contains('Closed Cases')").parent().parent().find('.panel_front div:nth-child(3) div:nth-child(1) .number-table').html().trim()
-    const totalClosedRecoveriesPerc = $(".panel-title:contains('Closed Cases')").parent().parent().find('.panel_front div:nth-child(3) div:nth-child(1) strong').html().trim()
+    const totalClosedRecoveries = $(".panel-title:contains('Closed Cases')").parent().parent().find('.panel_front div:nth-child(3) div:nth-child(1) .number-table').html()
+    const totalClosedRecoveriesPerc = $(".panel-title:contains('Closed Cases')").parent().parent().find('.panel_front div:nth-child(3) div:nth-child(1) strong').html()
     const totalClosedDeaths = $(".panel-title:contains('Closed Cases')").parent().parent().find(".panel_front div:nth-child(3) div:nth-child(2) .number-table").html()
     const totalClosedDeathsPerc = $(".panel-title:contains('Closed Cases')").parent().parent().find(".panel_front div:nth-child(3) div:nth-child(2) strong").html()
 
