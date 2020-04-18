@@ -7,7 +7,7 @@
 <body class="bg-dark text-white" style="height: 100vh;">
     <%- include('includes/header'); %>
 
-    <main class="container-fluid overflow-hidden">
+    <main class="container-fluid">
         <div class="row">
             <div class="col-md-3 " style="padding-left: 0; padding-right: 0; ">
                 <div>
@@ -57,8 +57,10 @@
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search"
                                     id="countrySearch" aria-describedby="Search">
                             </div>
-                            <ul class="list-group " id="countriesContainer">
-                            </ul>
+                            <div class="">
+                                <ul class="list-group overflow-auto" id="countriesContainer" style="max-height: 60vh;">
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
