@@ -10,3 +10,7 @@ body {
 #sticky-footer {
   flex-shrink: none;
 }
+
+::-webkit-scrollbar {
+  display: none;
+  }

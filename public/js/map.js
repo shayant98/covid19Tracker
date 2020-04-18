@@ -1,11 +1,24 @@
 import Map from "./MapBox.js";
 
+const searchInput = document.getElementById('countrySearch');
 const Mapbox = new Map('map', 2, 'mapbox://styles/mapbox/dark-v10')
 Mapbox.init();
 
 
 const goToLocationOnMap = (long, lat) => {
     Mapbox.showLocation(long, lat)
+};
+
+const setListItemActiveState = (currentListItem) => {
+    const countryListItems = document.querySelectorAll('.countryListItems');
+    countryListItems.forEach(listItem => {
+        if (listItem !== currentListItem.target.closest("li")) {
+
+            listItem.classList.remove("active");
+        } else {
+            listItem.classList.add("active");
+        }
+    });
 };
 
 const initTotalData = (confirmed, deaths, recoveries) => {
@@ -22,22 +35,70 @@ const initCountryList = (countries) => {
     const container = document.getElementById('countriesContainer')
     countries.shift()
     countries.forEach(country => {
+        const li = document.createElement("li");
+        const countryNameSpan = document.createElement('span');
+        const badgeContainer = document.createElement('div');
+        const totalCasesBadge = document.createElement('span');
+        const totalDeathsBadge = document.createElement('span');
+        const totalRecoveriesBadge = document.createElement('span');
 
-        const div = document.createElement('div')
-        const nameSpan = document.createElement('span')
+        li.classList.add('list-group-item', 'countryListItems');
+        li.setAttribute("data-id", `${country.name}`);
+        li.setAttribute("data-region", `${country.region}`);
+        countryNameSpan.classList.add("font-weight-bold", "countryName", "no-change", "text-dark");
+        countryNameSpan.innerText = country.name;
 
-        div.classList.add('list-group-item', 'text-dark')
+        totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1");
+        totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1");
+        totalRecoveriesBadge.classList.add("badge", "badge-success", "badge-pill", "ml-1");
 
-        nameSpan.innerText = country.name
+        totalCasesBadge.innerText = country.totalCases;
+        totalDeathsBadge.innerText = country.totalDeaths;
+        totalRecoveriesBadge.innerText = country.totalRecoveries;
 
 
-        div.appendChild(nameSpan)
-        container.appendChild(div)
+
+        badgeContainer.appendChild(totalCasesBadge);
+        badgeContainer.appendChild(totalDeathsBadge);
+        badgeContainer.appendChild(totalRecoveriesBadge);
+
+        li.appendChild(countryNameSpan);
+        li.appendChild(badgeContainer);
+
+        li.style.pointer = 'cursor';
+
+        li.addEventListener("click", (countryListItem) => {
+            setListItemActiveState(countryListItem);
+        });
 
 
+        container.appendChild(li)
 
     });
 }
+
+const searchList = () => {
+    const countryNames = document.querySelectorAll(".countryName");
+    const search = searchInput.value;
+
+
+    countryNames.forEach((name) => {
+        const countryName = name.textContent;
+        console.log();
+
+        const parent = name.parentElement;
+        if (search.length > 0) {
+            if (countryName.toString().toLowerCase().includes(search.toLowerCase())) {
+                parent.style.display = "block"
+            } else {
+                parent.style.display = "none"
+            }
+        } else {
+            parent.style.display = "block"
+        }
+    })
+
+};
 
 const initData = () => {
     fetch(`${window.location.origin}/api/currentstatus`)
@@ -52,4 +113,6 @@ const initData = () => {
         });
 };
 
+
+searchInput.addEventListener("keyup", searchList);
 initData()

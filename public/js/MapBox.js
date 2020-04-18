@@ -73,7 +73,13 @@ export default class map {
 
                         const listItem = document.querySelector(`[data-id*='${place}']`)
                         if (listItem !== null) {
-                            const badgeContainer = listItem.childNodes[2].childNodes
+                            let badgeContainer
+                            if (listItem.childNodes.length > 2) {
+                                badgeContainer = listItem.childNodes[2].childNodes
+                            } else {
+                                badgeContainer = listItem.childNodes[1].childNodes
+                            }
+
                             for (let index = 0; index < badgeContainer.length; index++) {
                                 const element = badgeContainer[index];
                                 if (element.classList.contains('badge-warning')) {
