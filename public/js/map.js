@@ -11,11 +11,15 @@ const goToLocationOnMap = (long, lat) => {
 
 const setListItemActiveState = (currentListItem) => {
     const countryListItems = document.querySelectorAll('.countryListItems');
+    const mode = localStorage.getItem('modeSwitch')
     countryListItems.forEach(listItem => {
         if (listItem !== currentListItem.target.closest("li")) {
 
+            listItem.classList.add((mode === "dark") ? "bg-dark" : "bg-light")
             listItem.classList.remove("active");
         } else {
+            listItem.classList.remove("bg-dark")
+            listItem.classList.remove("bg-light")
             listItem.classList.add("active");
         }
     });
@@ -33,6 +37,7 @@ const initTotalData = (confirmed, deaths, recoveries) => {
 
 const initCountryList = (countries) => {
     const container = document.getElementById('countriesContainer')
+    const mode = localStorage.getItem('modeSwitch')
     countries.shift()
     countries.forEach(country => {
         const li = document.createElement("li");
@@ -42,15 +47,17 @@ const initCountryList = (countries) => {
         const totalDeathsBadge = document.createElement('span');
         const totalRecoveriesBadge = document.createElement('span');
 
-        li.classList.add('list-group-item', 'countryListItems');
+
+
+        li.classList.add('list-group-item', 'countryListItems', 'mt-3', 'shadow', (mode === "dark") ? 'bg-dark' : 'bg-light');
         li.setAttribute("data-id", `${country.name}`);
         li.setAttribute("data-region", `${country.region}`);
-        countryNameSpan.classList.add("font-weight-bold", "countryName", "no-change", "text-dark");
+        countryNameSpan.classList.add("font-weight-bold", "countryName", (mode === "dark") ? 'text-white' : 'text-dark');
         countryNameSpan.innerText = country.name;
 
-        totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1");
-        totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1");
-        totalRecoveriesBadge.classList.add("badge", "badge-success", "badge-pill", "ml-1");
+        totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1", 'no-change');
+        totalDeathsBadge.classList.add("badge", "badge-danger", "badge-pill", "ml-1", 'no-change');
+        totalRecoveriesBadge.classList.add("badge", "badge-success", "badge-pill", "ml-1", 'no-change');
 
         totalCasesBadge.innerText = country.totalCases;
         totalDeathsBadge.innerText = country.totalDeaths;

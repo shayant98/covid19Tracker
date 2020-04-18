@@ -1,21 +1,20 @@
+// var cacheName = 'tracker-pwa';
+// var filesToCache = [
+//     '/',
+//     '/css/style.css',
+//     '/js/main.js',
+//     '/js/Chart.js',
+//     '/js/Map.js'
+// ];
 
-var cacheName = 'tracker-pwa';
-var filesToCache = [
-    '/',
-    '/css/style.css',
-    '/js/main.js',
-    '/js/Chart.js',
-    '/js/Map.js'
-];
-
-/* Start the service worker and cache all of the app's content */
-self.addEventListener('install', function (e) {
-    e.waitUntil(
-        caches.open(cacheName).then(function (cache) {
-            return cache.addAll(filesToCache);
-        })
-    );
-});
+// /* Start the service worker and cache all of the app's content */
+// self.addEventListener('install', function (e) {
+//     e.waitUntil(
+//         caches.open(cacheName).then(function (cache) {
+//             return cache.addAll(filesToCache);
+//         })
+//     );
+// });
 
 //Caching
 // /* Serve cached content when offline */

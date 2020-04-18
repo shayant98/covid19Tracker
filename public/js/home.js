@@ -38,11 +38,16 @@ const switchRegion = (newRegion) => {
 
 const setListItemActiveState = (currentListItem) => {
     const countryListItems = document.querySelectorAll('.countryListItems');
+    const mode = localStorage.getItem('modeSwitch')
     countryListItems.forEach(listItem => {
         if (listItem !== currentListItem.target.closest("li")) {
+            listItem.classList.add((mode === "dark") ? "bg-dark" : "bg-light")
 
             listItem.classList.remove("active");
         } else {
+            listItem.classList.remove("bg-dark")
+            listItem.classList.remove("bg-light")
+
             listItem.classList.add("active");
             getDetailInfo(listItem.firstChild.textContent.toLowerCase());
         }
@@ -327,6 +332,7 @@ const renderData = (data) => {
     const totalActiveSevere = document.getElementById('totalActiveSevere');
     const totalActiveMildPerc = document.getElementById('totalActiveMildPerc');
     const totalActiveSeverePerc = document.getElementById('totalActiveSeverePerc');
+    const mode = localStorage.getItem('modeSwitch')
 
     countryCount.innerHTML = `<sup>${data.casesByCountry.length - 3}</sup>&frasl;<sub>215</sub>` //total, mszaandam, princes cruise removed from total;
     totalCases.innerText = data.totalCases;
@@ -369,10 +375,10 @@ const renderData = (data) => {
 
         starButton.appendChild(starIcon);
 
-        li.classList.add('list-group-item', 'countryListItems');
+        li.classList.add('list-group-item', 'countryListItems', (mode === "dark") ? "bg-dark" : "bg-light");
         li.setAttribute("data-id", `${data.casesByCountry[i].name}`);
         li.setAttribute("data-region", `${data.casesByCountry[i].region}`);
-        countryNameSpan.classList.add("font-weight-bold", "countryName", "no-change", "text-dark");
+        countryNameSpan.classList.add("font-weight-bold", "countryName", (mode === "dark") ? "text-white" : "text-dark");
         countryNameSpan.innerText = data.casesByCountry[i].name;
 
         totalCasesBadge.classList.add("badge", "badge-warning", "badge-pill", "ml-1");
