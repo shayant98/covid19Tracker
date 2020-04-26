@@ -11,19 +11,17 @@ const axios = require('axios');
 const worldMeterParser = require("../utils/worldMeterParser")
 
 exports.getCurrentStatus = async (req, res, next) => {
-    const url = await cloudscraper(`${process.env.WORLDOMETER_URL}`);
-    const $ = cheerio.load(url);
-    const html = $.html();
 
-    const data = worldMeterParser.parseWorldMeterData($);
-    const casesByCountry = tabletojson.convert(html, {
-        stripHtmlFromHeadings: false,
-        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil', 'totalTests', 'totalTestsPer1Mil', 'region']
-    })[0];
+    fs.readFile('data/countryData.json', (err, data) => {
+        if (err) {
+            console.log(err);
+
+        } else {
+            res.json(JSON.parse(data));
+        }
+    })
 
 
-    data['casesByCountry'] = casesByCountry
-    res.json(data);
 
 };
 
