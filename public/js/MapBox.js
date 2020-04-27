@@ -16,9 +16,16 @@ export default class map {
         this.mapbox.addControl(
             new mapboxgl.GeolocateControl({
                 fitBoundsOptions: { maxZoom: 5 }
-            })
+            }, 'top-left')
         );
         this.mapbox.addControl(nav, 'bottom-right');
+
+        this.mapbox.addControl(
+            new MapboxGeocoder({
+                accessToken: mapboxgl.accessToken,
+                mapboxgl: mapboxgl
+            }, 'top-left')
+        );
 
         fetch(`${window.location.origin}/api/geo/cases`)
             .then(response => response.json())
