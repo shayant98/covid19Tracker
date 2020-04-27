@@ -16,7 +16,6 @@ const saveDataToJson = () => {
 
         const data = await scrapeData()
 
-
         fs.truncateSync('data/countryData.json')
         fs.writeFileSync('data/countryData.json', JSON.stringify(data))
         next()
@@ -40,5 +39,7 @@ const scrapeData = async () => {
     data['casesByCountry'] = casesByCountry
     return data
 }
+
+
 
 module.exports = saveDataToJson
