@@ -1,14 +1,9 @@
-// import Map from "./MapBox.js";
 
-// const Mapbox = new Map('map', 1, 'mapbox://styles/mapbox/dark-v10')
 const searchInput = document.getElementById('countrySearch');
 const refreshBtn = document.getElementById('refreshBtn');
 const toggleModeBtn = document.getElementById('toggleModeBtn');
 const RegionSwitchers = document.querySelectorAll('.regionSwitchers');
 
-// const goToLocationOnMap = (long, lat) => {
-//     Mapbox.showLocation(long, lat)
-// };
 
 
 const switchRegion = (newRegion) => {
@@ -131,7 +126,6 @@ const renderDetails = (data) => {
         stateContainer.style.display = 'none'
     }
 
-    // goToLocationOnMap(data.CountryInfo.latlng[1], data.CountryInfo.latlng[0]);
 };
 const initStateItems = (list, data) => {
 
@@ -487,7 +481,6 @@ window.onload = () => {
 
     initTogglerBtn()
     initData();
-    // Mapbox.init();
 
 
 };
