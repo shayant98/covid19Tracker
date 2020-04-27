@@ -4,27 +4,6 @@ const searchInput = document.getElementById('countrySearch');
 const Mapbox = new Map('map', 2, 'mapbox://styles/mapbox/dark-v10')
 Mapbox.init();
 
-
-const goToLocationOnMap = (long, lat) => {
-    Mapbox.showLocation(long, lat)
-};
-
-const setListItemActiveState = (currentListItem) => {
-    const countryListItems = document.querySelectorAll('.countryListItems');
-    const mode = localStorage.getItem('modeSwitch')
-    countryListItems.forEach(listItem => {
-        if (listItem !== currentListItem.target.closest("li")) {
-
-            listItem.classList.add((mode === "dark") ? "bg-dark" : "bg-light")
-            listItem.classList.remove("active");
-        } else {
-            listItem.classList.remove("bg-dark")
-            listItem.classList.remove("bg-light")
-            listItem.classList.add("active");
-        }
-    });
-};
-
 const initTotalData = (confirmed, deaths, recoveries) => {
     const casesContainer = document.getElementById('totalCases')
     const deathsContainer = document.getElementById('totalDeaths')
@@ -74,10 +53,6 @@ const initCountryList = (countries) => {
 
         li.style.pointer = 'cursor';
 
-        li.addEventListener("click", (countryListItem) => {
-            setListItemActiveState(countryListItem);
-        });
-
 
         container.appendChild(li)
 
@@ -91,7 +66,6 @@ const searchList = () => {
 
     countryNames.forEach((name) => {
         const countryName = name.textContent;
-        console.log();
 
         const parent = name.parentElement;
         if (search.length > 0) {
