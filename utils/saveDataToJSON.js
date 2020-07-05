@@ -31,8 +31,9 @@ const scrapeData = async () => {
 
     const data = worldMeterParser.parseWorldMeterData($);
     const casesByCountry = tabletojson.convert(html, {
-        stripHtmlFromHeadings: false,
-        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil', 'totalTests', 'totalTestsPer1Mil', 'region']
+        stripHtmlFromHeadings: true,
+        ignoreColumns: [0, 16, 17, 18],
+        headings: ['name', 'totalCases', 'newCases', 'totalDeaths', 'newDeaths', 'totalRecoveries', 'newRecoveries', 'activeCases', 'seriousCases', 'totCasesPer1Mil', 'totDeathsPer1Mil', 'totalTests', 'totalTestsPer1Mil', 'population', 'region']
     })[0];
 
 
