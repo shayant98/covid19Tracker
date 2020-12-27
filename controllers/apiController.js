@@ -77,7 +77,8 @@ const caseByCountryWorldMeterUS = async (country) => {
 
   const casesByState = tabletojson.convert(html, {
     stripHtmlFromHeadings: false,
-    ignoreColumns: [6, 7, 9, 10],
+    ignoreHiddenRows: true,
+    ignoreColumns: [0, 6, 7, 9, 10, 12, 13, 14],
     headings: [
       "state",
       "totalCases",
