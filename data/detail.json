@@ -28,5 +28,20 @@
     "name": "réunion",
     "alt_name": "Reunion",
     "url": "https://www.worldometers.info/coronavirus/country/Réunion"
+  },
+  {
+    "name": "uk",
+    "alt_name": "United Kingdom of Great Britain and Northern Ireland",
+    "url": "https://www.worldometers.info/coronavirus/country/uk"
+  },
+  {
+    "name": "india",
+    "alt_name": "India",
+    "url": "https://www.worldometers.info/coronavirus/country/india"
+  },
+  {
+    "name": "russia",
+    "alt_name": "Russian Federation",
+    "url": "https://www.worldometers.info/coronavirus/country/india"
   }
 ]
