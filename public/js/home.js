@@ -43,6 +43,7 @@ const setListItemActiveState = (currentListItem) => {
       listItem.classList.remove("bg-light");
 
       listItem.classList.add("active");
+      toggleDetaiSpinner("loading");
       getDetailInfo(listItem.firstChild.textContent.toLowerCase());
     }
   });
@@ -213,7 +214,24 @@ const parseUiValues = (data) => {
   return data;
 };
 
+const toggleDetaiSpinner = (type) => {
+  const spinner = document.getElementById("detailSpinner");
+  const detailContainer = document.getElementById("detailContainer");
+  if (type === "success") {
+    spinner.classList.remove("d-flex");
+    detailContainer.classList.remove("d-none");
+  } else if (type === "loading") {
+    spinner.classList.add("d-flex");
+    detailContainer.classList.add("d-none");
+  } else {
+    spinner.classList.add("d-flex");
+    detailContainer.classList.add("d-none");
+    alert("STH WENT WRONG");
+  }
+};
+
 const getDetailInfo = async (countryName) => {
+  toggleDetaiSpinner("loading");
   const res = await fetch(`${window.location.href}api/cases/${countryName}`);
   let data;
   if (res.ok) {
@@ -223,6 +241,7 @@ const getDetailInfo = async (countryName) => {
     }
 
     renderDetails(data);
+    toggleDetaiSpinner("success");
   }
   $('[data-toggle="tooltip"]').tooltip();
 };
@@ -288,7 +307,7 @@ const setStarEmpty = (icon) => {
 };
 
 const initStarredCountries = () => {
-  const countryArray = getCountriesFromLS();
+  const countryArray = getStarredCountriesFromLS();
 
   const countryListItems = document.querySelectorAll(
     ".list-group-item.countryListItems"
@@ -304,9 +323,13 @@ const initStarredCountries = () => {
   });
 };
 
-const getCountriesFromLS = () => {
+const getStarredCountriesFromLS = () => {
   const countries = localStorage.getItem("countries");
-  return countries.split(",");
+  if (countries !== null) {
+    return countries.split(",");
+  } else {
+    return [];
+  }
 };
 
 const scrollToCountry = (target) => {
@@ -317,7 +340,7 @@ const scrollToCountry = (target) => {
   li.click();
 };
 const showStarredCountries = () => {
-  const countryArray = getCountriesFromLS();
+  const countryArray = getStarredCountriesFromLS();
   const starredContainer = document.getElementById("starredContainer");
   starredContainer.innerHTML = "";
   countryArray.forEach((country) => {
@@ -423,6 +446,7 @@ const renderData = (data) => {
     );
     li.setAttribute("data-id", `${data.casesByCountry[i].name}`);
     li.setAttribute("data-region", `${data.casesByCountry[i].region}`);
+
     countryNameSpan.classList.add(
       "font-weight-bold",
       "countryName",
@@ -453,7 +477,7 @@ const renderData = (data) => {
       "badge",
       "badge-light",
       "badge-pill",
-      "ml-1"
+      "ml-2"
     );
     newDeathsTodayBadge.classList.add(
       "badge",
@@ -465,8 +489,8 @@ const renderData = (data) => {
     totalCasesBadge.innerText = data.casesByCountry[i].totalCases;
     totalDeathsBadge.innerText = data.casesByCountry[i].totalDeaths;
     totalRecoveriesBadge.innerText = data.casesByCountry[i].totalRecoveries;
-    newCasesTodayBadge.innerText = data.casesByCountry[i].newCases;
-    newDeathsTodayBadge.innerText = data.casesByCountry[i].newDeaths;
+    newCasesTodayBadge.innerText = `Cases Today: ${data.casesByCountry[i].newCases}`;
+    newDeathsTodayBadge.innerText = `Deaths Today: ${data.casesByCountry[i].newDeaths}`;
 
     badgeContainer.appendChild(totalCasesBadge);
     badgeContainer.appendChild(totalDeathsBadge);
