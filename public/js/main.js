@@ -26,6 +26,10 @@ const toggleLightMode = () => {
     element.classList.remove("bg-dark");
     element.classList.add("bg-light");
   });
+  document.querySelectorAll(".table-dark").forEach((element) => {
+    element.classList.remove("table-dark");
+    element.classList.add("table-light");
+  });
   document.querySelectorAll(".text-white").forEach((element) => {
     if (!element.classList.contains("no-change")) {
       element.classList.remove("text-white");
@@ -36,6 +40,7 @@ const toggleLightMode = () => {
     element.classList.remove("btn-dark");
     element.classList.add("btn-light");
   });
+
   document.querySelectorAll(".btn-outline-light").forEach((element) => {
     element.classList.remove("btn-outline-light");
     element.classList.add("btn-outline-dark");
@@ -47,6 +52,10 @@ const toggleDarkMode = () => {
   document.querySelectorAll(".bg-light").forEach((element) => {
     element.classList.remove("bg-light");
     element.classList.add("bg-dark");
+  });
+  document.querySelectorAll(".table-light").forEach((element) => {
+    element.classList.remove("table-light");
+    element.classList.add("table-dark");
   });
   document.querySelectorAll(".text-dark").forEach((element) => {
     if (!element.classList.contains("no-change")) {
