@@ -4,7 +4,7 @@ const geojson = require("geojson");
 const cheerio = require("cheerio");
 const cloudscraper = require("cloudscraper");
 const tabletojson = require("tabletojson").Tabletojson;
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const fs = require("fs");
 const axios = require("axios");
 
@@ -143,4 +143,8 @@ exports.vaccineByCountry = async (req, res, next) => {
   );
 
   res.json(vaccineData.reverse());
+};
+
+exports.sendMapBoxKey = (req, res, next) => {
+  res.json(process.env.MAPBOX_KEY);
 };

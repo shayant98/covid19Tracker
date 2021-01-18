@@ -1,8 +1,21 @@
 import Map from "./MapBox.js";
 
 const searchInput = document.getElementById("countrySearch");
-const Mapbox = new Map("map", 2, "mapbox://styles/mapbox/dark-v10");
-Mapbox.init();
+let key = "";
+fetch(`${window.location.origin}/api/mapbox`)
+  .then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+  })
+  .then((data) => {
+    key = data;
+    const Mapbox = new Map("map", 2, "mapbox://styles/mapbox/dark-v10", key);
+    Mapbox.init();
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const renderTotalData = (confirmed, deaths, recoveries) => {
   const casesContainer = document.getElementById("totalCases");

@@ -14,5 +14,6 @@ Router.get(
 Router.get("/cases/:country", cache(100), ApiController.caseByCountry);
 Router.get("/vaccines", ApiController.vaccines);
 Router.get("/vaccines/:country", ApiController.vaccineByCountry);
+Router.get("/mapbox", ApiController.sendMapBoxKey);
 
 module.exports = Router;
