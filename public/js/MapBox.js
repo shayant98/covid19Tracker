@@ -113,8 +113,6 @@ export default class map {
         this.getCanvas().style.cursor = "";
         popup.remove();
       });
-    } else {
-      this.drawData(data);
     }
   }
 }
