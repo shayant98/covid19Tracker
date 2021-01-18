@@ -29,6 +29,7 @@ const fetchMapData = () => {
       Mapbox.drawData(data);
     })
     .catch((err) => {
+      console.error(err);
       alert(
         "The connection to the API Failed, please refresh the page to retry"
       );
