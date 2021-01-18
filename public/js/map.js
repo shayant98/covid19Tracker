@@ -2,6 +2,7 @@ import Map from "./MapBox.js";
 
 const searchInput = document.getElementById("countrySearch");
 let key = "";
+let Mapbox;
 fetch(`${window.location.origin}/api/mapbox`)
   .then((res) => {
     if (res.ok) {
@@ -10,12 +11,30 @@ fetch(`${window.location.origin}/api/mapbox`)
   })
   .then((data) => {
     key = data;
-    const Mapbox = new Map("map", 2, "mapbox://styles/mapbox/dark-v10", key);
+    Mapbox = new Map("map", 3, "mapbox://styles/mapbox/dark-v10", key);
     Mapbox.init();
   })
   .catch((err) => {
     console.log(err);
   });
+
+const fetchMapData = () => {
+  fetch(`${window.location.origin}/api/geo/cases`)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    })
+    .then((data) => {
+      Mapbox.drawData(data);
+    })
+    .catch((err) => {
+      alert(
+        "The connection to the API Failed, please refresh the page to retry"
+      );
+    });
+};
+fetchMapData();
 
 const renderTotalData = (confirmed, deaths, recoveries) => {
   const casesContainer = document.getElementById("totalCases");
