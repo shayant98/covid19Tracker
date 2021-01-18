@@ -43,5 +43,10 @@
     "name": "russia",
     "alt_name": "Russian Federation",
     "url": "https://www.worldometers.info/coronavirus/country/india"
+  },
+  {
+    "name": "north macedonia",
+    "alt_name": "Macedonia (the former Yugoslav Republic of)",
+    "url": "https://www.worldometers.info/coronavirus/country/macedonia"
   }
 ]

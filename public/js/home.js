@@ -214,22 +214,6 @@ const parseUiValues = (data) => {
   return data;
 };
 
-const toggleDetaiSpinner = (type) => {
-  const spinner = document.getElementById("detailSpinner");
-  const detailContainer = document.getElementById("detailContainer");
-  if (type === "success") {
-    spinner.classList.remove("d-flex");
-    detailContainer.classList.remove("d-none");
-  } else if (type === "loading") {
-    spinner.classList.add("d-flex");
-    detailContainer.classList.add("d-none");
-  } else {
-    spinner.classList.add("d-flex");
-    detailContainer.classList.add("d-none");
-    alert("STH WENT WRONG");
-  }
-};
-
 const getDetailInfo = async (countryName) => {
   toggleDetaiSpinner("loading");
   const res = await fetch(`${window.location.href}api/cases/${countryName}`);
@@ -244,27 +228,6 @@ const getDetailInfo = async (countryName) => {
     toggleDetaiSpinner("success");
   }
   $('[data-toggle="tooltip"]').tooltip();
-};
-
-const searchList = () => {
-  const countryNames = document.querySelectorAll(".countryName");
-  const search = searchInput.value;
-
-  countryNames.forEach((name) => {
-    const countryName = name.textContent;
-    console.log();
-
-    const parent = name.parentElement;
-    if (search.length > 0) {
-      if (countryName.toString().toLowerCase().includes(search.toLowerCase())) {
-        parent.style.display = "block";
-      } else {
-        parent.style.display = "none";
-      }
-    } else {
-      parent.style.display = "block";
-    }
-  });
 };
 
 const saveCountry = (button) => {

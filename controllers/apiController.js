@@ -26,12 +26,10 @@ exports.caseByCountry = async (req, res, next) => {
     const countryData = JSON.parse(rawData);
 
     const countryFound = countryData.filter((country) => {
-      return country.name === req.params.country;
+      return country.name.trim() === req.params.country.trim();
     })[0];
-
     let data = [];
     const country = [];
-
     if (countryFound) {
       switch (countryFound.name) {
         case "usa":
@@ -123,4 +121,26 @@ exports.confirmedCasesGeo = async (req, res, next) => {
     Point: ["lat", "long"],
   });
   res.status(200).json(geoJsonArray);
+};
+
+exports.vaccines = async (req, res, next) => {
+  const vaccineData = await csvtojson({
+    trim: true,
+  }).fromStream(request.get(process.env.VACCINE_COUNTRY_URL));
+
+  res.json(vaccineData);
+};
+
+exports.vaccineByCountry = async (req, res, next) => {
+  const country =
+    req.params.country.charAt(0).toUpperCase() + req.params.country.slice(1); //cap first letter eg. "denmark" - "Denmark"
+  const vaccineData = await csvtojson({
+    trim: true,
+  }).fromStream(
+    request.get(
+      `https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/country_data/${country}.csv`
+    )
+  );
+
+  res.json(vaccineData.reverse());
 };

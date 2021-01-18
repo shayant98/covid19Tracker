@@ -1,40 +1,38 @@
-const csvtojson = require("csvtojson");
-const request = require("request");
-const moment = require("moment");
 const fs = require("fs");
-const path = require("path")
-const apiController = require("./apiController");
 
-
-
-exports.homeScreen = async (req, res, next) => {
-    res.render('home')
+const homeScreen = async (req, res, next) => {
+  res.render("home");
 };
 
+const faqScreen = async (req, res, next) => {
+  try {
+    let rawData = await fs.readFileSync("data/faq.json");
+    faqData = JSON.parse(rawData);
+  } catch (error) {
+    console.log(error);
+  }
 
-exports.faqScreen = async (req, res, next) => {
-    try {
-        let rawData = await fs.readFileSync("data/faq.json")
-        faqData = JSON.parse(rawData);
-    } catch (error) {
-        console.log(error);
+  res.render("faq", {
+    name: "COVID-19 Tracker",
+    faqData,
+  });
+};
 
-    }
+const sourcesScreen = async (req, res, next) => {
+  res.render("sources");
+};
+const mapScreen = async (req, res, next) => {
+  res.render("map");
+};
 
-    res.render('faq',
-        {
-            name: "COVID-19 Tracker",
-            faqData
-        }
-    )
+const vaccineScreen = async (req, res, next) => {
+  res.render("vaccine");
+};
 
-}
-
-exports.sourcesScreen = async (req, res, next) => {
-    res.render('sources');
-
-}
-exports.mapScreen = async (req, res, next) => {
-    res.render('map');
-
-}
+module.exports = {
+  homeScreen,
+  sourcesScreen,
+  faqScreen,
+  mapScreen,
+  vaccineScreen,
+};

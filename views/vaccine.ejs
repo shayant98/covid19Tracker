@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('includes/head'); %>
+
+  <body class="bg-dark text-white h-100">
+    <%- include('includes/header'); %>
+
+    <main class="md-3">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="row"></div>
+          <div class="shadow card bg-dark mb-3">
+            <div class="card-header">
+              <h4>Countries With Vaccine Data</h4>
+              <hr />
+              <p>
+                To bring this pandemic to an end, a large share of the world
+                needs to be immune to the virus. The safest way to achieve this
+                is with a vaccine. Vaccines are a technology that humanity has
+                often relied on in the past
+                <a
+                  href="https://ourworldindata.org/microbes-battle-science-vaccines"
+                  >to bring down the death toll</a
+                >
+                of infectious diseases.
+              </p>
+              <p>
+                Within less than 12 months after the beginning of the COVID-19
+                pandemic, several research teams rose to the challenge and
+                developed vaccines that protect from SARS-CoV-2, the virus that
+                causes COVID-19.
+              </p>
+              <p>
+                Now the challenge is to make these vaccines available to people
+                around the world. It will be key that people in all countries —
+                not just in rich countries — receive the required protection. To
+                track this effort we at Our World in Data are building the
+                international COVID-19 vaccination dataset that we make
+                available on this page.
+              </p>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="flagIconAddon"
+                    ><i class="fa fa-flag"></i
+                  ></span>
+                </div>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="countrySearch"
+                  placeholder="Country/Province"
+                  aria-label="Country"
+                  aria-describedby="flagIconAddon"
+                />
+              </div>
+            </div>
+            <div class="card-body">
+              <ul
+                class="list-group overflow-auto"
+                style="height: 80vh"
+                id="vaccineCountriesListContainer"
+              ></ul>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div
+            class="col d-none align-items-center justify-content-center"
+            id="detailSpinner"
+          >
+            <div class="row align-items-center">
+              <div
+                class="spinner-border"
+                style="width: 3rem; height: 3rem"
+                role="status"
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col bg-dark d-none mt-5" id="detailContainer">
+            <div class="row">
+              <h4>Country Vaccine Details</h4>
+            </div>
+            <div class="row card bg-dark shadow">
+              <div class="card-header">
+                <h2 id="countryName"></h2>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col"></div>
+                </div>
+                <div class="row">
+                  <ul style="list-style-type: none">
+                    <p>
+                      <i class="fas fa-eye text-info"></i> Last Observation
+                      Date:
+                      <strong><span id="countryObservationDate"></span></strong>
+                    </p>
+                    <p>
+                      <i class="fas fa-syringe text-success"></i> Imported
+                      Vaccines:
+                      <strong><span id="countryVaccines"></span></strong>
+                    </p>
+                    <p>
+                      <i class="fas fa-globe text-warning"></i> Official Source:
+                      <strong> <a id="countrySource" href=""></a></strong>
+                    </p>
+                  </ul>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col">
+                    <h5>Vaccination Log</h5>
+                    <table
+                      class="table table-bordered table-responsive table-dark"
+                      style="height: 50vh"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Vaccine</th>
+                          <th>Total Vaccinations</th>
+                          <th>People Vaccinated</th>
+                          <th>People fully Vaccinated</th>
+                        </tr>
+                      </thead>
+                      <tbody id="countryVacLogTable"></tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row text-center">
+                  <div class="col">
+                    <p class="">
+                      <strong>Note: This data is updated Daily</strong>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+    </main>
+
+    <%- include('includes/footer'); %>
+    <script type="module" src="js/vaccine.js"></script>
+  </body>
+</html>
